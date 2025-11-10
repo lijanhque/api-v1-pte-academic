@@ -8,11 +8,16 @@ import { cache } from 'react';
  * Compatible with Next.js 16 async Request APIs
  */
 export const getSession = cache(async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-  
-  return session;
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+    
+    return session;
+  } catch (error) {
+    console.error('Error getting session:', error);
+    return null;
+  }
 });
 
 /**

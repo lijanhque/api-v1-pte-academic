@@ -30,24 +30,26 @@ export function SignupForm({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setIsLoading(true);
 
     if (password !== confirmPassword) {
       setError("Passwords do not match");
+      setIsLoading(false);
       return;
     }
 
     if (password.length < 8) {
       setError("Password must be at least 8 characters long");
+      setIsLoading(false);
       return;
     }
-
-    setIsLoading(true);
 
     try {
       const { data, error } = await authClient.signUp.email({
         email,
         password,
         name,
+        callbackURL: "/pte/dashboard",
       });
 
       if (error) {
@@ -57,7 +59,7 @@ export function SignupForm({
       }
 
       if (data) {
-        router.push("/");
+        router.push("/pte/dashboard");
       }
     } catch (err: any) {
       setError(err.message || "An error occurred");
@@ -65,25 +67,25 @@ export function SignupForm({
     }
   };
 
-  const handleGoogleSignIn = async () => {
+  const handleGoogleSignUp = async () => {
     try {
       await authClient.signIn.social({
         provider: "google",
-        callbackURL: "/",
+        callbackURL: "/pte/dashboard",
       });
     } catch (err: any) {
-      setError(err.message || "Failed to sign in with Google");
+      setError(err.message || "Failed to sign up with Google");
     }
   };
 
-  const handleAppleSignIn = async () => {
+  const handleAppleSignUp = async () => {
     try {
       await authClient.signIn.social({
         provider: "apple",
-        callbackURL: "/",
+        callbackURL: "/pte/dashboard",
       });
     } catch (err: any) {
-      setError(err.message || "Failed to sign in with Apple");
+      setError(err.message || "Failed to sign up with Apple");
     }
   };
 
@@ -165,20 +167,27 @@ export function SignupForm({
               </Field>
 
               <Field>
-                <Button type="submit" disabled={isLoading}>
-                  {isLoading ? "Creating Account..." : "Create Account"}
+                <Button type="submit" disabled={isLoading} className="w-full">
+                  {isLoading ? "Creating account..." : "Create Account"}
                 </Button>
               </Field>
 
-              <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
-                Or continue with
-              </FieldSeparator>
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-background px-2 text-muted-foreground">
+                    Or continue with
+                  </span>
+                </div>
+              </div>
 
               <Field className="grid grid-cols-2 gap-4">
                 <Button
                   variant="outline"
                   type="button"
-                  onClick={handleAppleSignIn}
+                  onClick={handleAppleSignUp}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-5 w-5">
                     <path
@@ -191,7 +200,7 @@ export function SignupForm({
                 <Button
                   variant="outline"
                   type="button"
-                  onClick={handleGoogleSignIn}
+                  onClick={handleGoogleSignUp}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-5 w-5">
                     <path
@@ -203,12 +212,12 @@ export function SignupForm({
                 </Button>
               </Field>
 
-              <FieldDescription className="text-center">
+              <div className="mt-4 text-center text-sm">
                 Already have an account?{" "}
-                <a href="/sign-in" className="text-primary hover:underline">
+                <a href="/sign-in" className="underline underline-offset-4">
                   Sign in
                 </a>
-              </FieldDescription>
+              </div>
             </FieldGroup>
           </form>
           <div className="bg-muted relative hidden md:block">

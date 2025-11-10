@@ -1,9 +1,14 @@
 import dotenv from 'dotenv';
 dotenv.config({ path: '.env.local' });
 import { db } from './drizzle';
-import { users, teams, teamMembers, pteTests, pteQuestions } from './schema';
+import { users, accounts, pteTests, pteQuestions } from './schema';
+import { mockQuestions } from './mock-data';
+import bcrypt from 'bcryptjs';
+import { sql } from 'drizzle-orm';
 
 async function seed() {
+  console.log('Seeding database...');
+
   // Seed sample PTE tests and questions
   const [sampleTest] = await db
     .insert(pteTests)
@@ -12,89 +17,81 @@ async function seed() {
       description: 'Sample practice set',
       testType: 'ACADEMIC',
       duration: '2 hours',
-      isPremium: 'false',
+      isPremium: false,
     })
     .onConflictDoNothing()
     .returning();
 
-  const testId = sampleTest?.id;
+  if (sampleTest) {
+    console.log('Sample test created.');
+    const testId = sampleTest.id;
 
-  if (testId) {
-    const questions = [
-      // Reading
-      { section: 'READING', questionType: 'Re-order Paragraphs', question: 'Reorder the paragraphs to form a coherent text.', orderIndex: '1' },
-      { section: 'READING', questionType: 'Reading: Fill in the Blanks', question: 'Drag words to fill in the blanks.', orderIndex: '2' },
-      { section: 'READING', questionType: 'Multiple Choice, Choose Single Answer', question: 'Choose the correct option.', orderIndex: '3' },
-      // Writing
-      { section: 'WRITING', questionType: 'Summarize Written Text', question: 'Summarize the given passage.', orderIndex: '4' },
-      { section: 'WRITING', questionType: 'Write Essay', question: 'Write an essay about technology.', orderIndex: '5' },
-      // Listening
-      { section: 'LISTENING', questionType: 'Summarize Spoken Text', question: 'Summarize the lecture you hear.', orderIndex: '6' },
-      { section: 'LISTENING', questionType: 'Select Missing Word', question: 'Select the missing word from the audio.', orderIndex: '7' },
-      { section: 'LISTENING', questionType: 'Highlight Correct Summary', question: 'Pick the correct summary.', orderIndex: '8' },
-      { section: 'LISTENING', questionType: 'Write from Dictation', question: 'Type the sentence you hear.', orderIndex: '9' },
-      // Speaking
-      { section: 'SPEAKING', questionType: 'Read Aloud', question: 'Read the text aloud.', orderIndex: '10' },
-      { section: 'SPEAKING', questionType: 'Repeat Sentence', question: 'Repeat the sentence.', orderIndex: '11' },
-    ].map((q, idx) => ({
-      testId,
-      section: q.section,
-      questionType: q.questionType,
-      question: q.question,
-      questionData: JSON.stringify({ timeLimit: 60 }),
-      correctAnswer: JSON.stringify({}),
-      points: '1',
-      orderIndex: q.orderIndex || String(idx + 1),
-    }));
+    const questions = Object.entries(mockQuestions)
+      .flatMap(([section, questionTypes]) =>
+        Object.entries(questionTypes).flatMap(([questionType, questionList]) =>
+          questionList.map((q, idx) => ({
+            testId,
+            section: section.toUpperCase(),
+            questionType,
+            question: q.title,
+            questionData: JSON.stringify({ duration: q.duration }),
+            correctAnswer: JSON.stringify({}),
+            points: 1,
+            orderIndex: idx + 1,
+          }))
+        )
+      );
 
     await db.insert(pteQuestions).values(questions).onConflictDoNothing();
+    console.log('PTE questions seeded.');
+  } else {
+    console.log('Sample test already exists.');
   }
+
   const email = 'test@test.com';
+  const password = 'password123';
 
   // Find or create user
-  const existingUsers = await db.select().from(users).where(sql`email = ${email}`).limit(1);
-  let user = existingUsers[0];
+  let user = (await db.select().from(users).where(sql`email = ${email}`).limit(1))[0];
   if (!user) {
-    const [created] = await db
+    [user] = await db
       .insert(users)
       .values({
+        id: crypto.randomUUID(),
         email,
         name: 'Test User',
+        emailVerified: new Date(),
       })
       .returning();
-    user = created;
     console.log('Initial user created.');
-  } else {
-    console.log('User already exists, skipping user creation.');
-  }
 
-  // Find or create team
-  const existingTeams = await db.select().from(teams).where(sql`name = 'Test Team'`).limit(1);
-  let team = existingTeams[0];
-  if (!team) {
-    const [createdTeam] = await db
-      .insert(teams)
-      .values({
-        name: 'Test Team',
-      })
-      .returning();
-    team = createdTeam;
-  }
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-  // Add team member if not already
-  const existingMember = await db
-    .select()
-    .from(teamMembers)
-    .where(sql`user_id = ${user.id} AND team_id = ${team.id}`)
-    .limit(1);
-  if (existingMember.length === 0) {
-    await db.insert(teamMembers).values({
-      teamId: team.id,
+    await db.insert(accounts).values({
+      id: crypto.randomUUID(),
       userId: user.id,
-      role: 'owner',
+      providerId: 'email',
+      accountId: email,
+      password: hashedPassword,
     });
+    console.log('User account with password created.');
+  } else {
+    console.log('User already exists, checking for account.');
+    const userAccount = (await db.select().from(accounts).where(sql`user_id = ${user.id} AND provider_id = 'email'`).limit(1))[0];
+    if (!userAccount) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      await db.insert(accounts).values({
+        id: crypto.randomUUID(),
+        userId: user.id,
+        providerId: 'email',
+        accountId: email,
+        password: hashedPassword,
+      });
+      console.log('User account with password created for existing user.');
+    } else {
+      console.log('User account already exists.');
+    }
   }
-
 }
 
 seed()

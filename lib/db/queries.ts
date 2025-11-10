@@ -1,9 +1,9 @@
-import { desc, and, eq } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import { db } from './drizzle';
-import { activityLogs, teamMembers, teams, users } from './schema';
+import { users, organizations } from './schema';
 import { getCurrentUser } from '@/lib/auth/server';
 
-export async function getUser() {
+export async function getUserProfile() {
   const authUser = await getCurrentUser();
   if (!authUser) {
     return null;
@@ -22,67 +22,46 @@ export async function getUser() {
   return user[0];
 }
 
-export async function getUserWithTeam(userId: string) {
-  const result = await db
-    .select({
-      user: users,
-      teamId: teamMembers.teamId
-    })
-    .from(users)
-    .leftJoin(teamMembers, eq(users.id, teamMembers.userId))
-    .where(eq(users.id, userId))
-    .limit(1);
-
-  return result[0];
-}
-
-export async function getActivityLogs() {
-  const user = await getUser();
-  if (!user) {
-    throw new Error('User not authenticated');
-  }
-
-  return await db
-    .select({
-      id: activityLogs.id,
-      action: activityLogs.action,
-      timestamp: activityLogs.timestamp,
-      ipAddress: activityLogs.ipAddress,
-      userName: users.name
-    })
-    .from(activityLogs)
-    .leftJoin(users, eq(activityLogs.userId, users.id))
-    .where(eq(activityLogs.userId, user.id))
-    .orderBy(desc(activityLogs.timestamp))
-    .limit(10);
-}
+export const getUser = getUserProfile;
 
 export async function getTeamForUser() {
-  const user = await getUser();
-  if (!user) {
+  const authUser = await getCurrentUser();
+  if (!authUser) {
     return null;
   }
 
-  const result = await db.query.teamMembers.findFirst({
-    where: eq(teamMembers.userId, user.id),
-    with: {
-      team: {
-        with: {
-          teamMembers: {
-            with: {
-              user: {
-                columns: {
-                  id: true,
-                  name: true,
-                  email: true
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  });
+  const userWithOrg = await db
+    .select({
+      organization: organizations,
+    })
+    .from(users)
+    .leftJoin(organizations, eq(users.organization_id, organizations.id))
+    .where(eq(users.id, authUser.id))
+    .limit(1);
 
-  return result?.team || null;
+  if (userWithOrg.length === 0 || !userWithOrg[0].organization) {
+    return null;
+  }
+
+  return userWithOrg[0].organization;
+}
+
+export async function getTests() {
+  const tests = await db.select().from(pteTests);
+  return tests;
+}
+
+export async function updateUser(userData: Partial<typeof users.$inferInsert>) {
+  const authUser = await getCurrentUser();
+  if (!authUser) {
+    throw new Error("Not authenticated");
+  }
+
+  const [updatedUser] = await db
+    .update(users)
+    .set(userData)
+    .where(eq(users.id, authUser.id))
+    .returning();
+
+  return updatedUser;
 }

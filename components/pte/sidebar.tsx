@@ -1,47 +1,47 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import {
-  LayoutDashboard,
-  BookOpen,
-  FileCheck,
-  FileText,
-  Library,
-  Sparkles,
-  Bot,
-  BookMarked,
-  Mic,
-  Headphones,
-  Users,
-  HelpCircle,
-} from 'lucide-react';
+  IconLayoutDashboard,
+  IconBook,
+  IconFileCheck,
+  IconFileText,
+  IconSchool,
+  IconSparkles,
+  IconRobot,
+  IconBookmark,
+  IconMicrophone,
+  IconHeadphones,
+  IconUsers,
+  IconHelp,
+} from '@tabler/icons-react';
 import { cn } from '@/lib/utils';
 
 const navigation = [
-  { name: 'Dashboard', href: '/pte/dashboard', icon: LayoutDashboard },
+  { name: 'Dashboard', href: '/pte/dashboard', icon: IconLayoutDashboard },
   { 
     name: 'Practice', 
     href: '/pte/practice',
-    icon: BookOpen,
+    icon: IconBook,
     children: [
       { name: 'Full Tests', href: '/pte/practice/full-tests' },
       { name: 'Section Tests', href: '/pte/practice/section-tests' },
       { name: 'Test History', href: '/pte/practice/history' },
     ]
   },
-  { name: 'Mock Tests', href: '/pte/mock-tests', icon: FileCheck },
-  { name: 'Templates', href: '/pte/templates', icon: FileText },
-  { name: 'Study Center', href: '/pte/study-center', icon: Library },
-  { name: 'Smart Prep', href: '/pte/smart-prep', icon: Sparkles },
-  { name: 'AI Coach', href: '/pte/ai-coach', icon: Bot },
-  { name: 'Vocab Books', href: '/pte/vocab-books', icon: BookMarked },
-  { name: 'Shadowing', href: '/pte/shadowing', icon: Mic },
-  { name: 'PTE MP3', href: '/pte/mp3', icon: Headphones },
-  { name: 'Community', href: '/pte/community', icon: Users },
-  { name: 'Support', href: '/pte/support', icon: HelpCircle },
+  { name: 'Mock Tests', href: '/pte/mock-tests', icon: IconFileCheck },
+  { name: 'Templates', href: '/pte/templates', icon: IconFileText },
+  { name: 'Study Center', href: '/pte/study-center', icon: IconSchool },
+  { name: 'Smart Prep', href: '/pte/smart-prep', icon: IconSparkles },
+  { name: 'AI Coach', href: '/pte/ai-coach', icon: IconRobot },
+  { name: 'Vocab Books', href: '/pte/vocab-books', icon: IconBookmark },
+  { name: 'Shadowing', href: '/pte/shadowing', icon: IconMicrophone },
+  { name: 'PTE MP3', href: '/pte/mp3', icon: IconHeadphones },
+  { name: 'Community', href: '/pte/community', icon: IconUsers },
+  { name: 'Support', href: '/pte/support', icon: IconHelp },
 ];
-// install remix and tabler icon change my iicons all over  sidebar ad logo form  assents  add sidebar triger use all  componets/ui elements create this responsiveoptimize
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -51,12 +51,10 @@ export function Sidebar() {
       <div className="flex h-full flex-col overflow-y-auto px-3 py-4">
         {/* Logo */}
         <div className="mb-6 flex items-center px-3">
-          <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary">
-              <span className="text-sm font-bold text-primary-foreground">P</span>
-            </div>
+          <Link href="/pte/dashboard" className="flex items-center gap-2">
+            <Image src="/asset/logo.png" alt="Logo" width={32} height={32} className="rounded-full" />
             <span className="text-xl font-bold">Pedagogist's PTE</span>
-          </div>
+          </Link>
         </div>
 
         {/* Navigation */}

@@ -18,8 +18,29 @@ import useSWR from 'swr';
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 function UserMenu() {
-  const { data: user } = useSWR<User>('/api/user', fetcher);
+  const { data: user, error } = useSWR<User>('/api/user', fetcher, {
+    onError: (err) => {
+      console.error('SWR Error:', err);
+    },
+    // Don't retry on error to prevent infinite loops
+    errorRetryCount: 0,
+  });
 
+  // If there's an error, show login options
+  if (error) {
+    return (
+      <div className="flex items-center gap-3">
+        <Button asChild variant="ghost">
+          <Link href="/sign-in">Sign In</Link>
+        </Button>
+        <Button asChild className="rounded-full">
+          <Link href="/sign-up">Sign Up</Link>
+        </Button>
+      </div>
+    );
+  }
+
+  // If no user, show login options
   if (!user) {
     return (
       <div className="flex items-center gap-3">
@@ -73,7 +94,7 @@ function Header() {
           <div className="h-8 w-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
             <span className="text-white font-bold text-lg">P</span>
           </div>
-          <span className="ml-2 text-xl font-bold text-gray-900">Pedagogist's PTE</span>
+          <span className="ml-2 text-xl font-bold text-gray-900">Pedagogist&apos;s PTE</span>
         </Link>
         <div className="flex items-center space-x-4">
           <Suspense fallback={<div className="h-9" />}>
