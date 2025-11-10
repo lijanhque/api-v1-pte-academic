@@ -1,16 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import { 
-  LayoutDashboard, 
-  BookOpen, 
-  Calendar, 
-  FileText, 
-  Users, 
+import { usePathname } from 'next/navigation';
+import {
+  LayoutDashboard,
+  BookOpen,
+  Calendar,
+  FileText,
+  Users,
   GraduationCap,
   BarChart3,
   Settings,
-  Home,
   MessageCircle,
   Clock
 } from 'lucide-react';
@@ -30,33 +30,28 @@ const sidebarItems: AcademicSidebarItem[] = [
     icon: <LayoutDashboard className="h-5 w-5" />,
   },
   {
-    title: 'Courses',
-    href: '/pte/academic/courses',
+    title: 'Practice',
+    href: '/pte/academic/practice',
     icon: <BookOpen className="h-5 w-5" />,
   },
   {
-    title: 'Schedule',
-    href: '/pte/academic/schedule',
-    icon: <Calendar className="h-5 w-5" />,
-  },
-  {
-    title: 'Assignments',
-    href: '/pte/academic/assignments',
+    title: 'Templates',
+    href: '/pte/templates',
     icon: <FileText className="h-5 w-5" />,
   },
   {
-    title: 'Grades',
-    href: '/pte/academic/grades',
+    title: 'Analytics',
+    href: '/pte/analytics',
     icon: <BarChart3 className="h-5 w-5" />,
   },
   {
-    title: 'Classmates',
-    href: '/pte/academic/classmates',
+    title: 'Community',
+    href: '/pte/community',
     icon: <Users className="h-5 w-5" />,
   },
   {
-    title: 'Resources',
-    href: '/pte/academic/library',
+    title: 'Study Center',
+    href: '/pte/study-center',
     icon: <GraduationCap className="h-5 w-5" />,
   },
   {
@@ -77,6 +72,15 @@ const sidebarItems: AcademicSidebarItem[] = [
 ];
 
 export function AcademicSidebar() {
+  const pathname = usePathname();
+
+  const isActive = (href: string) => {
+    if (href === '/pte/academic/dashboard') {
+      return pathname === href;
+    }
+    return pathname?.startsWith(href);
+  };
+
   return (
     <div className="flex h-full flex-col">
       <div className="flex h-16 items-center border-b px-4">
@@ -94,10 +98,9 @@ export function AcademicSidebar() {
                 variant="ghost"
                 className={cn(
                   'w-full justify-start gap-3 rounded-lg px-3 py-2 text-left hover:bg-accent hover:text-accent-foreground',
-                  'data-[active=true]:bg-muted data-[active=true]:text-foreground'
+                  isActive(item.href) && 'bg-muted text-foreground'
                 )}
                 asChild
-                data-active={window.location.pathname === item.href}
               >
                 <Link href={item.href}>
                   {item.icon}

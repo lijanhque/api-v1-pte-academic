@@ -1,7 +1,7 @@
-import 'server-only';
-import { auth } from './auth';
-import { headers, cookies } from 'next/headers';
-import { cache } from 'react';
+import "server-only";
+import { auth } from "./auth";
+import { headers, cookies } from "next/headers";
+import { cache } from "react";
 
 /**
  * Get the current session (cached per request)
@@ -12,7 +12,7 @@ export const getSession = cache(async () => {
     const session = await auth.api.getSession({
       headers: await headers(),
     });
-    
+
     return session;
   } catch (error) {
     console.error("Error getting session:", error);
@@ -39,7 +39,7 @@ export const getCurrentUser = cache(async () => {
 export async function requireAuth() {
   const user = await getCurrentUser();
   if (!user) {
-    throw new Error('Unauthorized');
+    throw new Error("Unauthorized");
   }
   return user;
 }
