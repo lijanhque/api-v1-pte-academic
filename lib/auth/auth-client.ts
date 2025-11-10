@@ -1,27 +1,30 @@
+"use client";
+
 import { createAuthClient } from "better-auth/react";
-import { useEffect } from "react";
 
 export const authClient = createAuthClient({
   baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL || "http://localhost:3000",
+  fetchOptions: {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  },
 });
 
-export const { signIn, signUp, signOut, useSession } = authClient;
+export const {
+  signIn,
+  signUp,
+  signOut,
+  useSession,
+} = authClient;
 
-// Custom hook to check if user is authenticated with React 19 compatibility
+// Custom hook to check if user is authenticated
 export function useAuth() {
-  const { data: session, isPending, error } = useSession();
-
-  useEffect(() => {
-    // Handle session updates in React 19
-    if (session) {
-      // Session is available
-    }
-  }, [session]);
-
+  const { data: session, isPending } = useSession();
+  
   return {
     user: session?.user,
     isAuthenticated: !!session?.user,
     isPending,
-    error,
   };
 }

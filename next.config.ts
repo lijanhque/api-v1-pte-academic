@@ -47,6 +47,16 @@ const nextConfig: NextConfig = {
     return config;
   },
 
+  // Rewrites for proxy functionality
+  async rewrites() {
+    return [
+      {
+        source: '/api/proxy/:path*',
+        destination: '/api/proxy',
+      },
+    ];
+  },
+
   // Headers for security and caching
   async headers() {
     return [
@@ -73,6 +83,23 @@ const nextConfig: NextConfig = {
           {
             key: 'Cache-Control',
             value: 'public, s-maxage=60, stale-while-revalidate=120',
+          },
+        ],
+      },
+      {
+        source: '/api/proxy/:path*',
+        headers: [
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET, POST, PUT, DELETE, OPTIONS',
+          },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value: 'Content-Type, Authorization',
           },
         ],
       },

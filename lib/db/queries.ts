@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm';
 import { db } from './drizzle';
-import { users, organizations } from './schema';
+import { users, organizations, pteTests } from './schema';
 import { getCurrentUser } from '@/lib/auth/server';
 
 export async function getUserProfile() {

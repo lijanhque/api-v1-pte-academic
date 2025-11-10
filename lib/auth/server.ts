@@ -15,7 +15,7 @@ export const getSession = cache(async () => {
     
     return session;
   } catch (error) {
-    console.error('Error getting session:', error);
+    console.error("Error getting session:", error);
     return null;
   }
 });
@@ -24,8 +24,13 @@ export const getSession = cache(async () => {
  * Get the current user (cached per request)
  */
 export const getCurrentUser = cache(async () => {
-  const session = await getSession();
-  return session?.user ?? null;
+  try {
+    const session = await getSession();
+    return session?.user ?? null;
+  } catch (error) {
+    console.error("Error getting current user:", error);
+    return null;
+  }
 });
 
 /**

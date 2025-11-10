@@ -57,7 +57,7 @@ export default function Page() {
                     <div className="mt-4 flex justify-end">
                       <Button asChild variant="outline">
                         <Link
-                          href={`/pte/practice/section-tests/${parent.code}/${child.code}`}
+                          href={`/pte/practice/section-tests/${child.code}`}
                         >
                           Practice
                         </Link>

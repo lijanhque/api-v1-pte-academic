@@ -255,3 +255,57 @@ export async function getUserStats(userId: string) {
     },
   };
 }
+
+// Get academic dashboard data
+export async function getAcademicDashboardData(userId: string, userTargetScore: number = 0) {
+  // Get user stats
+  const userStats = await getUserStats(userId);
+  
+  // Mock academic progress data
+  const academicProgress = [
+    { month: 'Jan', score: 50 },
+    { month: 'Feb', score: 55 },
+    { month: 'Mar', score: 62 },
+    { month: 'Apr', score: 68 },
+    { month: 'May', score: 73 },
+    { month: 'Jun', score: 78 },
+  ];
+  
+  // Mock academic performance data
+  const academicPerformance = [
+    { section: 'Reading', score: 78 },
+    { section: 'Writing', score: 72 },
+    { section: 'Listening', score: 85 },
+    { section: 'Speaking', score: 75 },
+  ];
+  
+  // Calculate current overall score if available from userStats, else default to 75
+  const currentOverallScore = userStats.averageScore || 75;
+  
+  // Mock academic goals data with user's target score
+  const academicGoals = [
+    { id: 1, title: `Reach Overall Score of ${userTargetScore || 75}`, current: currentOverallScore, target: userTargetScore || 75, status: currentOverallScore >= (userTargetScore || 75) ? 'completed' : 'in-progress' },
+    { id: 2, title: 'Improve Listening Score to 80+', current: 78, target: 80, status: 'in-progress' },
+    { id: 3, title: 'Complete PTE Academic Writing Course', current: 65, target: 100, status: 'in-progress' },
+  ];
+  
+  // Mock stats data with user's target score
+  const stats = {
+    overallScore: currentOverallScore,
+    targetScore: userTargetScore || 75,
+    readingScore: 78,
+    writingScore: 72,
+    listeningScore: 85,
+    speakingScore: 75,
+    testsCompleted: userStats.totalTestsTaken,
+    studyHours: 42,
+    streak: 7,
+  };
+  
+  return {
+    stats,
+    progress: academicProgress,
+    performance: academicPerformance,
+    goals: academicGoals,
+  };
+}

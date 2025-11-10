@@ -3,9 +3,8 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { 
+import {
   IconChevronRight,
-  IconPlus,
   IconBook,
   IconFileCheck,
   IconTemplate,
@@ -22,6 +21,8 @@ import {
 import Link from 'next/link';
 import useSWR from 'swr';
 import { User as UserType } from '@/lib/db/schema';
+import { StudyReportChart } from '@/components/pte/study-report-chart';
+import { ExamCountdown } from '@/components/pte/exam-countdown';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -145,10 +146,7 @@ export default function DashboardPage() {
               <Button variant="outline" size="sm">Set New Target</Button>
             </CardHeader>
             <CardContent>
-              {/* Placeholder for Chart */}
-              <div className="h-40 bg-gray-100 rounded-lg flex items-center justify-center">
-                <IconChartBar className="h-12 w-12 text-gray-300" />
-              </div>
+              <StudyReportChart />
             </CardContent>
           </Card>
 
@@ -157,19 +155,8 @@ export default function DashboardPage() {
               <CardTitle>Exam In</CardTitle>
               <Button variant="outline" size="sm">Set New Date</Button>
             </CardHeader>
-            <CardContent className="flex justify-around text-center">
-              <div>
-                <div className="text-3xl font-bold">0</div>
-                <div className="text-sm text-gray-500">Days</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold">0</div>
-                <div className="text-sm text-gray-500">Hours</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold">0</div>
-                <div className="text-sm text-gray-500">Minutes</div>
-              </div>
+            <CardContent>
+              <ExamCountdown examDate={user.examDate} />
             </CardContent>
           </Card>
 
