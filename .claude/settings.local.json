@@ -16,7 +16,9 @@
       "Bash(pnpm install:*)",
       "Bash(git commit:*)",
       "Bash(git push:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(npx tsx scripts/export-to-strapi-json.ts:*)",
+      "Bash(pnpm tsx:*)"
     ],
     "deny": [],
     "ask": []

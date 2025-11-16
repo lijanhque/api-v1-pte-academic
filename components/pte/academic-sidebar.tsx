@@ -13,6 +13,7 @@ import {
   LayoutDashboard,
   MessageCircle,
   Mic,
+  Newspaper,
   PenSquare,
   Settings,
   Users,
@@ -81,6 +82,11 @@ const sidebarItems: AcademicSidebarItem[] = [
     title: 'Study Center',
     href: '/pte/study-center',
     icon: <GraduationCap className="h-5 w-5" />,
+  },
+  {
+    title: 'Blog',
+    href: '/blog',
+    icon: <Newspaper className="h-5 w-5" />,
   },
   {
     title: 'Messages',
