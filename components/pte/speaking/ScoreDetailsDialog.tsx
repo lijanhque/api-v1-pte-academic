@@ -62,7 +62,7 @@ export default function ScoreDetailsDialog({
           </div>
         ) : null}
 
-        {/* Score summary */}
+        {/* Score summary - Official PTE Academic 0-5 scale */}
         <div
           className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4"
           role="group"
@@ -70,19 +70,29 @@ export default function ScoreDetailsDialog({
         >
           <div className="rounded-md border p-3">
             <div className="text-muted-foreground text-xs">Content</div>
-            <div className="text-xl font-semibold">{content ?? '—'}</div>
+            <div className="text-xl font-semibold">
+              {content !== null ? `${content}/5` : '—'}
+            </div>
           </div>
           <div className="rounded-md border p-3">
             <div className="text-muted-foreground text-xs">Pronunciation</div>
-            <div className="text-xl font-semibold">{pronunciation ?? '—'}</div>
+            <div className="text-xl font-semibold">
+              {pronunciation !== null ? `${pronunciation}/5` : '—'}
+            </div>
           </div>
           <div className="rounded-md border p-3">
             <div className="text-muted-foreground text-xs">Fluency</div>
-            <div className="text-xl font-semibold">{fluency ?? '—'}</div>
+            <div className="text-xl font-semibold">
+              {fluency !== null ? `${fluency}/5` : '—'}
+            </div>
           </div>
           <div className="bg-muted/30 rounded-md border p-3">
-            <div className="text-muted-foreground text-xs">Total</div>
-            <div className="text-xl font-bold">{total ?? '—'}</div>
+            <div className="text-muted-foreground text-xs">
+              Total Score
+            </div>
+            <div className="text-xl font-bold">
+              {total !== null ? `${total}/90` : '—'}
+            </div>
           </div>
         </div>
 

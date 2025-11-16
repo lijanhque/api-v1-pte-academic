@@ -112,14 +112,26 @@ function generateSpeakingFeedback(
   questionType: QuestionType
 ): AIFeedbackData {
   // Mock speaking feedback
-  // In production, this would analyze audio recordings
+  // Returns scores on 0-90 scale (will be converted to 0-5 in speaking-score.ts)
 
-  const pronunciationScore = 70 + Math.random() * 25
-  const fluencyScore = 65 + Math.random() * 30
-  const contentScore = 70 + Math.random() * 25
+  const wordCount = userAnswer.split(/\s+/).filter(Boolean).length
+
+  // Generate realistic scores based on word count and question type
+  let pronunciationScore = 70 + Math.random() * 20
+  let fluencyScore = 65 + Math.random() * 25
+  let contentScore = 60 + Math.random() * 20
+
+  // For Describe Image, content score is heavily based on word count
+  if (questionType === QuestionType.DESCRIBE_IMAGE) {
+    if (wordCount >= 60) contentScore = 75 + Math.random() * 15 // 12+ items likely
+    else if (wordCount >= 45) contentScore = 65 + Math.random() * 15 // 9-11 items
+    else if (wordCount >= 30) contentScore = 55 + Math.random() * 15 // 6-8 items
+    else if (wordCount >= 20) contentScore = 45 + Math.random() * 15 // 4-5 items
+    else contentScore = 30 + Math.random() * 15 // less than 4 items
+  }
 
   const overallScore = Math.round(
-    (pronunciationScore + fluencyScore + contentScore) / 3
+    (contentScore * 0.4 + pronunciationScore * 0.3 + fluencyScore * 0.3)
   )
 
   return {
@@ -127,35 +139,65 @@ function generateSpeakingFeedback(
     pronunciation: {
       score: Math.round(pronunciationScore),
       feedback:
-        pronunciationScore > 85
+        pronunciationScore > 80
           ? 'Excellent pronunciation with clear enunciation.'
-          : 'Work on pronunciation of specific sounds. Practice with native speakers.',
+          : pronunciationScore > 60
+            ? 'Good pronunciation overall. Some sounds could be clearer.'
+            : 'Work on pronunciation of specific sounds. Practice with native speakers.',
     },
     fluency: {
       score: Math.round(fluencyScore),
       feedback:
-        fluencyScore > 80
-          ? 'Smooth delivery with natural pauses.'
-          : 'Try to reduce hesitations. Practice speaking on various topics.',
+        fluencyScore > 75
+          ? 'Smooth delivery with natural pauses and good rhythm.'
+          : fluencyScore > 55
+            ? 'Generally fluent but with some hesitations. Practice to improve flow.'
+            : 'Try to reduce hesitations. Practice speaking on various topics to build fluency.',
     },
     content: {
       score: Math.round(contentScore),
       feedback:
-        contentScore > 80
-          ? 'Comprehensive response covering all points.'
-          : 'Include more relevant details in your response.',
+        questionType === QuestionType.DESCRIBE_IMAGE
+          ? contentScore > 75
+            ? 'Comprehensive description covering most key elements, trends, and relationships.'
+            : contentScore > 60
+              ? 'Good coverage of main elements. Try to describe more details and relationships.'
+              : contentScore > 45
+                ? 'Basic description provided. Include more specific data points and trends.'
+                : 'Response too brief. Describe at least 12 key elements from the image.'
+          : contentScore > 75
+            ? 'Comprehensive response covering all points.'
+            : 'Include more relevant details in your response.',
     },
-    suggestions: [
-      'Practice speaking for 2-3 minutes on random topics',
-      'Record yourself and listen for areas to improve',
-      'Focus on stress and intonation patterns',
-    ],
-    strengths: ['Clear voice projection', 'Appropriate response length'],
-    areasForImprovement: [
-      'Pronunciation consistency',
-      'Natural flow and rhythm',
-      'Vocabulary range',
-    ],
+    suggestions:
+      questionType === QuestionType.DESCRIBE_IMAGE
+        ? [
+            'Practice describing charts using the INTRO-OVERVIEW-KEY FEATURES-CONCLUSION structure',
+            'Aim to mention 12+ specific data points or elements from the image',
+            'Use comparison language (higher than, lower than, increased, decreased)',
+            'Record yourself and check if you spoke for at least 30 seconds',
+          ]
+        : [
+            'Practice speaking for 2-3 minutes on random topics',
+            'Record yourself and listen for areas to improve',
+            'Focus on stress and intonation patterns',
+          ],
+    strengths:
+      wordCount >= 50
+        ? ['Good response length', 'Clear voice projection']
+        : ['Clear voice projection'],
+    areasForImprovement:
+      questionType === QuestionType.DESCRIBE_IMAGE
+        ? [
+            wordCount < 50 ? 'Include more details and data points' : '',
+            'Natural flow and rhythm',
+            'Use of descriptive vocabulary (peak, decline, fluctuate, etc.)',
+          ].filter(Boolean)
+        : [
+            'Pronunciation consistency',
+            'Natural flow and rhythm',
+            'Vocabulary range',
+          ],
   }
 }
 
@@ -204,21 +246,26 @@ export async function generateAIFeedbackWithOpenAI(
 
 For ${section} section, specifically ${questionType} questions, evaluate the response based on PTE scoring criteria.
 
+IMPORTANT: For SPEAKING tasks, use the 0-90 scale for individual criteria scores (they will be converted to 0-5 scale automatically).
+- For Describe Image: Content score should reflect number of elements described (12+ elements = 80-90, 9-11 = 65-79, 6-8 = 50-64, etc.)
+- Pronunciation: 81-90 = native-like, 61-80 = very good, 41-60 = good, 21-40 = limited, 1-20 = very limited
+- Fluency: 81-90 = smooth with natural pauses, 61-80 = generally fluent, 41-60 = some hesitations, etc.
+
 Return a JSON object with this exact structure:
 {
-  "overallScore": number (0-90),
-  "pronunciation": { "score": number, "feedback": "string" } (only for SPEAKING),
-  "fluency": { "score": number, "feedback": "string" } (only for SPEAKING),
-  "content": { "score": number, "feedback": "string" } (for SPEAKING and WRITING),
-  "grammar": { "score": number, "feedback": "string" } (only for WRITING),
-  "vocabulary": { "score": number, "feedback": "string" } (only for WRITING),
-  "spelling": { "score": number, "feedback": "string" } (only for WRITING),
-  "suggestions": ["string array of improvement suggestions"],
-  "strengths": ["string array of strengths"],
-  "areasForImprovement": ["string array of areas to improve"]
+  "overallScore": number (0-90, weighted average),
+  "pronunciation": { "score": number (0-90), "feedback": "string" } (only for SPEAKING),
+  "fluency": { "score": number (0-90), "feedback": "string" } (only for SPEAKING),
+  "content": { "score": number (0-90), "feedback": "string" } (for SPEAKING and WRITING),
+  "grammar": { "score": number (0-90), "feedback": "string" } (only for WRITING),
+  "vocabulary": { "score": number (0-90), "feedback": "string" } (only for WRITING),
+  "spelling": { "score": number (0-90), "feedback": "string" } (only for WRITING),
+  "suggestions": ["string array of 3-5 specific, actionable improvement suggestions"],
+  "strengths": ["string array of 2-4 specific strengths identified"],
+  "areasForImprovement": ["string array of 2-4 specific areas to improve"]
 }
 
-Be specific, constructive, and follow PTE Academic scoring guidelines.`
+Be specific, constructive, and follow official PTE Academic scoring guidelines.`
 
   const userPrompt = `Question Type: ${questionType}
 Section: ${section}

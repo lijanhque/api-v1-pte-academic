@@ -1,0 +1,74 @@
+[
+  {
+    "type": "describe_image",
+    "title": "Bar Chart Template - High Scoring (80-90)",
+    "templateText": "This bar chart illustrates [main topic/title]. The horizontal axis represents [categories/time periods], while the vertical axis shows [measurement unit]. The highest value is observed in [category], reaching approximately [value] [units]. In contrast, the lowest point occurs in [category], at around [value] [units]. A notable trend is that [describe one key comparison or pattern]. Another significant feature is [describe second key feature]. Overall, the data demonstrates [brief summary of overall pattern or trend].",
+    "scoreRange": "80-90",
+    "difficulty": "Medium",
+    "isRecommended": true,
+    "tags": ["template", "bar_chart", "high_score", "recommended"]
+  },
+  {
+    "type": "describe_image",
+    "title": "Line Graph Template - High Scoring (80-90)",
+    "templateText": "This line graph depicts [main topic] over [time period]. The horizontal axis displays [time units], and the vertical axis represents [measurement]. Starting at [initial value], the trend shows [upward/downward/fluctuating] movement. The peak occurs at [time point], reaching [value] [units]. The lowest point is at [time point], dropping to [value] [units]. Between [time A] and [time B], there is a [sharp/gradual] [increase/decrease] of approximately [value]. Following this, the trend [continues/reverses/stabilizes]. In conclusion, the overall pattern indicates [summary of main trend].",
+    "scoreRange": "80-90",
+    "difficulty": "Medium",
+    "isRecommended": true,
+    "tags": ["template", "line_graph", "high_score", "recommended"]
+  },
+  {
+    "type": "describe_image",
+    "title": "Pie Chart Template - High Scoring (75-85)",
+    "templateText": "This pie chart presents [main topic/distribution]. The chart is divided into [number] segments representing [categories]. The largest segment accounts for [percentage], representing [category]. The second largest portion is [category], comprising [percentage] of the total. The smallest segment shows [category] at [percentage]. Together, [category A] and [category B] make up [combined percentage] of the total. The remaining [percentage] is distributed among [other categories]. In summary, the chart clearly demonstrates that [main insight about the distribution].",
+    "scoreRange": "75-85",
+    "difficulty": "Easy",
+    "isRecommended": true,
+    "tags": ["template", "pie_chart", "high_score"]
+  },
+  {
+    "type": "describe_image",
+    "title": "Table/Data Template - High Scoring (75-85)",
+    "templateText": "This table displays [main topic] across [rows/columns description]. The table contains [number] rows and [number] columns. The highest value appears in [row/column], showing [value] for [category]. The lowest figure is found in [row/column], indicating [value] for [category]. Comparing [category A] and [category B], we can see that [comparison]. The data for [time period/category] shows [trend/pattern]. Another notable point is [additional observation]. Overall, the table reveals that [main conclusion from data].",
+    "scoreRange": "75-85",
+    "difficulty": "Medium",
+    "isRecommended": true,
+    "tags": ["template", "table", "data", "high_score"]
+  },
+  {
+    "type": "describe_image",
+    "title": "Process Diagram Template - High Scoring (70-80)",
+    "templateText": "This diagram illustrates the process of [process name]. The process begins with [first step], shown in the [location] of the diagram. Following this, [second step] occurs, as indicated by [description]. The third stage involves [third step], which leads to [fourth step]. At this point, [notable feature or branch]. The process continues with [fifth step] and [sixth step]. Subsequently, [seventh step] takes place. The final stage shows [last step], completing the cycle. In total, there are approximately [number] main steps in this process, demonstrating [overall purpose or outcome].",
+    "scoreRange": "70-80",
+    "difficulty": "Hard",
+    "isRecommended": false,
+    "tags": ["template", "process_diagram", "flowchart"]
+  },
+  {
+    "type": "describe_image",
+    "title": "Map Template - High Scoring (70-80)",
+    "templateText": "This map shows [geographical area/region] highlighting [main features]. The map is oriented with [north/compass direction] at the top. Key locations marked include [location 1], [location 2], and [location 3]. The [feature, e.g., river, road, border] runs from [direction] to [direction] across the map. In the [cardinal direction] section, we can see [feature]. The [cardinal direction] area contains [feature]. Major landmarks indicated are [landmark 1] and [landmark 2]. The scale suggests the total area covers approximately [distance/size]. Overall, this map provides a clear representation of [main purpose/information].",
+    "scoreRange": "70-80",
+    "difficulty": "Hard",
+    "isRecommended": false,
+    "tags": ["template", "map", "geography"]
+  },
+  {
+    "type": "describe_image",
+    "title": "Mixed Chart Template - High Scoring (75-85)",
+    "templateText": "This chart combines [type 1, e.g., bar and line] to illustrate [main topic]. The bars represent [data category 1], while the line shows [data category 2]. According to the bars, [highest value category] has the greatest value at [number], and [lowest value category] has the least at [number]. The line graph indicates that [trend description] from [time/category A] to [time/category B]. The most significant point is where [notable intersection or relationship]. Comparing both data sets, we observe that [relationship between the two]. Additionally, [another key observation]. In conclusion, this visualization demonstrates [main insight from combined data].",
+    "scoreRange": "75-85",
+    "difficulty": "Hard",
+    "isRecommended": true,
+    "tags": ["template", "mixed_chart", "combination", "high_score"]
+  },
+  {
+    "type": "describe_image",
+    "title": "Simple Introduction Template - Beginner (60-70)",
+    "templateText": "The given image is a [type of chart/diagram]. It shows information about [topic]. The title indicates [title content]. We can see [first major element]. There is also [second major element]. The highest point is [description]. The lowest point is [description]. One interesting feature is [observation]. Another point to note is [observation]. This image helps us understand [main purpose]. Overall, it provides useful information about [topic summary].",
+    "scoreRange": "60-70",
+    "difficulty": "Easy",
+    "isRecommended": false,
+    "tags": ["template", "beginner", "simple"]
+  }
+]

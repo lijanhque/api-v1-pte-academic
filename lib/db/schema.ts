@@ -493,6 +493,7 @@ export const speakingAttempts = pgTable(
     wordsPerMinute: decimal('words_per_minute', { precision: 6, scale: 2 }),
     fillerRate: decimal('filler_rate', { precision: 6, scale: 3 }),
     timings: jsonb('timings').notNull(),
+    isPublic: boolean('is_public').notNull().default(false), // For community sharing
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },
   (table) => ({
@@ -501,6 +502,31 @@ export const speakingAttempts = pgTable(
       table.userId,
       table.type
     ),
+    idxPublic: index('idx_speaking_attempts_public').on(table.isPublic),
+  })
+)
+
+// Speaking answer templates for high-scoring examples
+export const speakingTemplates = pgTable(
+  'speaking_templates',
+  {
+    id: uuid('id')
+      .primaryKey()
+      .default(sql`gen_random_uuid()`),
+    type: speakingTypeEnum('type').notNull(),
+    title: text('title').notNull(),
+    templateText: text('template_text').notNull(),
+    audioUrl: text('audio_url'), // Audio example of the template
+    scoreRange: text('score_range').notNull(), // e.g., "70-90", "80-90"
+    difficulty: difficultyEnum('difficulty').notNull().default('Medium'),
+    isRecommended: boolean('is_recommended').notNull().default(false),
+    tags: jsonb('tags').default(sql`'[]'::jsonb`),
+    usageCount: integer('usage_count').notNull().default(0), // Track popularity
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  (table) => ({
+    idxType: index('idx_speaking_templates_type').on(table.type),
+    idxRecommended: index('idx_speaking_templates_recommended').on(table.isRecommended),
   })
 )
 
@@ -1266,6 +1292,9 @@ export type NewSpeakingQuestion = typeof speakingQuestions.$inferInsert
 
 export type SpeakingAttempt = typeof speakingAttempts.$inferSelect
 export type NewSpeakingAttempt = typeof speakingAttempts.$inferInsert
+
+export type SpeakingTemplate = typeof speakingTemplates.$inferSelect
+export type NewSpeakingTemplate = typeof speakingTemplates.$inferInsert
 
 export type ReadingAttempt = typeof readingAttempts.$inferSelect
 export type NewReadingAttempt = typeof readingAttempts.$inferInsert

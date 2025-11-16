@@ -1,0 +1,330 @@
+[
+  {
+    "title": "Describe Image — Population Growth Chart",
+    "type": "describe_image",
+    "promptText": "Look at the chart below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/population-growth.jpg",
+    "difficulty": "Medium",
+    "tags": ["population", "line_graph", "demographics", "growth_trend"]
+  },
+  {
+    "title": "Describe Image — Energy Consumption By Source",
+    "type": "describe_image",
+    "promptText": "Look at the chart below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/energy-consumption.jpg",
+    "difficulty": "Hard",
+    "tags": ["energy", "stacked_bar", "environment", "multiple_categories"]
+  },
+  {
+    "title": "Describe Image — Market Share Distribution",
+    "type": "describe_image",
+    "promptText": "Look at the chart below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/market-share.jpg",
+    "difficulty": "Easy",
+    "tags": ["business", "pie_chart", "market_analysis", "percentage"]
+  },
+  {
+    "title": "Describe Image — Climate Change Temperature Anomaly",
+    "type": "describe_image",
+    "promptText": "Look at the chart below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/temperature-anomaly.jpg",
+    "difficulty": "Medium",
+    "tags": ["climate", "line_graph", "science", "temperature"]
+  },
+  {
+    "title": "Describe Image — Education Levels By Country",
+    "type": "describe_image",
+    "promptText": "Look at the chart below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/education-levels.jpg",
+    "difficulty": "Medium",
+    "tags": ["education", "bar_chart", "comparison", "international"]
+  },
+  {
+    "title": "Describe Image — Water Cycle Diagram",
+    "type": "describe_image",
+    "promptText": "Look at the diagram below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/water-cycle.jpg",
+    "difficulty": "Hard",
+    "tags": ["science", "process_diagram", "cycle", "environment"]
+  },
+  {
+    "title": "Describe Image — Unemployment Rate Trends",
+    "type": "describe_image",
+    "promptText": "Look at the chart below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/unemployment-trends.jpg",
+    "difficulty": "Medium",
+    "tags": ["economics", "line_graph", "employment", "trends"]
+  },
+  {
+    "title": "Describe Image — Building Floor Plan",
+    "type": "describe_image",
+    "promptText": "Look at the floor plan below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/floor-plan.jpg",
+    "difficulty": "Medium",
+    "tags": ["architecture", "floor_plan", "spatial", "building"]
+  },
+  {
+    "title": "Describe Image — Internet Usage Statistics",
+    "type": "describe_image",
+    "promptText": "Look at the chart below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/internet-usage.jpg",
+    "difficulty": "Easy",
+    "tags": ["technology", "bar_chart", "internet", "statistics"]
+  },
+  {
+    "title": "Describe Image — Food Production Process",
+    "type": "describe_image",
+    "promptText": "Look at the diagram below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/food-production.jpg",
+    "difficulty": "Hard",
+    "tags": ["process", "manufacturing", "food", "flowchart"]
+  },
+  {
+    "title": "Describe Image — Transportation Modal Split",
+    "type": "describe_image",
+    "promptText": "Look at the chart below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/transport-modal.jpg",
+    "difficulty": "Medium",
+    "tags": ["transportation", "pie_chart", "urban_planning", "distribution"]
+  },
+  {
+    "title": "Describe Image — Household Budget Breakdown",
+    "type": "describe_image",
+    "promptText": "Look at the chart below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/household-budget.jpg",
+    "difficulty": "Easy",
+    "tags": ["finance", "pie_chart", "budget", "expenses"]
+  },
+  {
+    "title": "Describe Image — Global Trade Routes Map",
+    "type": "describe_image",
+    "promptText": "Look at the map below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/trade-routes.jpg",
+    "difficulty": "Hard",
+    "tags": ["geography", "map", "trade", "international"]
+  },
+  {
+    "title": "Describe Image — Life Expectancy Comparison",
+    "type": "describe_image",
+    "promptText": "Look at the chart below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/life-expectancy.jpg",
+    "difficulty": "Medium",
+    "tags": ["health", "bar_chart", "demographics", "comparison"]
+  },
+  {
+    "title": "Describe Image — Solar System Diagram",
+    "type": "describe_image",
+    "promptText": "Look at the diagram below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/solar-system.jpg",
+    "difficulty": "Medium",
+    "tags": ["astronomy", "diagram", "planets", "science"]
+  },
+  {
+    "title": "Describe Image — CO2 Emissions By Sector",
+    "type": "describe_image",
+    "promptText": "Look at the chart below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/co2-emissions.jpg",
+    "difficulty": "Medium",
+    "tags": ["environment", "bar_chart", "emissions", "climate"]
+  },
+  {
+    "title": "Describe Image — Photosynthesis Process",
+    "type": "describe_image",
+    "promptText": "Look at the diagram below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/photosynthesis.jpg",
+    "difficulty": "Hard",
+    "tags": ["biology", "process_diagram", "plants", "science"]
+  },
+  {
+    "title": "Describe Image — Tourist Arrivals Timeline",
+    "type": "describe_image",
+    "promptText": "Look at the chart below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/tourist-arrivals.jpg",
+    "difficulty": "Easy",
+    "tags": ["tourism", "line_graph", "trends", "timeline"]
+  },
+  {
+    "title": "Describe Image — University Campus Map",
+    "type": "describe_image",
+    "promptText": "Look at the map below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/campus-map.jpg",
+    "difficulty": "Medium",
+    "tags": ["education", "map", "campus", "spatial"]
+  },
+  {
+    "title": "Describe Image — Renewable Energy Growth",
+    "type": "describe_image",
+    "promptText": "Look at the chart below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/renewable-energy.jpg",
+    "difficulty": "Medium",
+    "tags": ["energy", "line_graph", "renewable", "growth"]
+  },
+  {
+    "title": "Describe Image — Age Distribution Pyramid",
+    "type": "describe_image",
+    "promptText": "Look at the population pyramid below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/age-pyramid.jpg",
+    "difficulty": "Hard",
+    "tags": ["demographics", "population_pyramid", "age", "distribution"]
+  },
+  {
+    "title": "Describe Image — Company Revenue Breakdown",
+    "type": "describe_image",
+    "promptText": "Look at the chart below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/revenue-breakdown.jpg",
+    "difficulty": "Easy",
+    "tags": ["business", "pie_chart", "finance", "revenue"]
+  },
+  {
+    "title": "Describe Image — Coffee Production Regions",
+    "type": "describe_image",
+    "promptText": "Look at the map below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/coffee-regions.jpg",
+    "difficulty": "Medium",
+    "tags": ["geography", "map", "agriculture", "production"]
+  },
+  {
+    "title": "Describe Image — Smartphone Sales Trends",
+    "type": "describe_image",
+    "promptText": "Look at the chart below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/smartphone-sales.jpg",
+    "difficulty": "Medium",
+    "tags": ["technology", "line_graph", "sales", "trends"]
+  },
+  {
+    "title": "Describe Image — Recycling Process Flow",
+    "type": "describe_image",
+    "promptText": "Look at the diagram below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/recycling-process.jpg",
+    "difficulty": "Hard",
+    "tags": ["environment", "process_diagram", "recycling", "sustainability"]
+  },
+  {
+    "title": "Describe Image — Employment Sectors Distribution",
+    "type": "describe_image",
+    "promptText": "Look at the chart below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/employment-sectors.jpg",
+    "difficulty": "Easy",
+    "tags": ["economics", "pie_chart", "employment", "sectors"]
+  },
+  {
+    "title": "Describe Image — Historical Monument Layout",
+    "type": "describe_image",
+    "promptText": "Look at the diagram below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/monument-layout.jpg",
+    "difficulty": "Medium",
+    "tags": ["architecture", "diagram", "historical", "layout"]
+  },
+  {
+    "title": "Describe Image — Ocean Currents Map",
+    "type": "describe_image",
+    "promptText": "Look at the map below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/ocean-currents.jpg",
+    "difficulty": "Hard",
+    "tags": ["geography", "map", "ocean", "currents"]
+  },
+  {
+    "title": "Describe Image — Annual Rainfall Comparison",
+    "type": "describe_image",
+    "promptText": "Look at the chart below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/rainfall-comparison.jpg",
+    "difficulty": "Medium",
+    "tags": ["weather", "bar_chart", "rainfall", "comparison"]
+  },
+  {
+    "title": "Describe Image — Human Digestive System",
+    "type": "describe_image",
+    "promptText": "Look at the diagram below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/digestive-system.jpg",
+    "difficulty": "Hard",
+    "tags": ["biology", "anatomy", "diagram", "human_body"]
+  },
+  {
+    "title": "Describe Image — Electricity Generation Sources",
+    "type": "describe_image",
+    "promptText": "Look at the chart below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/electricity-generation.jpg",
+    "difficulty": "Medium",
+    "tags": ["energy", "pie_chart", "electricity", "sources"]
+  },
+  {
+    "title": "Describe Image — Migration Patterns Map",
+    "type": "describe_image",
+    "promptText": "Look at the map below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/migration-patterns.jpg",
+    "difficulty": "Hard",
+    "tags": ["geography", "map", "migration", "demographics"]
+  },
+  {
+    "title": "Describe Image — Hotel Occupancy Rates",
+    "type": "describe_image",
+    "promptText": "Look at the chart below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/hotel-occupancy.jpg",
+    "difficulty": "Easy",
+    "tags": ["tourism", "line_graph", "occupancy", "hospitality"]
+  },
+  {
+    "title": "Describe Image — Library Floor Plan",
+    "type": "describe_image",
+    "promptText": "Look at the floor plan below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/library-floor-plan.jpg",
+    "difficulty": "Medium",
+    "tags": ["architecture", "floor_plan", "library", "spatial"]
+  },
+  {
+    "title": "Describe Image — GDP Growth Comparison",
+    "type": "describe_image",
+    "promptText": "Look at the chart below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/gdp-growth.jpg",
+    "difficulty": "Medium",
+    "tags": ["economics", "bar_chart", "gdp", "growth"]
+  },
+  {
+    "title": "Describe Image — Volcanic Eruption Process",
+    "type": "describe_image",
+    "promptText": "Look at the diagram below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/volcanic-eruption.jpg",
+    "difficulty": "Hard",
+    "tags": ["geology", "process_diagram", "volcano", "science"]
+  },
+  {
+    "title": "Describe Image — Student Enrollment Statistics",
+    "type": "describe_image",
+    "promptText": "Look at the chart below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/student-enrollment.jpg",
+    "difficulty": "Easy",
+    "tags": ["education", "bar_chart", "enrollment", "statistics"]
+  },
+  {
+    "title": "Describe Image — City Development Plan",
+    "type": "describe_image",
+    "promptText": "Look at the map below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/city-development.jpg",
+    "difficulty": "Medium",
+    "tags": ["urban_planning", "map", "development", "city"]
+  },
+  {
+    "title": "Describe Image — Air Quality Index Trends",
+    "type": "describe_image",
+    "promptText": "Look at the chart below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/air-quality.jpg",
+    "difficulty": "Medium",
+    "tags": ["environment", "line_graph", "pollution", "air_quality"]
+  },
+  {
+    "title": "Describe Image — Food Pyramid Nutrition Guide",
+    "type": "describe_image",
+    "promptText": "Look at the diagram below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/food-pyramid.jpg",
+    "difficulty": "Easy",
+    "tags": ["health", "pyramid", "nutrition", "diet"]
+  },
+  {
+    "title": "Describe Image — Car Sales Market Share",
+    "type": "describe_image",
+    "promptText": "Look at the chart below. In 25 seconds, please speak into the microphone and describe in detail what the image is showing. You will have 40 seconds to give your response.",
+    "promptMediaUrl": "https://placeholder-for-real-pte-image.com/car-sales-share.jpg",
+    "difficulty": "Medium",
+    "tags": ["automotive", "pie_chart", "market_share", "sales"]
+  }
+]

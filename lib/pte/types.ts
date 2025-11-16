@@ -159,10 +159,10 @@ export interface SpeakingTimings {
 }
 
 export interface SpeakingScore {
-  content: number
-  pronunciation: number
-  fluency: number
-  total: number
+  content: number // 0-5 scale (official PTE Academic)
+  pronunciation: number // 0-5 scale (official PTE Academic)
+  fluency: number // 0-5 scale (official PTE Academic)
+  total: number // calculated aggregate score (0-90 for overall enabling skills)
   rubric?: Record<string, unknown>
 }
 

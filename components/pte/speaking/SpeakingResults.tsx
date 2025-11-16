@@ -40,12 +40,15 @@ export function SpeakingResults({
     return mins > 0 ? `${mins}m ${secs}s` : `${secs}s`
   }
 
-  const getScoreColor = (score?: number) => {
+  const getScoreColor = (score?: number, maxScore: number = 90) => {
     if (!score) return "text-muted-foreground"
-    if (score >= 80) return "text-green-600 dark:text-green-400"
-    if (score >= 60) return "text-yellow-600 dark:text-yellow-400"
+    const percentage = (score / maxScore) * 100
+    if (percentage >= 80) return "text-green-600 dark:text-green-400"
+    if (percentage >= 60) return "text-yellow-600 dark:text-yellow-400"
     return "text-red-600 dark:text-red-400"
   }
+
+  const getScoreColor5 = (score?: number) => getScoreColor(score, 5)
 
   return (
     <div className="space-y-6">
@@ -57,30 +60,30 @@ export function SpeakingResults({
             <CardDescription>Your performance breakdown</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            {/* Total Score */}
+            {/* Total Score - 0-90 scale */}
             {scores.total !== undefined && (
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-medium">Total Score</span>
-                  <span className={`text-2xl font-bold ${getScoreColor(scores.total)}`}>
-                    {Math.round(scores.total)}
+                  <span className={`text-2xl font-bold ${getScoreColor(scores.total, 90)}`}>
+                    {Math.round(scores.total)}/90
                   </span>
                 </div>
-                <Progress value={scores.total} className="h-2" />
+                <Progress value={(scores.total / 90) * 100} className="h-2" />
               </div>
             )}
 
-            {/* Individual Scores */}
+            {/* Individual Scores - Official PTE Academic 0-5 scale */}
             <div className="grid gap-4 sm:grid-cols-3">
               {scores.content !== undefined && (
                 <div>
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-xs text-muted-foreground">Content</span>
-                    <span className={`text-lg font-semibold ${getScoreColor(scores.content)}`}>
-                      {Math.round(scores.content)}
+                    <span className={`text-lg font-semibold ${getScoreColor5(scores.content)}`}>
+                      {Math.round(scores.content)}/5
                     </span>
                   </div>
-                  <Progress value={scores.content} className="h-1.5" />
+                  <Progress value={(scores.content / 5) * 100} className="h-1.5" />
                 </div>
               )}
 
@@ -88,11 +91,11 @@ export function SpeakingResults({
                 <div>
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-xs text-muted-foreground">Pronunciation</span>
-                    <span className={`text-lg font-semibold ${getScoreColor(scores.pronunciation)}`}>
-                      {Math.round(scores.pronunciation)}
+                    <span className={`text-lg font-semibold ${getScoreColor5(scores.pronunciation)}`}>
+                      {Math.round(scores.pronunciation)}/5
                     </span>
                   </div>
-                  <Progress value={scores.pronunciation} className="h-1.5" />
+                  <Progress value={(scores.pronunciation / 5) * 100} className="h-1.5" />
                 </div>
               )}
 
@@ -100,11 +103,11 @@ export function SpeakingResults({
                 <div>
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-xs text-muted-foreground">Oral Fluency</span>
-                    <span className={`text-lg font-semibold ${getScoreColor(scores.oralFluency)}`}>
-                      {Math.round(scores.oralFluency)}
+                    <span className={`text-lg font-semibold ${getScoreColor5(scores.oralFluency)}`}>
+                      {Math.round(scores.oralFluency)}/5
                     </span>
                   </div>
-                  <Progress value={scores.oralFluency} className="h-1.5" />
+                  <Progress value={(scores.oralFluency / 5) * 100} className="h-1.5" />
                 </div>
               )}
             </div>

@@ -9,6 +9,7 @@ import {
 
 /**
  * Score a speaking attempt using available adapters.
+ * Uses official PTE Academic 0-5 scoring scale for Content, Pronunciation, and Fluency.
  * Prefers AI feedback when available; otherwise falls back to simple heuristics.
  */
 export async function scoreAttempt(params: {
@@ -40,20 +41,21 @@ export async function scoreAttempt(params: {
     const ai = await generateAIFeedback(qType, TestSection.SPEAKING, transcript)
     meta.ai = { provider: process.env.OPENAI_API_KEY ? 'openai' : 'mock' }
 
-    // Map AI feedback to SpeakingScore fields with reasonable defaults
-    const pronunciation = clamp0to90(
-      ai.pronunciation?.score ?? roughPronunciation(wordsPerMinute, fillerRate)
+    // Map AI feedback to official PTE 0-5 scale
+    // AI returns 0-90, so we need to convert to 0-5
+    const pronunciation = clamp0to5(
+      convertTo5Scale(ai.pronunciation?.score ?? roughPronunciation(wordsPerMinute, fillerRate))
     )
-    const fluency = clamp0to90(
-      ai.fluency?.score ?? roughFluency(wordsPerMinute, fillerRate)
+    const fluency = clamp0to5(
+      convertTo5Scale(ai.fluency?.score ?? roughFluency(wordsPerMinute, fillerRate))
     )
-    const content = clamp0to90(
-      ai.content?.score ?? roughContent(wordCount, durationMs)
+    const content = clamp0to5(
+      convertTo5Scale(ai.content?.score ?? roughContent(wordCount, durationMs, type))
     )
 
-    const total = clamp0to90(
-      Math.round(0.4 * content + 0.3 * pronunciation + 0.3 * fluency)
-    )
+    // Calculate total score (aggregate enabling skills score 0-90)
+    // Based on PTE Academic scoring: each criteria contributes proportionally
+    const total = calculateTotalScore(content, pronunciation, fluency)
 
     const rubric = {
       contentNotes: ai.content?.feedback,
@@ -79,14 +81,16 @@ export async function scoreAttempt(params: {
     // Fall back to heuristics
     meta.aiError = err instanceof Error ? err.message : 'ai_feedback_failed'
 
-    const pronunciation = clamp0to90(
-      roughPronunciation(wordsPerMinute, fillerRate)
+    const pronunciation = clamp0to5(
+      convertTo5Scale(roughPronunciation(wordsPerMinute, fillerRate))
     )
-    const fluency = clamp0to90(roughFluency(wordsPerMinute, fillerRate))
-    const content = clamp0to90(roughContent(wordCount, durationMs))
-    const total = clamp0to90(
-      Math.round(0.4 * content + 0.3 * pronunciation + 0.3 * fluency)
+    const fluency = clamp0to5(
+      convertTo5Scale(roughFluency(wordsPerMinute, fillerRate))
     )
+    const content = clamp0to5(
+      convertTo5Scale(roughContent(wordCount, durationMs, type))
+    )
+    const total = calculateTotalScore(content, pronunciation, fluency)
 
     return {
       content,
@@ -186,10 +190,24 @@ function roughFluency(wpm: number, fillerRate: number): number {
   return score
 }
 
-function roughContent(wordCount: number, durationMs: number): number {
+function roughContent(wordCount: number, durationMs: number, type: SpeakingType): number {
   const minutes = Math.max(durationMs / 60000, 0.001)
   const density = wordCount / minutes
-  // Very rough heuristic targeting 110-160 wpm
+
+  // For describe_image, content is based on elements described
+  // Heuristic: more words generally means more elements described
+  if (type === 'describe_image') {
+    // Target: 12+ key items described for full score
+    // Rough estimate: ~3-5 words per item = 36-60 words minimum
+    if (wordCount === 0 || durationMs < 500) return 20
+    if (wordCount >= 60 && density >= 90 && density <= 160) return 85 // Likely 12+ items
+    if (wordCount >= 45 && density >= 80) return 75 // Likely 9-11 items
+    if (wordCount >= 30) return 65 // Likely 6-8 items
+    if (wordCount >= 20) return 55 // Likely 4-5 items
+    return 40
+  }
+
+  // General heuristic for other speaking types
   if (wordCount === 0 || durationMs < 500) return 20
   let score = 68
   if (density < 80) score -= 12
@@ -197,7 +215,48 @@ function roughContent(wordCount: number, durationMs: number): number {
   return score
 }
 
+/**
+ * Convert 0-90 scale to official PTE Academic 0-5 scale
+ * 0-90 maps to 0-5 where:
+ * 81-90 = 5 (native-like)
+ * 61-80 = 4 (very good)
+ * 41-60 = 3 (good)
+ * 21-40 = 2 (limited)
+ * 1-20 = 1 (very limited)
+ * 0 = 0 (no attempt/unintelligible)
+ */
+function convertTo5Scale(score90: number): number {
+  if (score90 >= 81) return 5
+  if (score90 >= 61) return 4
+  if (score90 >= 41) return 3
+  if (score90 >= 21) return 2
+  if (score90 >= 1) return 1
+  return 0
+}
+
+/**
+ * Calculate total score from 0-5 criteria scores
+ * Converts back to 0-90 scale for overall enabling skills score
+ * Uses PTE Academic weightings: Content 40%, Pronunciation 30%, Fluency 30%
+ */
+function calculateTotalScore(content: number, pronunciation: number, fluency: number): number {
+  // Convert 0-5 scores to 0-90 equivalent for calculation
+  const contentScore = (content / 5) * 90
+  const pronunciationScore = (pronunciation / 5) * 90
+  const fluencyScore = (fluency / 5) * 90
+
+  // Apply PTE weightings
+  const weighted = (contentScore * 0.4) + (pronunciationScore * 0.3) + (fluencyScore * 0.3)
+
+  return Math.round(Math.max(0, Math.min(90, weighted)))
+}
+
 function clamp0to90(n: number): number {
   if (!Number.isFinite(n)) return 0
   return Math.max(0, Math.min(90, Math.round(n)))
+}
+
+function clamp0to5(n: number): number {
+  if (!Number.isFinite(n)) return 0
+  return Math.max(0, Math.min(5, Math.round(n)))
 }
