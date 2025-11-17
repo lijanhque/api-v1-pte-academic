@@ -174,6 +174,137 @@ export default async function PracticeListPage({ params }: Params) {
     )
   }
 
+  // Writing branch: use /api/writing/questions
+  if (section === 'writing') {
+    // Map URL questionType to API expected type
+    const writingTypeMap: Record<string, string> = {
+      w_summarize_text: 'summarize_written_text',
+      w_essay: 'write_essay',
+    }
+    const writingType = writingTypeMap[questionType]
+    if (!writingType) {
+      notFound()
+    }
+
+    // Build absolute API URL for server-side fetch using request headers
+    const h = await headers()
+    const proto = h.get('x-forwarded-proto') ?? 'http'
+    const host =
+      h.get('x-forwarded-host') ??
+      h.get('host') ??
+      `localhost:${process.env.PORT || 3000}`
+    const base = `${proto}://${host}`
+
+    const url = new URL(`/api/writing/questions`, base)
+    url.searchParams.set('type', writingType)
+    url.searchParams.set('page', '1')
+    url.searchParams.set('pageSize', '50')
+
+    const res = await fetch(url, { cache: 'no-store' })
+    if (!res.ok) {
+      notFound()
+    }
+
+    const payload = (await res.json()) as {
+      page: number
+      pageSize: number
+      total: number
+      items: Array<{
+        id: string
+        title?: string | null
+        promptText?: string | null
+        difficulty?: 'Easy' | 'Medium' | 'Hard' | null
+        createdAt?: string | null
+      }>
+    }
+
+    const rows = Array.isArray(payload?.items) ? payload.items : []
+
+    const kebabType = toKebab(questionType)
+
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+        <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+          <AcademicPracticeHeader section={section} showFilters={true} />
+
+          <div className="mt-6 rounded-md border bg-white dark:border-gray-800 dark:bg-gray-900">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-24">ID</TableHead>
+                  <TableHead>Title</TableHead>
+                  <TableHead className="w-32">Difficulty</TableHead>
+                  <TableHead className="w-40">Created</TableHead>
+                  <TableHead className="w-40 text-right">Action</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {rows.length === 0 ? (
+                  <TableRow>
+                    <TableCell
+                      colSpan={5}
+                      className="py-8 text-center text-gray-500 dark:text-gray-400"
+                    >
+                      No questions available
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  rows.map((r) => {
+                    const id = r.id
+                    const title = r.title || r.promptText || 'Question'
+                    const diff = r.difficulty || 'Medium'
+                    const created = r.createdAt
+                      ? new Date(r.createdAt).toLocaleString()
+                      : '—'
+                    return (
+                      <TableRow key={id}>
+                        <TableCell className="font-mono text-xs text-gray-600 dark:text-gray-400">
+                          {id}
+                        </TableCell>
+                        <TableCell className="font-medium">
+                          <Link
+                            href={`/pte/academic/practice/writing/summarize-written-text/question/${id}`}
+                            className="text-blue-600 hover:underline dark:text-blue-400"
+                          >
+                            {title}
+                          </Link>
+                        </TableCell>
+                        <TableCell>
+                          <Badge
+                            variant={
+                              diff === 'Hard'
+                                ? 'destructive'
+                                : diff === 'Easy'
+                                  ? 'secondary'
+                                  : 'default'
+                            }
+                          >
+                            {diff}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="text-sm text-gray-600 dark:text-gray-400">
+                          {created}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <Link
+                            href={`/pte/academic/practice/writing/summarize-written-text/question/${id}`}
+                            className="text-blue-600 hover:underline dark:text-blue-400"
+                          >
+                            Practice
+                          </Link>
+                        </TableCell>
+                      </TableRow>
+                    )
+                  })
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   // Default (non-speaking) branch: keep existing behavior using /api/pte-practice/questions
   // Build absolute API URL for server-side fetch using request headers (Next 15/16 async APIs)
   const h = await headers()
