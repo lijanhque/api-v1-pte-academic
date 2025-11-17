@@ -1,9 +1,9 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { AlertCircle, Bookmark, CheckCircle2, Circle, Eye } from 'lucide-react'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+import Link from "next/link";
+import { AlertCircle, Bookmark, CheckCircle2, Circle, Eye } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -11,33 +11,33 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table'
+} from "@/components/ui/table";
 
 interface QuestionRow {
-  id: string
-  title?: string | null
-  difficulty?: string | null
-  practicedCount?: number
-  tags?: string[] | null
+  id: string;
+  title?: string | null;
+  difficulty?: string | null;
+  practicedCount?: number;
+  tags?: string[] | null;
 }
 
 interface QuestionsTableProps {
-  rows: QuestionRow[]
-  section?: 'speaking' | 'reading' | 'writing' | 'listening'
-  questionType?: string
+  rows: QuestionRow[];
+  section?: "speaking" | "reading" | "writing" | "listening";
+  questionType?: string;
 }
 
 function capitalize(s?: string | null): string {
-  if (!s) return 'Medium'
-  const lower = String(s).toLowerCase()
-  return lower.charAt(0).toUpperCase() + lower.slice(1)
+  if (!s) return "Medium";
+  const lower = String(s).toLowerCase();
+  return lower.charAt(0).toUpperCase() + lower.slice(1);
 }
 
-function difficultyVariant(d: string): 'default' | 'secondary' | 'destructive' {
-  const v = d.toLowerCase()
-  if (v === 'hard') return 'destructive'
-  if (v === 'easy') return 'secondary'
-  return 'default'
+function difficultyVariant(d: string): "default" | "secondary" | "destructive" {
+  const v = d.toLowerCase();
+  if (v === "hard") return "destructive";
+  if (v === "easy") return "secondary";
+  return "default";
 }
 
 export default function QuestionsTable({
@@ -45,22 +45,22 @@ export default function QuestionsTable({
   section,
   questionType,
 }: QuestionsTableProps) {
-  const isDev = process.env.NODE_ENV !== 'production'
-  const isEmpty = rows.length === 0
+  const isDev = process.env.NODE_ENV !== "production";
+  const isEmpty = rows.length === 0;
 
   const handleSeedClick = async () => {
     try {
-      const response = await fetch(`/api/${section}/seed`, { method: 'POST' })
+      const response = await fetch(`/api/${section}/seed`, { method: "POST" });
       if (response.ok) {
-        window.location.reload()
+        window.location.reload();
       } else {
-        alert('Failed to seed questions. Check console for details.')
+        alert("Failed to seed questions. Check console for details.");
       }
     } catch (error) {
-      console.error('Error seeding questions:', error)
-      alert('Error seeding questions. Check console.')
+      console.error("Error seeding questions:", error);
+      alert("Error seeding questions. Check console.");
     }
-  }
+  };
 
   return (
     <div className="rounded-md border bg-white dark:border-gray-800 dark:bg-gray-900">
@@ -106,8 +106,8 @@ export default function QuestionsTable({
                           variant="outline"
                           className="w-full"
                         >
-                          Seed{' '}
-                          {section.charAt(0).toUpperCase() + section.slice(1)}{' '}
+                          Seed{" "}
+                          {section.charAt(0).toUpperCase() + section.slice(1)}{" "}
                           Questions
                         </Button>
                       )}
@@ -118,10 +118,10 @@ export default function QuestionsTable({
             </TableRow>
           ) : (
             rows.map((row) => {
-              const id = row.id
-              const title = row.title || 'Question'
-              const diff = capitalize(row.difficulty ?? 'medium')
-              const practiced = (row.practicedCount ?? 0) > 0
+              const id = row.id;
+              const title = row.title || "Question";
+              const diff = capitalize(row.difficulty ?? "medium");
+              const practiced = (row.practicedCount ?? 0) > 0;
 
               return (
                 <TableRow key={id}>
@@ -134,10 +134,16 @@ export default function QuestionsTable({
                         href={`/pte/academic/practice/${section}/${questionType}/question/${id}`}
                         className="text-blue-600 hover:underline dark:text-blue-400"
                       >
-                        {title.length > 120 ? `${title.slice(0, 120)}...` : title}
+                        {title.length > 120
+                          ? `${title.slice(0, 120)}...`
+                          : title}
                       </Link>
                     ) : (
-                      <span>{title.length > 120 ? `${title.slice(0, 120)}...` : title}</span>
+                      <span>
+                        {title.length > 120
+                          ? `${title.slice(0, 120)}...`
+                          : title}
+                      </span>
                     )}
                   </TableCell>
                   <TableCell>
@@ -165,13 +171,13 @@ export default function QuestionsTable({
                     </div>
                   </TableCell>
                 </TableRow>
-              )
+              );
             })
           )}
         </TableBody>
       </Table>
     </div>
-  )
+  );
 }
 
 // Loading skeleton component
@@ -211,5 +217,5 @@ export function QuestionsTableSkeleton() {
         </TableBody>
       </Table>
     </div>
-  )
+  );
 }
