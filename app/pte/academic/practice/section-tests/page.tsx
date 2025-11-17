@@ -12,7 +12,7 @@ export default function SectionTestsIndexPage() {
   const parentCategories = initialCategories.filter((c) => c.parent === null)
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
         <AcademicPracticeHeader />
 
@@ -44,10 +44,10 @@ export default function SectionTestsIndexPage() {
 
         <div className="mt-6">
           <div className="mb-6">
-            <h1 className="text-2xl font-bold">
+            <h1 className="text-2xl font-bold dark:text-gray-100">
               Start Your PTE Academic Practice Test Online
             </h1>
-            <p className="mt-1 text-sm text-gray-600">
+            <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
               Prepare with targeted online PTE practice tests across all
               sections.
             </p>
@@ -67,7 +67,7 @@ export default function SectionTestsIndexPage() {
                     width={40}
                     height={40}
                   />
-                  <h2 className="text-xl font-semibold">{parent.title}</h2>
+                  <h2 className="text-xl font-semibold dark:text-gray-100">{parent.title}</h2>
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -82,14 +82,14 @@ export default function SectionTestsIndexPage() {
                             height={32}
                           />
                           <div>
-                            <p className="font-medium">{child.title}</p>
-                            <p className="text-xs text-gray-500">
+                            <p className="font-medium dark:text-gray-100">{child.title}</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
                               {child.question_count} questions available
                             </p>
                           </div>
                         </div>
 
-                        <p className="flex-grow text-sm text-gray-600">
+                        <p className="flex-grow text-sm text-gray-600 dark:text-gray-400">
                           {child.description}
                         </p>
 

@@ -236,9 +236,9 @@ async function exportMockTests() {
       description: test.description || null,
       difficulty: test.difficulty || 'Medium',
       isFree: test.isFree || false,
-      duration: test.duration || 120,
-      isActive: test.isActive ?? true,
-      sectionCounts: test.sectionCounts || {},
+      duration: test.durationMinutes || 120,
+      isActive: test.status === 'published',
+      sectionCounts: {},
       metadata: {
         sourceId: test.id,
         createdAt: test.createdAt?.toISOString(),

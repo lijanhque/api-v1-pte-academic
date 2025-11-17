@@ -92,11 +92,11 @@ export default async function PracticeListPage({ params }: Params) {
     const kebabType = toKebab(speakingType)
 
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
         <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
           <AcademicPracticeHeader section={section} showFilters={true} />
 
-          <div className="mt-6 rounded-md border bg-white">
+          <div className="mt-6 rounded-md border bg-white dark:border-gray-800 dark:bg-gray-900">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -112,7 +112,7 @@ export default async function PracticeListPage({ params }: Params) {
                   <TableRow>
                     <TableCell
                       colSpan={5}
-                      className="py-8 text-center text-gray-500"
+                      className="py-8 text-center text-gray-500 dark:text-gray-400"
                     >
                       No questions available
                     </TableCell>
@@ -127,13 +127,13 @@ export default async function PracticeListPage({ params }: Params) {
                       : '—'
                     return (
                       <TableRow key={id}>
-                        <TableCell className="font-mono text-xs text-gray-600">
+                        <TableCell className="font-mono text-xs text-gray-600 dark:text-gray-400">
                           {id}
                         </TableCell>
                         <TableCell className="font-medium">
                           <Link
                             href={`/academic/pte-practice-test/speaking/${kebabType}/question/${id}`}
-                            className="text-blue-600 hover:underline"
+                            className="text-blue-600 hover:underline dark:text-blue-400"
                           >
                             {title}
                           </Link>
@@ -151,13 +151,13 @@ export default async function PracticeListPage({ params }: Params) {
                             {diff}
                           </Badge>
                         </TableCell>
-                        <TableCell className="text-sm text-gray-600">
+                        <TableCell className="text-sm text-gray-600 dark:text-gray-400">
                           {created}
                         </TableCell>
                         <TableCell className="text-right">
                           <Link
                             href={`/academic/pte-practice-test/speaking/${kebabType}/question/${id}`}
-                            className="text-blue-600 hover:underline"
+                            className="text-blue-600 hover:underline dark:text-blue-400"
                           >
                             Practice
                           </Link>
@@ -218,7 +218,7 @@ export default async function PracticeListPage({ params }: Params) {
   }))
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
         <AcademicPracticeHeader section={section} showFilters={true} />
 

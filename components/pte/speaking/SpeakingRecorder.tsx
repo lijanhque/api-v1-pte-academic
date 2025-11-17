@@ -18,6 +18,7 @@ export type RecorderState =
   | "idle"
   | "prepping"
   | "recording"
+  | "processing"
   | "finished"
   | "denied"
   | "unsupported"
@@ -38,6 +39,9 @@ export type SpeakingRecorderProps = {
 
   // NEW: Notify parent on state changes (for orchestration/telemetry)
   onStateChange?: (state: RecorderState) => void;
+
+  // NEW: Allow file uploads instead of recording
+  allowFileUpload?: boolean;
 };
 
 const MIME = "audio/webm;codecs=opus";
@@ -49,6 +53,7 @@ export default function SpeakingRecorder({
   onRecorded,
   auto,
   onStateChange,
+  allowFileUpload = true,
 }: SpeakingRecorderProps) {
   const { prepMs = 0, recordMs } = timers;
 
@@ -131,6 +136,7 @@ export default function SpeakingRecorder({
   const [selectedMicId, setSelectedMicId] = useState<string>("");
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Derived progress values (0..100)
   const prepProgress = useMemo(() => {
@@ -481,6 +487,98 @@ export default function SpeakingRecorder({
     }
   }, [state, begin, stop]);
 
+  // Handle file upload
+  const handleFileUpload = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+
+      try {
+        setError(null);
+        setPhase("processing" as RecorderState);
+
+        // Validate file type
+        const validTypes = [
+          "audio/webm",
+          "audio/mp3",
+          "audio/mpeg",
+          "audio/wav",
+          "audio/ogg",
+          "audio/mp4",
+          "audio/m4a",
+        ];
+        if (!validTypes.some((type) => file.type.startsWith(type.split("/")[0]))) {
+          setError("Please upload a valid audio file (webm, mp3, wav, ogg, m4a)");
+          setPhase("error");
+          return;
+        }
+
+        // Validate file size
+        if (file.size > MAX_SIZE_BYTES) {
+          setError("File exceeds 15MB limit. Please upload a smaller file.");
+          setPhase("error");
+          return;
+        }
+
+        // Get audio duration
+        const audioDuration = await getAudioDuration(file);
+        const durationMs = Math.round(audioDuration * 1000);
+
+        // Create blob from file
+        const blob = new Blob([file], { type: file.type });
+
+        const now = new Date();
+        const timings: SpeakingTimings = {
+          prepMs: prepMs || undefined,
+          recordMs,
+          startAt: now.toISOString(),
+          endAt: new Date(now.getTime() + durationMs).toISOString(),
+        };
+
+        console.log(
+          "[SpeakingRecorder] File upload: type:",
+          blob.type,
+          "size:",
+          blob.size,
+          "duration:",
+          durationMs
+        );
+
+        setPhase("finished");
+        onRecorded({ blob, durationMs, timings });
+      } catch (err: any) {
+        setError(err?.message || "Failed to process audio file.");
+        setPhase("error");
+      } finally {
+        // Reset file input
+        if (e.target) {
+          e.target.value = "";
+        }
+      }
+    },
+    [onRecorded, prepMs, recordMs, setPhase]
+  );
+
+  // Helper function to get audio duration
+  const getAudioDuration = (file: File): Promise<number> => {
+    return new Promise((resolve, reject) => {
+      const audio = document.createElement("audio");
+      audio.preload = "metadata";
+
+      audio.onloadedmetadata = () => {
+        window.URL.revokeObjectURL(audio.src);
+        resolve(audio.duration);
+      };
+
+      audio.onerror = () => {
+        window.URL.revokeObjectURL(audio.src);
+        reject(new Error("Failed to load audio metadata"));
+      };
+
+      audio.src = URL.createObjectURL(file);
+    });
+  };
+
   // Keyboard shortcut for Space key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -513,9 +611,13 @@ export default function SpeakingRecorder({
           <span aria-live="polite" className="text-sm font-medium text-red-600">
             Recording... {Math.ceil((recordMs - recordElapsedMs) / 1000)}s left
           </span>
+        ) : state === "processing" ? (
+          <span aria-live="polite" className="text-sm font-medium text-blue-600">
+            Processing audio file...
+          </span>
         ) : state === "finished" ? (
           <span className="text-sm text-emerald-600">
-            Recorded. You can submit or redo.
+            Audio ready. You can submit or redo.
           </span>
         ) : state === "denied" ? (
           <span className="text-sm text-red-600">
@@ -560,6 +662,33 @@ export default function SpeakingRecorder({
           </Button>
         )}
       </div>
+
+      {/* File Upload Option */}
+      {allowFileUpload && state === "idle" && (
+        <div className="flex flex-col items-center gap-2">
+          <div className="text-muted-foreground text-sm">or</div>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="audio/*"
+            onChange={handleFileUpload}
+            className="hidden"
+            id="audio-file-upload"
+            aria-label="Upload audio file"
+          />
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => fileInputRef.current?.click()}
+            className="min-w-[200px]"
+          >
+            Upload Audio File
+          </Button>
+          <p className="text-muted-foreground text-xs text-center">
+            Supported: MP3, WAV, WebM, OGG, M4A (max 15MB)
+          </p>
+        </div>
+      )}
 
       {/* Progress */}
       {state === "prepping" && prepMs > 0 && (

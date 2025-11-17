@@ -25,7 +25,7 @@ export default async function SectionPage(props: {
   )
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
         <AcademicPracticeHeader section={section} />
 
@@ -39,8 +39,8 @@ export default async function SectionPage(props: {
                 height={48}
               />
               <div>
-                <h1 className="text-2xl font-bold">{parentCategory.title}</h1>
-                <p className="mt-1 text-sm text-gray-600">
+                <h1 className="text-2xl font-bold dark:text-gray-100">{parentCategory.title}</h1>
+                <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
                   Choose from {childCategories.length} question types
                 </p>
               </div>
@@ -62,14 +62,14 @@ export default async function SectionPage(props: {
                       height={32}
                     />
                     <div className="flex-1">
-                      <h3 className="text-lg font-semibold">{child.title}</h3>
-                      <p className="text-sm text-gray-500">
+                      <h3 className="text-lg font-semibold dark:text-gray-100">{child.title}</h3>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
                         {child.question_count} questions available
                       </p>
                     </div>
                   </div>
 
-                  <p className="mb-4 flex-grow text-sm text-gray-600">
+                  <p className="mb-4 flex-grow text-sm text-gray-600 dark:text-gray-400">
                     {child.description}
                   </p>
 

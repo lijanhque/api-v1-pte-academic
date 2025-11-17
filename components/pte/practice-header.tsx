@@ -39,10 +39,10 @@ export function AcademicPracticeHeader({
   const isQuestionType = pathSegments.length >= 5
 
   return (
-    <div className="border-b border-gray-200 bg-white px-6 py-4">
+    <div className="border-b border-gray-200 bg-white px-6 py-4 dark:border-gray-800 dark:bg-gray-950">
       <div className="flex flex-col space-y-4">
         {/* Breadcrumb Navigation */}
-        <nav className="flex items-center space-x-2 text-sm text-gray-600">
+        <nav className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
           <Link
             href="/pte/academic/practice"
             className="flex items-center gap-1 hover:text-blue-600"
@@ -64,7 +64,7 @@ export function AcademicPracticeHeader({
           {isQuestionType && section && (
             <>
               <ChevronRight className="h-4 w-4" />
-              <span className="font-medium text-gray-900">
+              <span className="font-medium text-gray-900 dark:text-gray-100">
                 {formatQuestionTypeName(
                   pathSegments[pathSegments.length - 1] || ''
                 )}
@@ -76,7 +76,7 @@ export function AcademicPracticeHeader({
         {/* Header Content */}
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <h1 className="text-2xl font-bold text-gray-900">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
               {section
                 ? `${formatSectionName(section)} Practice`
                 : 'PTE Academic Practice'}
@@ -88,8 +88,8 @@ export function AcademicPracticeHeader({
           {showFilters && (
             <div className="flex items-center space-x-3">
               <div className="flex items-center space-x-2">
-                <Filter className="h-4 w-4 text-gray-500" />
-                <span className="text-sm text-gray-600">Filter:</span>
+                <Filter className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                <span className="text-sm text-gray-600 dark:text-gray-400">Filter:</span>
               </div>
 
               <Select defaultValue="all">
@@ -124,7 +124,7 @@ export function AcademicPracticeHeader({
         </div>
 
         {/* Practice Stats */}
-        <div className="flex items-center space-x-6 text-sm text-gray-600">
+        <div className="flex items-center space-x-6 text-sm text-gray-600 dark:text-gray-400">
           <div className="flex items-center space-x-2">
             <div className="h-2 w-2 rounded-full bg-green-500"></div>
             <span>AI Scoring Available</span>

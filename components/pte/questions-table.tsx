@@ -63,7 +63,7 @@ export default function QuestionsTable({
   }
 
   return (
-    <div className="rounded-md border bg-white">
+    <div className="rounded-md border bg-white dark:border-gray-800 dark:bg-gray-900">
       <Table>
         <TableHeader>
           <TableRow>
@@ -79,24 +79,24 @@ export default function QuestionsTable({
             <TableRow>
               <TableCell colSpan={5} className="py-12 text-center">
                 <div className="flex flex-col items-center justify-center space-y-4">
-                  <AlertCircle className="h-12 w-12 text-gray-400" />
+                  <AlertCircle className="h-12 w-12 text-gray-400 dark:text-gray-600" />
                   <div className="space-y-2">
-                    <p className="text-lg font-medium text-gray-900">
+                    <p className="text-lg font-medium text-gray-900 dark:text-gray-100">
                       No questions available
                     </p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
                       Questions haven't been seeded yet for this section.
                     </p>
                   </div>
                   {isDev && (
-                    <div className="mt-4 max-w-md space-y-3 rounded-lg border border-orange-200 bg-orange-50 p-4">
-                      <p className="text-sm font-medium text-orange-900">
+                    <div className="mt-4 max-w-md space-y-3 rounded-lg border border-orange-200 bg-orange-50 p-4 dark:border-orange-800 dark:bg-orange-950">
+                      <p className="text-sm font-medium text-orange-900 dark:text-orange-200">
                         Developer Mode
                       </p>
-                      <p className="text-xs text-orange-700">
+                      <p className="text-xs text-orange-700 dark:text-orange-300">
                         Click the button below to seed questions, or use:
                       </p>
-                      <code className="block rounded bg-orange-100 p-2 text-xs text-orange-900">
+                      <code className="block rounded bg-orange-100 p-2 text-xs text-orange-900 dark:bg-orange-900 dark:text-orange-100">
                         POST /api/{section}/seed
                       </code>
                       {section && (
@@ -125,14 +125,14 @@ export default function QuestionsTable({
 
               return (
                 <TableRow key={id}>
-                  <TableCell className="font-mono text-xs text-gray-600">
+                  <TableCell className="font-mono text-xs text-gray-600 dark:text-gray-400">
                     {id.length > 10 ? `${id.slice(0, 8)}...` : id}
                   </TableCell>
                   <TableCell className="font-medium">
                     {section && questionType ? (
                       <Link
                         href={`/pte/academic/practice/${section}/${questionType}/question/${id}`}
-                        className="text-blue-600 hover:underline"
+                        className="text-blue-600 hover:underline dark:text-blue-400"
                       >
                         {title.length > 120 ? `${title.slice(0, 120)}...` : title}
                       </Link>
@@ -145,17 +145,17 @@ export default function QuestionsTable({
                   </TableCell>
                   <TableCell>
                     {practiced ? (
-                      <span className="inline-flex items-center gap-2 text-green-600">
+                      <span className="inline-flex items-center gap-2 text-green-600 dark:text-green-400">
                         <CheckCircle2 className="h-4 w-4" /> Practiced
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-2 text-gray-500">
+                      <span className="inline-flex items-center gap-2 text-gray-500 dark:text-gray-400">
                         <Circle className="h-4 w-4" /> Not Practiced
                       </span>
                     )}
                   </TableCell>
                   <TableCell className="text-right">
-                    <div className="inline-flex items-center gap-4 text-gray-600">
+                    <div className="inline-flex items-center gap-4 text-gray-600 dark:text-gray-400">
                       <span className="inline-flex items-center gap-1">
                         <Eye className="h-4 w-4" /> {row.practicedCount ?? 0}
                       </span>
@@ -177,7 +177,7 @@ export default function QuestionsTable({
 // Loading skeleton component
 export function QuestionsTableSkeleton() {
   return (
-    <div className="rounded-md border bg-white">
+    <div className="rounded-md border bg-white dark:border-gray-800 dark:bg-gray-900">
       <Table>
         <TableHeader>
           <TableRow>
@@ -192,19 +192,19 @@ export function QuestionsTableSkeleton() {
           {[1, 2, 3, 4, 5].map((i) => (
             <TableRow key={i}>
               <TableCell>
-                <div className="h-4 w-16 animate-pulse rounded bg-gray-200" />
+                <div className="h-4 w-16 animate-pulse rounded bg-gray-200 dark:bg-gray-700" />
               </TableCell>
               <TableCell>
-                <div className="h-4 w-full animate-pulse rounded bg-gray-200" />
+                <div className="h-4 w-full animate-pulse rounded bg-gray-200 dark:bg-gray-700" />
               </TableCell>
               <TableCell>
-                <div className="h-6 w-20 animate-pulse rounded bg-gray-200" />
+                <div className="h-6 w-20 animate-pulse rounded bg-gray-200 dark:bg-gray-700" />
               </TableCell>
               <TableCell>
-                <div className="h-4 w-24 animate-pulse rounded bg-gray-200" />
+                <div className="h-4 w-24 animate-pulse rounded bg-gray-200 dark:bg-gray-700" />
               </TableCell>
               <TableCell>
-                <div className="ml-auto h-4 w-16 animate-pulse rounded bg-gray-200" />
+                <div className="ml-auto h-4 w-16 animate-pulse rounded bg-gray-200 dark:bg-gray-700" />
               </TableCell>
             </TableRow>
           ))}
