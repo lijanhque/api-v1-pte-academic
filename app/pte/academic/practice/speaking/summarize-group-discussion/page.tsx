@@ -65,11 +65,12 @@ async function SummarizeGroupDiscussionSections({
   )
 }
 
-export default async function SummarizeGroupDiscussionPracticePage({
-  searchParams,
-}: {
-  searchParams: Promise<Record<string, string | string[] | undefined>>
-}) {
+export default async function SummarizeGroupDiscussionPracticePage(
+  props: {
+    searchParams: Promise<Record<string, string | string[] | undefined>>
+  }
+) {
+  const searchParams = await props.searchParams;
   const params = await searchParams
 
   return (

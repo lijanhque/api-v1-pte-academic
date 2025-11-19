@@ -68,11 +68,12 @@ async function QuestionsSections({
   )
 }
 
-export default async function WriteEssayPage({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParams>
-}) {
+export default async function WriteEssayPage(
+  props: {
+    searchParams: Promise<SearchParams>
+  }
+) {
+  const searchParams = await props.searchParams;
   const resolvedSearchParams = await searchParams
   return (
     <>

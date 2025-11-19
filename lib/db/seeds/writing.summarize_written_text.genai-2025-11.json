@@ -1,0 +1,142 @@
+[
+  {
+    "title": "The Impact of Urbanization on Biodiversity",
+    "type": "summarize_written_text",
+    "promptText": "Urbanization, the increasing concentration of human populations in cities, is a dominant global trend of the 21st century. While it often leads to economic growth and improved infrastructure, it comes at a significant ecological cost. The expansion of urban areas typically involves the conversion of natural habitats—such as forests, wetlands, and grasslands—into residential, commercial, and industrial zones. This process, known as habitat fragmentation, isolates animal and plant populations, disrupting their migration patterns and reducing genetic diversity. Furthermore, urban environments introduce novel challenges for wildlife, including light and noise pollution, increased human-wildlife conflict, and the proliferation of invasive species that outcompete native flora and fauna. The 'urban heat island' effect, where cities are significantly warmer than surrounding rural areas, also alters local ecosystems and can be detrimental to species not adapted to higher temperatures. Consequently, many studies have documented a sharp decline in biodiversity within and around urban centers, highlighting the urgent need for sustainable urban planning that integrates green spaces and wildlife corridors to mitigate these negative impacts.",
+    "difficulty": "Medium",
+    "tags": ["genai-2025-11", "ecology", "urbanization"]
+  },
+  {
+    "title": "The Psychology of Procrastination",
+    "type": "summarize_written_text",
+    "promptText": "Procrastination is often misconstrued as simple laziness, but psychological research reveals it to be a far more complex phenomenon. It is primarily an issue of emotion regulation, not time management. When faced with a task that is perceived as aversive—perhaps because it is boring, difficult, or associated with anxiety—individuals may choose to delay it to avoid the negative feelings it evokes. This provides temporary relief, reinforcing the habit of procrastination. The prefrontal cortex, the brain's center for executive functions like planning and decision-making, is often in conflict with the limbic system, which is more primitive and focused on immediate mood repair. When we procrastinate, the limbic system's desire for short-term emotional comfort wins out over the prefrontal cortex's long-term goals. Chronic procrastination can be linked to underlying issues such as perfectionism, fear of failure, or even a lack of self-compassion. Understanding procrastination as an emotional coping mechanism is the first step toward developing effective strategies to overcome it, which often involve breaking tasks into smaller steps and managing the negative emotions associated with the work.",
+    "difficulty": "Hard",
+    "tags": ["genai-2025-11", "psychology", "productivity"]
+  },
+  {
+    "title": "The Role of Dark Matter in the Universe",
+    "type": "summarize_written_text",
+    "promptText": "One of the most profound mysteries in modern astrophysics is the nature of dark matter. Although it is invisible and does not emit or reflect any electromagnetic radiation, its existence is inferred from its gravitational effects on visible matter. Observations of galaxies and galaxy clusters reveal that they rotate much faster than they should if their mass were composed solely of the stars, gas, and dust we can see. This discrepancy suggests the presence of a vast, unseen 'halo' of matter providing the extra gravitational pull needed to hold these structures together. Current estimates propose that dark matter constitutes about 27% of the universe's mass-energy content, while ordinary 'baryonic' matter makes up less than 5%. Despite numerous experiments designed to detect dark matter particles directly, their identity remains elusive. Leading candidates include Weakly Interacting Massive Particles (WIMPs) and axions, but no conclusive evidence has been found. Unraveling the mystery of dark matter is a critical goal in physics, as it would fundamentally change our understanding of cosmology and the ultimate fate of the universe.",
+    "difficulty": "Hard",
+    "tags": ["genai-2025-11", "astrophysics", "cosmology"]
+  },
+  {
+    "title": "The Development of Antibiotic Resistance",
+    "type": "summarize_written_text",
+    "promptText": "The discovery of antibiotics in the 20th century revolutionized medicine, turning once-lethal bacterial infections into treatable conditions. However, the widespread and often indiscriminate use of these miracle drugs has led to a major public health crisis: antibiotic resistance. Bacteria, through the process of natural selection, can evolve defense mechanisms against antibiotics. When a population of bacteria is exposed to an antibiotic, the susceptible bacteria are killed, but any resistant individuals survive and multiply, passing on their resistant traits. This process is accelerated by several factors, including the over-prescription of antibiotics for viral infections (against which they are ineffective), the failure of patients to complete their full course of treatment, and the extensive use of antibiotics in agriculture to promote livestock growth. The result is the emergence of 'superbugs'—strains of bacteria resistant to multiple antibiotics, making infections difficult or impossible to treat. Addressing this crisis requires a multi-pronged approach, including the development of new drugs, stricter regulation of antibiotic use, and improved public education on the importance of responsible antibiotic stewardship.",
+    "difficulty": "Medium",
+    "tags": ["genai-2025-11", "medicine", "public-health"]
+  },
+  {
+    "title": "The Concept of Neuroplasticity",
+    "type": "summarize_written_text",
+    "promptText": "For much of history, the adult brain was considered a static, unchangeable organ. However, modern neuroscience has overturned this dogma with the concept of neuroplasticity—the brain's remarkable ability to reorganize itself by forming new neural connections throughout life. This adaptability allows the neurons (nerve cells) in the brain to compensate for injury and disease and to adjust their activities in response to new situations or changes in their environment. Neuroplasticity is the fundamental mechanism underlying learning and memory. When you learn a new skill, such as playing a musical instrument or speaking a new language, you are physically changing your brain's structure by strengthening the synaptic connections between specific neurons. This process is not limited to youth; it continues throughout the lifespan, although it may be more pronounced in younger brains. The implications of neuroplasticity are vast, offering hope for the treatment of conditions like stroke, traumatic brain injury, and even some psychological disorders by harnessing the brain's innate capacity for change through targeted therapies and rehabilitation.",
+    "difficulty": "Easy",
+    "tags": ["genai-2025-11", "neuroscience", "learning"]
+  },
+  {
+    "title": "The Great Barrier Reef's Coral Bleaching",
+    "type": "summarize_written_text",
+    "promptText": "The Great Barrier Reef, the world's largest coral reef system, is facing an existential threat from climate change, primarily through the phenomenon of coral bleaching. Corals have a symbiotic relationship with microscopic algae called zooxanthellae, which live in their tissues and provide them with most of their food and their vibrant colors. When ocean temperatures rise beyond a certain threshold, even by just one degree Celsius for a sustained period, the corals become stressed and expel these algae. Without the zooxanthellae, the corals lose their major source of food, their skeletons become visible through their transparent tissues, and they appear white or 'bleached.' While a bleached coral is not dead, it is under severe stress and is more susceptible to disease and mortality. If water temperatures return to normal quickly, the corals may be able to recover their algae and survive. However, with the increasing frequency and severity of marine heatwaves due to global warming, reefs are not being given enough time to recover between bleaching events, leading to widespread coral death and the degradation of this vital marine ecosystem.",
+    "difficulty": "Medium",
+    "tags": ["genai-2025-11", "climate-change", "marine-biology"]
+  },
+  {
+    "title": "The Rise of the Gig Economy",
+    "type": "summarize_written_text",
+    "promptText": "The 'gig economy' refers to a labor market characterized by the prevalence of short-term contracts or freelance work as opposed to permanent, full-time jobs. Fueled by the rise of digital platforms that connect service providers directly with customers—such as Uber for transportation or Upwork for professional services—this model offers unprecedented flexibility for workers, who can often choose their own hours and projects. Proponents argue that this flexibility fosters entrepreneurship and improves work-life balance. However, the gig economy has also drawn significant criticism regarding labor rights and economic security. Most gig workers are classified as independent contractors, not employees, meaning they are typically not entitled to benefits like minimum wage, overtime pay, health insurance, or retirement savings plans. This can lead to financial instability and a lack of a social safety net. The debate continues over how to regulate this burgeoning sector to balance the benefits of flexibility with the need for fair labor protections, a challenge that governments and societies worldwide are now grappling with.",
+    "difficulty": "Easy",
+    "tags": ["genai-2025-11", "economics", "labor"]
+  },
+  {
+    "title": "Quantum Computing Explained",
+    "type": "summarize_written_text",
+    "promptText": "Classical computers, from smartphones to supercomputers, process information using bits, which can represent either a 0 or a 1. Quantum computing, however, harnesses the counterintuitive principles of quantum mechanics to process information in a fundamentally new way. Its basic unit is the qubit, which can exist as a 0, a 1, or a 'superposition' of both states simultaneously. Furthermore, multiple qubits can be linked together through a property called 'entanglement,' where the state of one qubit is instantly correlated with the state of another, regardless of the distance separating them. These properties allow quantum computers to perform a vast number of calculations in parallel. While classical computers would have to try every possible route one by one to solve a complex optimization problem, a quantum computer could explore all routes at once. This capability promises to revolutionize fields like materials science, drug discovery, and cryptography, solving problems that are currently intractable for even the most powerful classical supercomputers.",
+    "difficulty": "Hard",
+    "tags": ["genai-2025-11", "technology", "quantum-physics"]
+  },
+  {
+    "title": "The Social Impact of Social Media",
+    "type": "summarize_written_text",
+    "promptText": "Social media platforms have fundamentally reshaped human interaction, creating a globally interconnected society. They offer powerful tools for maintaining social ties, mobilizing for social causes, and accessing information at an unprecedented scale. For many, these platforms provide a sense of community and belonging that might be absent in their offline lives. However, the benefits are accompanied by significant downsides. Studies have linked heavy social media use to increased rates of anxiety, depression, and loneliness, often attributed to social comparison and the pressure to present a curated, idealized version of oneself. The algorithmic amplification of engaging, often emotionally charged, content can lead to the spread of misinformation and the creation of 'echo chambers' that reinforce existing beliefs and polarize public discourse. The design of these platforms, optimized for user engagement through features like infinite scrolling and intermittent rewards, has also raised concerns about their addictive potential. Understanding this dual impact is crucial for navigating the digital world in a healthy and informed manner.",
+    "difficulty": "Easy",
+    "tags": ["genai-2025-11", "sociology", "internet"]
+  },
+  {
+    "title": "The Process of Photosynthesis",
+    "type": "summarize_written_text",
+    "promptText": "Photosynthesis is the biological process used by plants, algae, and some bacteria to convert light energy into chemical energy. This process is essential for nearly all life on Earth, as it produces the oxygen we breathe and the primary source of energy for most ecosystems. The reaction occurs within specialized organelles called chloroplasts and uses three main ingredients: sunlight, water, and carbon dioxide. In the first stage, known as the light-dependent reactions, chlorophyll and other pigments absorb energy from sunlight. This energy is used to split water molecules, a process called photolysis, which releases oxygen as a byproduct and generates energy-carrying molecules like ATP and NADPH. In the second stage, the light-independent reactions (or Calvin Cycle), the captured chemical energy is used to 'fix' carbon dioxide from the atmosphere into organic molecules. This cycle ultimately produces glucose, a sugar molecule that serves as a versatile source of energy for the plant's growth, metabolism, and reproduction. In essence, photosynthesis is nature's solar power system, converting the sun's energy into the fuel that powers life.",
+    "difficulty": "Medium",
+    "tags": ["genai-2025-11", "biology", "botany"]
+  },
+  {
+    "title": "The History and Function of Money",
+    "type": "summarize_written_text",
+    "promptText": "Money is a fundamental invention of human society, serving as a medium of exchange, a unit of account, and a store of value. Before its invention, economies relied on barter, the direct exchange of goods and services. However, barter requires a 'double coincidence of wants'—each party must have something the other desires—which is highly inefficient. The development of commodity money, where a good with intrinsic value (like salt, shells, or cattle) was used as an intermediary, solved this problem. Over time, metals like gold and silver became the dominant form of commodity money due to their durability, divisibility, and scarcity. The next major evolution was the creation of representative money, such as paper certificates that were backed by and could be exchanged for a fixed amount of a precious metal. Most modern economies now use fiat money, which is not backed by a physical commodity but is declared by a government to be legal tender. Its value is derived from the trust and confidence that people have in the issuing authority, making the stability of the government and its central bank paramount.",
+    "difficulty": "Medium",
+    "tags": ["genai-2025-11", "economics", "history"]
+  },
+  {
+    "title": "The Theory of Plate Tectonics",
+    "type": "summarize_written_text",
+    "promptText": "The theory of plate tectonics is the unifying framework of modern geology, explaining how the Earth's surface features are created and how they change over time. It posits that the planet's outer layer, the lithosphere, is not a single, solid shell but is broken into a number of large and small rigid plates. These tectonic plates are in constant, slow motion, 'floating' on the semi-fluid asthenosphere beneath them. The interactions at the boundaries between these plates are responsible for most of the Earth's major geological phenomena. At divergent boundaries, plates move apart, allowing magma to rise and form new crust, as seen at mid-ocean ridges. At convergent boundaries, plates collide, which can result in one plate sliding beneath another (subduction), leading to the formation of mountain ranges, volcanic arcs, and deep ocean trenches. At transform boundaries, plates slide horizontally past each other, often causing powerful earthquakes. This continuous movement and interaction of tectonic plates drive the rock cycle, shape continents, and are the ultimate cause of earthquakes and volcanic eruptions around the globe.",
+    "difficulty": "Medium",
+    "tags": ["genai-2025-11", "geology", "earth-science"]
+  },
+  {
+    "title": "The Benefits of Bilingualism",
+    "type": "summarize_written_text",
+    "promptText": "Speaking more than one language has cognitive, social, and professional benefits that extend far beyond the ability to communicate with a wider range of people. Research in cognitive science suggests that the bilingual brain develops enhanced executive functions, which are the high-level cognitive skills used for planning, problem-solving, and managing attention. The constant mental exercise of switching between two languages appears to improve cognitive flexibility and control. Furthermore, studies have shown that lifelong bilingualism can delay the onset of cognitive decline and dementia in old age by building up a 'cognitive reserve.' Socially, bilingualism fosters greater cross-cultural understanding and empathy, as language is deeply intertwined with culture and perspective. Professionally, in an increasingly globalized world, the demand for bilingual and multilingual employees is high across numerous industries, from customer service to international business. The ability to speak multiple languages not only opens up more job opportunities but can also lead to higher earning potential, making it a valuable asset in both personal and professional life.",
+    "difficulty": "Easy",
+    "tags": ["genai-2025-11", "linguistics", "cognition"]
+  },
+  {
+    "title": "The James Webb Space Telescope's Mission",
+    "type": "summarize_written_text",
+    "promptText": "The James Webb Space Telescope (JWST) represents the next generation of space observatories, designed to peer deeper into the universe's history than ever before. As the successor to the Hubble Space Telescope, its primary mission is to observe the faint light from the very first stars and galaxies that formed after the Big Bang. To do this, JWST is specialized to detect infrared light. Because the universe is expanding, the light from distant objects is stretched to longer wavelengths as it travels through space, a phenomenon known as redshift. The light from the earliest cosmic structures has been redshifted all the way into the infrared part of the spectrum, making it invisible to Hubble but detectable by JWST's advanced instruments. To maintain the extreme sensitivity needed to capture this faint infrared radiation, the telescope must be kept incredibly cold, which is why it is equipped with a massive, five-layer sunshield and orbits the sun far beyond the Moon. Beyond studying the early universe, JWST will also investigate the formation of stars and planetary systems and analyze the atmospheres of exoplanets, searching for potential signs of life.",
+    "difficulty": "Medium",
+    "tags": ["genai-2025-11", "astronomy", "technology"]
+  },
+  {
+    "title": "The Philosophy of Stoicism",
+    "type": "summarize_written_text",
+    "promptText": "Stoicism, an ancient Greek and Roman philosophy, offers a practical guide to achieving eudaimonia, or a state of human flourishing and tranquility. Its core tenet is the 'dichotomy of control,' which advises individuals to differentiate between what is within their power to change and what is not. According to the Stoics, our judgments, opinions, and actions are within our control, while external events—such as our health, wealth, and the actions of others—are not. The path to inner peace, therefore, lies in focusing our energy exclusively on what we can control and accepting everything else with equanimity. Stoicism teaches that virtue is the sole good and that external events are indifferent, neither good nor bad in themselves. It is our judgment about these events that causes our suffering. By practicing virtues like wisdom, courage, justice, and temperance, and by viewing challenges as opportunities for growth, a Stoic practitioner can maintain a stable and resilient mindset, unperturbed by the inevitable ups and downs of life. It is a philosophy not of passive resignation, but of proactive acceptance and virtuous action.",
+    "difficulty": "Hard",
+    "tags": ["genai-2025-11", "philosophy", "history"]
+  },
+  {
+    "title": "The Science of Sleep",
+    "type": "summarize_written_text",
+    "promptText": "Sleep is not merely a passive state of rest but an active and essential biological process that is crucial for physical and mental health. During sleep, the brain cycles through several stages, each with distinct functions. The two main types are Non-Rapid Eye Movement (NREM) sleep and Rapid Eye Movement (REM) sleep. NREM sleep, which is divided into three stages of progressively deeper sleep, is primarily associated with physical restoration. During this time, the body repairs tissues, builds bone and muscle, and strengthens the immune system. In contrast, REM sleep is characterized by vivid dreaming and intense brain activity, similar to waking levels. This stage is vital for cognitive functions, including memory consolidation, learning, and emotional regulation. It is during REM sleep that the brain processes the day's experiences, strengthening important memories and pruning irrelevant ones. Chronic sleep deprivation can have severe consequences, impairing cognitive performance, weakening the immune system, and increasing the risk of numerous health problems, including obesity, diabetes, and cardiovascular disease, underscoring its importance for overall well-being.",
+    "difficulty": "Easy",
+    "tags": ["genai-2025-11", "biology", "health"]
+  },
+  {
+    "title": "The Function of the Human Immune System",
+    "type": "summarize_written_text",
+    "promptText": "The human immune system is a complex network of cells, tissues, and organs that work in concert to defend the body against pathogens, such as bacteria, viruses, and fungi. It is broadly divided into two subsystems: the innate immune system and the adaptive immune system. The innate system provides the first line of defense and is non-specific, meaning it responds to all pathogens in the same way. It includes physical barriers like the skin, as well as specialized cells like phagocytes that engulf and destroy invaders. If a pathogen breaches the innate defenses, the adaptive immune system mounts a highly specific attack. This system 'remembers' previous encounters with specific pathogens. It involves two main types of lymphocytes: B cells, which produce antibodies that target and neutralize invaders, and T cells, which can directly kill infected cells or help coordinate the immune response. This memory is the principle behind vaccination, which introduces a harmless form of a pathogen to prime the adaptive system, allowing it to mount a rapid and effective response upon future exposure to the real disease.",
+    "difficulty": "Medium",
+    "tags": ["genai-2025-11", "biology", "medicine"]
+  },
+  {
+    "title": "The Discovery of DNA Structure",
+    "type": "summarize_written_text",
+    "promptText": "The discovery of the structure of deoxyribonucleic acid (DNA) in 1953 by James Watson and Francis Crick was a landmark event in the history of science, launching the field of molecular biology. Building on the work of many other scientists, including Rosalind Franklin, whose X-ray diffraction images of DNA were crucial to the breakthrough, they proposed the now-famous double helix model. This model revealed that DNA is composed of two long strands of nucleotides coiled around each other like a twisted ladder. Each 'rung' of the ladder consists of a pair of nitrogenous bases: adenine (A) always pairs with thymine (T), and guanine (G) always pairs with cytosine (C). This specific base-pairing rule immediately suggested a mechanism for DNA replication, the process by which genetic information is copied. The two strands could unwind, and each could serve as a template for the synthesis of a new, complementary strand. This elegant structure provided a physical basis for understanding how genetic information is stored, replicated, and passed from one generation to the next, laying the foundation for our modern understanding of genetics and disease.",
+    "difficulty": "Medium",
+    "tags": ["genai-2025-11", "genetics", "history-of-science"]
+  },
+  {
+    "title": "The Principles of Machine Learning",
+    "type": "summarize_written_text",
+    "promptText": "Machine learning, a subfield of artificial intelligence, is the science of enabling computer systems to learn and improve from experience without being explicitly programmed. Instead of having rules hard-coded by a developer, a machine learning model identifies patterns in data and makes predictions or decisions based on those patterns. There are three primary categories of machine learning. In supervised learning, the model is trained on a labeled dataset, meaning each data point is tagged with the correct output. The model's goal is to learn a mapping function that can predict the output for new, unseen data, such as classifying emails as spam or not spam. In unsupervised learning, the model works with unlabeled data and tries to find hidden structures or patterns on its own, like grouping customers into distinct segments based on their purchasing behavior. The third category, reinforcement learning, involves an 'agent' that learns to make a sequence of decisions in an environment to maximize a cumulative reward. This is the approach used to train models to play games like chess or Go, or to control robotic systems.",
+    "difficulty": "Hard",
+    "tags": ["genai-2025-11", "ai", "computer-science"]
+  },
+  {
+    "title": "The Causes of Economic Inflation",
+    "type": "summarize_written_text",
+    "promptText": "Inflation is the rate at which the general level of prices for goods and services is rising, and subsequently, purchasing power is falling. There are two primary forces that drive inflation. The first is demand-pull inflation, which occurs when the total demand for goods and services in an economy exceeds the available supply. This 'too much money chasing too few goods' scenario allows producers to raise prices, knowing that consumers are willing and able to pay more. This type of inflation is often associated with strong economic growth, high employment, and increased consumer confidence. The second primary cause is cost-push inflation, which arises from an increase in the costs of production, independent of demand. This can be triggered by factors such as a rise in the price of raw materials (like oil), an increase in wages negotiated by labor unions, or new government regulations that make production more expensive. Producers pass these higher costs on to consumers in the form of higher prices to protect their profit margins. Central banks often combat inflation by raising interest rates to cool down the economy and reduce overall demand.",
+    "difficulty": "Medium",
+    "tags": ["genai-2025-11", "economics", "finance"]
+  }
+]

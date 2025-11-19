@@ -206,18 +206,18 @@ export default function AttemptController({
   }, [])
 
   // Prep expire -> transition to answering
-  const onPrepExpire = useEffectEvent(() => {
+  const onPrepExpire = useCallback(() => {
     if (phase === 'prepare') {
       setPhase('answering')
     }
-  })
+  }, [phase])
 
   // Answer expire -> auto submit
-  const onAnswerExpire = useEffectEvent(() => {
+  const onAnswerExpire = useCallback(() => {
     if (phase === 'answering') {
       void submit('auto-expire')
     }
-  })
+  }, [phase, submit])
 
   const controls = useMemo(
     () => ({

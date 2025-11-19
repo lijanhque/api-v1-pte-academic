@@ -65,11 +65,12 @@ async function DescribeImageSections({
   )
 }
 
-export default async function DescribeImagePracticePage({
-  searchParams,
-}: {
-  searchParams: Promise<Record<string, string | string[] | undefined>>
-}) {
+export default async function DescribeImagePracticePage(
+  props: {
+    searchParams: Promise<Record<string, string | string[] | undefined>>
+  }
+) {
+  const searchParams = await props.searchParams;
   const params = await searchParams
 
   return (

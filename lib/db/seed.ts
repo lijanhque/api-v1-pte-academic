@@ -332,6 +332,7 @@ export async function seedWritingQuestions(
     'lib/db/seeds/writing.write_essay.json',
     'lib/db/seeds/writing.write_essay.nov2025.json',
     'lib/db/seeds/writing.summarize_written_text.nov2025.json',
+    'lib/db/seeds/writing.summarize_written_text.genai-2025-11.json',
   ]
 
   for (const file of writingSeedFiles) {

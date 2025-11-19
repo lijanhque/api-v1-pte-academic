@@ -33,7 +33,7 @@ function capitalize(s?: string | null) {
 
 type Params = {
   params: Promise<{ section: string; questionType: string }>;
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 const S_CODE_TO_SPEAKING: Record<string, string> = {
@@ -51,11 +51,9 @@ function toKebab(v: string) {
   return v.replace(/_/g, "-");
 }
 
-export default async function PracticeListPage({
-  params,
-  searchParams,
-}: Params) {
-  const { section: rawSection, questionType } = await params;
+export default async function PracticeListPage(props: Params) {
+  const searchParams = await props.searchParams;
+  const { section: rawSection, questionType } = props.params;
   const section = (rawSection ?? "").toLowerCase();
 
   const page = Number(searchParams?.page || 1);

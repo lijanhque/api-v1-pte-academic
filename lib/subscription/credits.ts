@@ -88,7 +88,7 @@ export async function getCreditStatus(userId: string): Promise<CreditStatus> {
 /**
  * Use AI credits for scoring
  */
-export async function useAiCredit(
+export async function deductAiCredit(
   userId: string,
   count: number = 1
 ): Promise<boolean> {
@@ -216,7 +216,7 @@ export async function withCreditCheck(
   const creditsNeeded = getCreditsNeeded(questionType)
 
   if (creditsNeeded > 0) {
-    const success = await useAiCredit(userId, creditsNeeded)
+    const success = await deductAiCredit(userId, creditsNeeded)
     if (!success) {
       throw new Error('Failed to deduct AI credits')
     }

@@ -1,5 +1,4 @@
-'use client'
-
+import { countWords } from '@/lib/pte/utils'
 import React from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Label } from '@/components/ui/label'
@@ -12,11 +11,6 @@ type Props = {
   value: string
   onChange: (text: string) => void
   disabled?: boolean
-}
-
-function countWords(text: string): number {
-  if (!text) return 0
-  return text.replace(/\s+/g, ' ').trim().split(' ').filter(Boolean).length
 }
 
 function guidanceFor(type: WritingType) {

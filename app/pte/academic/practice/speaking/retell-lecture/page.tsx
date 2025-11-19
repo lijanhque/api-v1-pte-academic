@@ -65,11 +65,12 @@ async function RetellLectureSections({
   )
 }
 
-export default async function RetellLecturePracticePage({
-  searchParams,
-}: {
-  searchParams: Promise<Record<string, string | string[] | undefined>>
-}) {
+export default async function RetellLecturePracticePage(
+  props: {
+    searchParams: Promise<Record<string, string | string[] | undefined>>
+  }
+) {
+  const searchParams = await props.searchParams;
   const params = await searchParams
 
   return (

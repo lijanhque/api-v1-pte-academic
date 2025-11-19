@@ -4,7 +4,7 @@ import {
   useEffect,
   useState,
   useOptimistic,
-  useActionState,
+  useTransition,
 } from "react";
 import { Target } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
@@ -45,6 +45,7 @@ export function TargetScoreWidget({ onUpdate }: TargetScoreWidgetProps) {
   const [editValue, setEditValue] = useState('70')
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     fetchTargetScore()
@@ -65,8 +66,16 @@ export function TargetScoreWidget({ onUpdate }: TargetScoreWidgetProps) {
     }
   }
 
-  const [saveState, saveAction, isPending] = useActionState(
-    async (prevState, score: number) => {
+  const handleSave = () => {
+    const score = parseInt(editValue);
+    setError("");
+
+    if (isNaN(score) || score < 30 || score > 90) {
+      setError("Score must be between 30 and 90");
+      return;
+    }
+
+    startTransition(async () => {
       const oldTargetScore = targetScore;
       addOptimisticTargetScore(score);
       try {
@@ -85,25 +94,11 @@ export function TargetScoreWidget({ onUpdate }: TargetScoreWidgetProps) {
         setSuccess(true);
         setTimeout(() => setSuccess(false), 3000);
         onUpdate?.(score);
-        return { ...prevState, error: null };
       } catch (error) {
         addOptimisticTargetScore(oldTargetScore);
-        return { ...prevState, error: "Failed to save target score" };
+        setError("Failed to save target score");
       }
-    },
-    { error: null }
-  );
-
-  const handleSave = () => {
-    const score = parseInt(editValue);
-    setError("");
-
-    if (isNaN(score) || score < 30 || score > 90) {
-      setError("Score must be between 30 and 90");
-      return;
-    }
-
-    saveAction(score);
+    });
   };
 
   const cefrLevel = getCEFRLevel(displayTargetScore);
@@ -160,7 +155,7 @@ export function TargetScoreWidget({ onUpdate }: TargetScoreWidgetProps) {
               </div>
             </div>
 
-            {(error || saveState.error) && (
+            {error && (
               <div
                 className="rounded bg-red-50 p-2 text-sm text-red-600"
                 role="alert"

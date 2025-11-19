@@ -68,11 +68,12 @@ async function QuestionsSections({
   )
 }
 
-export default async function SummarizeWrittenTextPage({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParams>
-}) {
+export default async function SummarizeWrittenTextPage(
+  props: {
+    searchParams: Promise<SearchParams>
+  }
+) {
+  const searchParams = await props.searchParams;
   const resolvedSearchParams = await searchParams
   return (
     <>
