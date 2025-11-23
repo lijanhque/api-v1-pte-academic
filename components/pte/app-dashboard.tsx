@@ -48,31 +48,31 @@ import { cn } from '@/lib/utils'
 const studyGuides = [
   {
     id: 1,
-    title: 'Using Podcasts to Improve Your PTE Listening Score',
+    title: 'PTE Read Aloud: Tips & Tricks',
     date: 'October 26, 2025',
-    image: 'https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg',
-    url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    image: 'https://img.youtube.com/vi/1N2KOt4mHwE/mqdefault.jpg',
+    url: 'https://www.youtube.com/watch?v=1N2KOt4mHwE',
   },
   {
     id: 2,
-    title: 'How to Use Note-taking Techniques for PTE Success',
+    title: 'Master Repeat Sentence',
     date: 'October 26, 2025',
-    image: 'https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg',
-    url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    image: 'https://img.youtube.com/vi/tL0sRPdpNN4/mqdefault.jpg',
+    url: 'https://www.youtube.com/watch?v=tL0sRPdpNN4',
   },
   {
     id: 3,
-    title: 'A Practical Guide to Using the Official PTE Collocation List',
+    title: 'Describe Image Strategies',
     date: 'October 26, 2025',
-    image: 'https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg',
-    url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    image: 'https://img.youtube.com/vi/_jNUTdyemgs/mqdefault.jpg',
+    url: 'https://www.youtube.com/watch?v=_jNUTdyemgs',
   },
   {
     id: 4,
-    title: 'New PTE Academic Summarize Group Discussion Guide',
+    title: 'Retell Lecture Guide',
     date: 'July 20, 2025',
-    image: 'https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg',
-    url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    image: 'https://img.youtube.com/vi/6jTPfOtfXNA/mqdefault.jpg',
+    url: 'https://www.youtube.com/watch?v=6jTPfOtfXNA',
   },
 ]
 
@@ -101,9 +101,10 @@ export function PTEDashboard() {
 
   const fetchData = useCallback(async () => {
     try {
-      const [userRes, examRes] = await Promise.all([
+      const [userRes, examRes, statsRes] = await Promise.all([
         fetch('/api/user'),
         fetch('/api/user/exam-dates'),
+        fetch('/api/dashboard/feature-stats'),
       ])
 
       const userData = await userRes.json()
@@ -121,6 +122,16 @@ export function PTEDashboard() {
         }
       } else {
         setExamDate(null)
+      }
+
+      const statsData = await statsRes.json()
+      if (Array.isArray(statsData)) {
+        const mappedChartData = statsData.map((item: any) => ({
+          name: item.name,
+          score: item.value,
+          color: item.name === 'Speaking' ? '#3b82f6' : '#10b981', // Blue for Speaking, Green for Writing
+        }))
+        setChartData(mappedChartData)
       }
     } catch (error) {
       console.error('Failed to fetch data', error)

@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  # Next.js Frontend
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_MOTIA_BACKEND_URL=http://backend:3001
+      - DATABASE_URL=${DATABASE_URL}
+      - GOOGLE_GENERATIVE_AI_API_KEY=${GOOGLE_GENERATIVE_AI_API_KEY}
+    depends_on:
+      - backend
+    networks:
+      - pte-network
+
+  # Motia Backend
+  backend:
+    build:
+      context: ./motia-backend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - GOOGLE_GENERATIVE_AI_API_KEY=${GOOGLE_GENERATIVE_AI_API_KEY}
+      - MOTIA_API_KEY=${MOTIA_API_KEY}
+      - PORT=3001
+      - NODE_ENV=production
+    networks:
+      - pte-network
+
+networks:
+  pte-network:
+    driver: bridge

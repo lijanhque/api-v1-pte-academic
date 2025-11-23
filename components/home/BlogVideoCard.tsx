@@ -9,7 +9,7 @@ export default function BlogVideoCard() {
             <div className="relative overflow-hidden rounded-2xl">
               <iframe
                 className="w-full aspect-video"
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0"
+                src="https://www.youtube.com/embed/1N2KOt4mHwE?rel=0"
                 title="PTE Strategy Overview"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen

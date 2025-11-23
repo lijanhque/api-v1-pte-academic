@@ -1,305 +1,61 @@
-'use client'
+import { Suspense } from 'react'
+import Link from 'next/link'
+import { CommunityBoard, CommunityBoardSkeleton } from '@/components/pte/community/community-board'
+import { AcademicPracticeHeader } from '@/components/pte/practice-header'
+import { getAllAttempts, getCommunityStats, SpeakingType } from '@/lib/actions/community'
 
-import { useState } from 'react'
-import {
-  Bookmark,
-  Hash,
-  Heart,
-  MessageCircle,
-  Share2,
-  TrendingUp,
-  Users,
-} from 'lucide-react'
+export const metadata = {
+  title: 'Community - Pedagogists PTE',
+  description: 'Listen to speaking attempts from the community',
+}
 
-const mockPosts = [
-  {
-    id: 1,
-    author: {
-      name: 'Sarah Johnson',
-      avatar: 'SJ',
-      score: 85,
-      level: 'Advanced',
-    },
-    content:
-      'Just completed my first mock test! Got 75 overall. Any tips for improving my speaking score? 🎯',
-    timestamp: '2 hours ago',
-    likes: 24,
-    comments: 8,
-    tags: ['speaking', 'tips', 'mock-test'],
-  },
-  {
-    id: 2,
-    author: {
-      name: 'Michael Chen',
-      avatar: 'MC',
-      score: 79,
-      level: 'Advanced',
-    },
-    content:
-      'Sharing my template for "Describe Image" questions. This helped me improve from 60 to 80! The introduction is key - always start with "The image illustrates..." 📊',
-    timestamp: '5 hours ago',
-    likes: 156,
-    comments: 32,
-    tags: ['templates', 'speaking', 'describe-image'],
-    isPopular: true,
-  },
-  {
-    id: 3,
-    author: {
-      name: 'Priya Sharma',
-      avatar: 'PS',
-      score: 90,
-      level: 'Expert',
-    },
-    content:
-      'Finally achieved my target score of 90! Thank you all for the support. Happy to answer questions about reading section! 🎉',
-    timestamp: '1 day ago',
-    likes: 342,
-    comments: 67,
-    tags: ['success-story', 'reading', 'motivation'],
-    isPopular: true,
-  },
-]
+export default async function CommunityPage({
+  searchParams,
+}: {
+  searchParams: { page?: string; type?: string; sort?: string }
+}) {
+  const params = await searchParams
+  const page = parseInt(params.page || '1')
+  const type = params.type as SpeakingType | undefined
+  const sortBy = (params.sort || 'recent') as 'recent' | 'top_score'
 
-const trendingTopics = [
-  { tag: 'speaking-tips', posts: 234 },
-  { tag: 'essay-templates', posts: 189 },
-  { tag: 'mock-test-review', posts: 156 },
-  { tag: 'listening-practice', posts: 143 },
-  { tag: 'success-stories', posts: 98 },
-]
-
-const topContributors = [
-  { name: 'Alex Kumar', posts: 45, helpful: 234 },
-  { name: 'Emma Watson', posts: 38, helpful: 198 },
-  { name: 'David Lee', posts: 32, helpful: 176 },
-]
-
-export default function CommunityPage() {
-  const [activeTab, setActiveTab] = useState<'feed' | 'trending' | 'following'>(
-    'feed'
-  )
+  const [attemptsData, stats] = await Promise.all([
+    getAllAttempts({ page, type, sortBy, limit: 20 }),
+    getCommunityStats(),
+  ])
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold">PTE Community</h1>
-        <p className="text-muted-foreground mt-2">
-          Connect with fellow PTE learners, share tips, and grow together
-        </p>
-      </div>
+    <div className="min-h-screen bg-background">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        {/* Header */}
+        <AcademicPracticeHeader section="speaking" showFilters={false} />
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        {/* Main Feed */}
-        <div className="space-y-6 lg:col-span-2">
-          {/* Create Post */}
-          <div className="bg-card rounded-lg border p-4">
-            <div className="flex gap-3">
-              <div className="bg-primary text-primary-foreground flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold">
-                YOU
-              </div>
-              <div className="flex-1">
-                <input
-                  type="text"
-                  placeholder="Share your PTE journey, tips, or questions..."
-                  className="bg-background focus:ring-primary w-full rounded-lg border px-4 py-3 text-sm focus:ring-2 focus:outline-none"
-                />
-                <div className="mt-3 flex items-center justify-between">
-                  <div className="flex gap-2">
-                    <button className="text-muted-foreground hover:bg-accent rounded-md px-3 py-1.5 text-xs font-medium">
-                      📷 Photo
-                    </button>
-                    <button className="text-muted-foreground hover:bg-accent rounded-md px-3 py-1.5 text-xs font-medium">
-                      🎯 Poll
-                    </button>
-                    <button className="text-muted-foreground hover:bg-accent rounded-md px-3 py-1.5 text-xs font-medium">
-                      #️⃣ Tag
-                    </button>
-                  </div>
-                  <button className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-4 py-1.5 text-sm font-medium">
-                    Post
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+        {/* Breadcrumbs */}
+        <nav className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
+          <Link href="/pte" className="hover:text-primary">
+            PTE
+          </Link>
+          <span>/</span>
+          <Link href="/pte/academic/practice" className="hover:text-primary">
+            Practice
+          </Link>
+          <span>/</span>
+          <span className="text-foreground font-medium">Community</span>
+        </nav>
 
-          {/* Tabs */}
-          <div className="flex gap-2 border-b">
-            <button
-              onClick={() => setActiveTab('feed')}
-              className={`px-4 py-2 text-sm font-medium transition-colors ${
-                activeTab === 'feed'
-                  ? 'border-primary text-primary border-b-2'
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              Latest
-            </button>
-            <button
-              onClick={() => setActiveTab('trending')}
-              className={`px-4 py-2 text-sm font-medium transition-colors ${
-                activeTab === 'trending'
-                  ? 'border-primary text-primary border-b-2'
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              Trending
-            </button>
-            <button
-              onClick={() => setActiveTab('following')}
-              className={`px-4 py-2 text-sm font-medium transition-colors ${
-                activeTab === 'following'
-                  ? 'border-primary text-primary border-b-2'
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              Following
-            </button>
-          </div>
-
-          {/* Posts Feed */}
-          <div className="space-y-4">
-            {mockPosts.map((post) => (
-              <div
-                key={post.id}
-                className="bg-card rounded-lg border p-6 transition-shadow hover:shadow-md"
-              >
-                {/* Post Header */}
-                <div className="mb-4 flex items-start justify-between">
-                  <div className="flex gap-3">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600 text-sm font-bold text-white">
-                      {post.author.avatar}
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <h4 className="font-semibold">{post.author.name}</h4>
-                        <span className="bg-primary/10 text-primary rounded-full px-2 py-0.5 text-xs font-medium">
-                          {post.author.level}
-                        </span>
-                        {post.isPopular && (
-                          <TrendingUp className="h-4 w-4 text-orange-500" />
-                        )}
-                      </div>
-                      <div className="text-muted-foreground flex items-center gap-2 text-xs">
-                        <span>Score: {post.author.score}</span>
-                        <span>•</span>
-                        <span>{post.timestamp}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <button className="text-muted-foreground hover:text-foreground">
-                    <Bookmark className="h-5 w-5" />
-                  </button>
-                </div>
-
-                {/* Post Content */}
-                <p className="mb-4 text-sm leading-relaxed">{post.content}</p>
-
-                {/* Tags */}
-                <div className="mb-4 flex flex-wrap gap-2">
-                  {post.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="bg-secondary inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium"
-                    >
-                      <Hash className="h-3 w-3" />
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Post Actions */}
-                <div className="flex items-center gap-6 border-t pt-4">
-                  <button className="text-muted-foreground flex items-center gap-2 text-sm transition-colors hover:text-red-500">
-                    <Heart className="h-5 w-5" />
-                    <span>{post.likes}</span>
-                  </button>
-                  <button className="text-muted-foreground flex items-center gap-2 text-sm transition-colors hover:text-blue-500">
-                    <MessageCircle className="h-5 w-5" />
-                    <span>{post.comments}</span>
-                  </button>
-                  <button className="text-muted-foreground flex items-center gap-2 text-sm transition-colors hover:text-green-500">
-                    <Share2 className="h-5 w-5" />
-                    <span>Share</span>
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
+        {/* Page Title */}
+        <div className="mt-6 space-y-2">
+          <h1 className="text-3xl font-bold">Community Board</h1>
+          <p className="text-muted-foreground">
+            Listen to speaking attempts from other learners and improve your skills
+          </p>
         </div>
 
-        {/* Sidebar */}
-        <div className="space-y-6">
-          {/* Trending Topics */}
-          <div className="bg-card rounded-lg border p-6">
-            <h3 className="mb-4 flex items-center gap-2 font-semibold">
-              <TrendingUp className="h-5 w-5 text-orange-500" />
-              Trending Topics
-            </h3>
-            <div className="space-y-3">
-              {trendingTopics.map((topic, index) => (
-                <button
-                  key={topic.tag}
-                  className="hover:bg-accent flex w-full items-center justify-between rounded-lg p-2 text-left transition-colors"
-                >
-                  <div className="flex items-center gap-2">
-                    <span className="text-muted-foreground text-xs font-bold">
-                      {index + 1}
-                    </span>
-                    <div>
-                      <p className="text-sm font-medium">#{topic.tag}</p>
-                      <p className="text-muted-foreground text-xs">
-                        {topic.posts} posts
-                      </p>
-                    </div>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Top Contributors */}
-          <div className="bg-card rounded-lg border p-6">
-            <h3 className="mb-4 flex items-center gap-2 font-semibold">
-              <Users className="h-5 w-5 text-blue-500" />
-              Top Contributors
-            </h3>
-            <div className="space-y-3">
-              {topContributors.map((user, index) => (
-                <div
-                  key={user.name}
-                  className="hover:bg-accent flex items-center gap-3 rounded-lg p-2 transition-colors"
-                >
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600 text-xs font-bold text-white">
-                    {index + 1}
-                  </span>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium">{user.name}</p>
-                    <p className="text-muted-foreground text-xs">
-                      {user.posts} posts • {user.helpful} helpful
-                    </p>
-                  </div>
-                  <button className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-3 py-1 text-xs font-medium">
-                    Follow
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Community Guidelines */}
-          <div className="bg-card rounded-lg border p-6">
-            <h3 className="mb-4 font-semibold">Community Guidelines</h3>
-            <ul className="text-muted-foreground space-y-2 text-xs">
-              <li>✅ Be respectful and supportive</li>
-              <li>✅ Share helpful tips and experiences</li>
-              <li>✅ Ask questions and help others</li>
-              <li>❌ No spam or self-promotion</li>
-              <li>❌ No offensive language</li>
-            </ul>
-          </div>
+        {/* Board */}
+        <div className="mt-8">
+          <Suspense fallback={<CommunityBoardSkeleton />}>
+            <CommunityBoard initialData={attemptsData} stats={stats} />
+          </Suspense>
         </div>
       </div>
     </div>

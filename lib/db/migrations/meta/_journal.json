@@ -71,6 +71,13 @@
       "when": 1763465679265,
       "tag": "0009_lonely_ken_ellis",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1763850222930,
+      "tag": "0010_wealthy_mimic",
+      "breakpoints": true
     }
   ]
 }

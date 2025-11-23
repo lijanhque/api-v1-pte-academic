@@ -456,11 +456,22 @@ export const speakingQuestions = pgTable(
     title: text('title').notNull(),
     promptText: text('prompt_text'),
     promptMediaUrl: text('prompt_media_url'),
+    // Reference audio/video URLs for native speaker pronunciation
+    referenceAudioUrlUS: text('reference_audio_url_us'), // US English speaker
+    referenceAudioUrlUK: text('reference_audio_url_uk'), // UK English speaker
+    // Question metadata
+    appearanceCount: integer('appearance_count').default(0), // Times appeared in real exams
+    externalId: text('external_id'), // ID from external source (e.g., OnePTE)
+    metadata: jsonb('metadata'), // Additional data (timing, prep time, answer time, etc.)
     difficulty: difficultyEnum('difficulty').notNull().default('Medium'),
     tags: jsonb('tags').default(sql`'[]'::jsonb`),
     isActive: boolean('is_active').notNull().default(true),
     bookmarked: boolean('bookmarked').default(false).notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at')
+      .defaultNow()
+      .$onUpdate(() => new Date())
+      .notNull(),
   },
   (table) => ({
     idxType: index('idx_speaking_questions_type').on(table.type),
@@ -469,6 +480,7 @@ export const speakingQuestions = pgTable(
       'gin',
       table.tags
     ),
+    idxExternalId: index('idx_speaking_questions_external_id').on(table.externalId),
   })
 )
 

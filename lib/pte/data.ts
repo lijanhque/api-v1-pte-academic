@@ -1,9 +1,13 @@
+import { ASSETS } from "@/lib/assets";
+
+const ICON_BASE_URL = ASSETS.ICONS.BASE_URL;
+
 export const initialCategories = [
   {
     id: 1,
     title: 'Speaking',
     description: 'Speak Better',
-    icon: 'https://sgp1.digitaloceanspaces.com/liilab/quizbit/media/icons/ic-speaking.png',
+    icon: `${ICON_BASE_URL}/ic-speaking.png`,
     code: 'speaking',
     scoring_type: 'auto',
     short_name: '',
@@ -19,7 +23,7 @@ export const initialCategories = [
     title: 'Read Aloud',
     description:
       'Please examine the text provided below. You are required to read it out loud as naturally as you can. Remember, you only have 40 seconds to complete this task.',
-    icon: 'https://sgp1.digitaloceanspaces.com/liilab/quizbit/media/icons/s_read_aloud_production.png',
+    icon: `${ICON_BASE_URL}/s_read_aloud_production.png`,
     code: 's_read_aloud',
     scoring_type: 'ai',
     short_name: 'RA',
@@ -35,7 +39,7 @@ export const initialCategories = [
     title: 'Repeat Sentence',
     description:
       "You're about to hear a sentence. Please repeat it exactly as you hear it. Keep in mind, you will only hear the sentence one time.",
-    icon: 'https://sgp1.digitaloceanspaces.com/liilab/quizbit/media/icons/s_repeat_sentence_production.png',
+    icon: `${ICON_BASE_URL}/s_repeat_sentence_production.png`,
     code: 's_repeat_sentence',
     scoring_type: 'ai',
     short_name: 'RS',
@@ -51,7 +55,7 @@ export const initialCategories = [
     title: 'Describe Image',
     description:
       "Please examine the image provided below. You have 25 seconds to prepare, then speak into the microphone and describe in detail what you see in the image. Remember, you'll have 40 seconds to give your complete response.",
-    icon: 'https://sgp1.digitaloceanspaces.com/liilab/quizbit/media/icons/s_describe_image_production.png',
+    icon: `${ICON_BASE_URL}/s_describe_image_production.png`,
     code: 's_describe_image',
     scoring_type: 'ai',
     short_name: 'DI',
@@ -67,7 +71,7 @@ export const initialCategories = [
     title: 'Retell Lecture',
     description:
       "You're going to hear a lecture. After listening to it, you'll have 10 seconds to prepare. Then, please speak into the microphone and summarise what you've just heard from the lecture in your own words. Remember, you'll have 40 seconds to provide your response.",
-    icon: 'https://sgp1.digitaloceanspaces.com/liilab/quizbit/media/icons/s_retell_lecture_production.png',
+    icon: `${ICON_BASE_URL}/s_retell_lecture_production.png`,
     code: 's_retell_lecture',
     scoring_type: 'ai',
     short_name: 'RL',
@@ -83,7 +87,7 @@ export const initialCategories = [
     title: 'Answer Short Question',
     description:
       "You're about to hear a question. Please provide a concise and simple answer. In many cases, just one or a few words will suffice.",
-    icon: 'https://sgp1.digitaloceanspaces.com/liilab/quizbit/media/icons/s_short_question_production.png',
+    icon: `${ICON_BASE_URL}/s_short_question_production.png`,
     code: 's_short_question',
     scoring_type: 'ai',
     short_name: 'ASQ',
@@ -98,7 +102,7 @@ export const initialCategories = [
     id: 7,
     title: 'Writing',
     description: 'Write Smarter',
-    icon: 'https://sgp1.digitaloceanspaces.com/liilab/quizbit/media/icons/ic-writing.png',
+    icon: `${ICON_BASE_URL}/ic-writing.png`,
     code: 'writing',
     scoring_type: 'auto',
     short_name: '',
@@ -114,7 +118,7 @@ export const initialCategories = [
     title: 'Summarize Written Text',
     description:
       'Please read the passage below and summarize it using only one sentence. Type your response in a box at the bottom of the screen. Remember, you have 10 minutes to complete this task. Your response will be evaluated based on the quality of your writing and how effectively you have captured the key points from the passage.',
-    icon: 'https://sgp1.digitaloceanspaces.com/liilab/quizbit/media/icons/w_summarize_text_production.png',
+    icon: `${ICON_BASE_URL}/w_summarize_text_production.png`,
     code: 'w_summarize_text',
     scoring_type: 'ai',
     short_name: 'SWT',
@@ -130,7 +134,7 @@ export const initialCategories = [
     title: 'Essay',
     description:
       'For the following topic you are expected to compose a comprehensive and well-structured essay. Your essay should demonstrate your understanding of the topic, provide arguments or viewpoints, and conclude in a meaningful way. The quality of your writing, coherence of ideas, and validity of your arguments will contribute to your final score.',
-    icon: 'https://sgp1.digitaloceanspaces.com/liilab/quizbit/media/icons/w_essay_production.png',
+    icon: `${ICON_BASE_URL}/w_essay_production.png`,
     code: 'w_essay',
     scoring_type: 'ai',
     short_name: 'WE',
@@ -145,7 +149,7 @@ export const initialCategories = [
     id: 10,
     title: 'Reading',
     description: 'Quick Feedback',
-    icon: 'https://sgp1.digitaloceanspaces.com/liilab/quizbit/media/icons/ic-reading.png',
+    icon: `${ICON_BASE_URL}/ic-reading.png`,
     code: 'reading',
     scoring_type: 'auto',
     short_name: '',
@@ -161,7 +165,7 @@ export const initialCategories = [
     title: 'Fill in the Blanks (Dropdown)',
     description:
       'There are a few words missing in the text below. Please select the correct word from the drop-down box to fill in the gaps.',
-    icon: 'https://sgp1.digitaloceanspaces.com/liilab/quizbit/media/icons/rw_fib_production.png',
+    icon: `${ICON_BASE_URL}/rw_fib_production.png`,
     code: 'rw_fib',
     scoring_type: 'auto',
     short_name: 'FIB-RW',
@@ -177,7 +181,7 @@ export const initialCategories = [
     title: 'MC Multiple Answers (Reading)',
     description:
       'Please read the text and answer the multiple-choice question by selecting the right answer. Keep in mind that there is more than one correct response.',
-    icon: 'https://sgp1.digitaloceanspaces.com/liilab/quizbit/media/icons/r_mcq_multiple_production.png',
+    icon: `${ICON_BASE_URL}/r_mcq_multiple_production.png`,
     code: 'r_mcq_multiple',
     scoring_type: 'auto',
     short_name: 'MCM-R',
@@ -193,7 +197,7 @@ export const initialCategories = [
     title: 'Re-order Paragraphs',
     description:
       'The order of the paragraphs below is incorrect. Please drag the paragraphs to rearrange them in the correct sequence.',
-    icon: 'https://sgp1.digitaloceanspaces.com/liilab/quizbit/media/icons/r_reorder_paragraphs_production.png',
+    icon: `${ICON_BASE_URL}/r_reorder_paragraphs_production.png`,
     code: 'r_reorder_paragraphs',
     scoring_type: 'auto',
     short_name: 'RO',
@@ -209,7 +213,7 @@ export const initialCategories = [
     title: 'Fill in the Blanks (Drag & Drop)',
     description:
       'There are a few words missing in the text below. Please select the correct word from the dropdown box to fill in the gaps.',
-    icon: 'https://sgp1.digitaloceanspaces.com/liilab/quizbit/media/icons/r_fib_production.png',
+    icon: `${ICON_BASE_URL}/r_fib_production.png`,
     code: 'r_fib',
     scoring_type: 'auto',
     short_name: 'FIB-R',
@@ -225,7 +229,7 @@ export const initialCategories = [
     title: 'MC Single Answers (Reading)',
     description:
       'Please read the text and answer the multiple-choice question by selecting the right answer. Keep in mind, only one of the responses is correct.',
-    icon: 'https://sgp1.digitaloceanspaces.com/liilab/quizbit/media/icons/r_mcq_single_production.png',
+    icon: `${ICON_BASE_URL}/r_mcq_single_production.png`,
     code: 'r_mcq_single',
     scoring_type: 'auto',
     short_name: 'MCS-R',
@@ -240,7 +244,7 @@ export const initialCategories = [
     id: 16,
     title: 'Listening',
     description: 'Improve Listening',
-    icon: 'https://sgp1.digitaloceanspaces.com/liilab/quizbit/media/icons/ic-listening.png',
+    icon: `${ICON_BASE_URL}/ic-listening.png`,
     code: 'listening',
     scoring_type: 'auto',
     short_name: '',
@@ -256,7 +260,7 @@ export const initialCategories = [
     title: 'Summarize Spoken Text',
     description:
       "You're about to hear a brief report. Your task is to write a summary for a fellow student who was absent. Your summary should be between 50-70 words. Remember, you have 10 minutes to accomplish this task. Your response will be graded based on the quality of your writing and how effectively you communicate the key points from the lecture.",
-    icon: 'https://sgp1.digitaloceanspaces.com/liilab/quizbit/media/icons/l_summarize_text_production.png',
+    icon: `${ICON_BASE_URL}/l_summarize_text_production.png`,
     code: 'l_summarize_text',
     scoring_type: 'ai',
     short_name: 'SST',
@@ -272,7 +276,7 @@ export const initialCategories = [
     title: 'MC Multiple Answers (Listening)',
     description:
       'Please listen to the recording and answer the question by choosing the right answers. Remember, more than one option will be correct for this question.',
-    icon: 'https://sgp1.digitaloceanspaces.com/liilab/quizbit/media/icons/l_mcq_multiple_production.png',
+    icon: `${ICON_BASE_URL}/l_mcq_multiple_production.png`,
     code: 'l_mcq_multiple',
     scoring_type: 'auto',
     short_name: 'MCM-L',
@@ -288,7 +292,7 @@ export const initialCategories = [
     title: 'Fill in the Blanks (Listening)',
     description:
       "You're about to hear a recording. Please listen carefully and type the missing words into each blank provided.",
-    icon: 'https://sgp1.digitaloceanspaces.com/liilab/quizbit/media/icons/l_fib_production.png',
+    icon: `${ICON_BASE_URL}/l_fib_production.png`,
     code: 'l_fib',
     scoring_type: 'auto',
     short_name: 'FIB-L',
@@ -304,9 +308,9 @@ export const initialCategories = [
     title: 'Highlight Correct Summary',
     description:
       'You will hear a recording. Please click on the paragraph that best corresponds to the content of the recording.',
-    icon: 'https://sgp1.digitaloceanspaces.com/liilab/quizbit/media/icons/l_highlight_correct_summary_production.png',
+    icon: `${ICON_BASE_URL}/l_highlight_correct_summary_production.png`,
     code: 'l_highlight_correct_summary',
-    scoring_type: 'auto',
+    scoring_type: 'ai',
     short_name: 'HCS',
     first_question_id: 31541,
     color: '#A866E2',
@@ -320,7 +324,7 @@ export const initialCategories = [
     title: 'MC Single Answer Listening',
     description:
       'Please listen to the recording and answer the question by selecting the correct answer. Keep in mind, only one of the responses is correct.',
-    icon: 'https://sgp1.digitaloceanspaces.com/liilab/quizbit/media/icons/l_mcq_single_production.png',
+    icon: `${ICON_BASE_URL}/l_mcq_single_production.png`,
     code: 'l_mcq_single',
     scoring_type: 'auto',
     short_name: 'MCS-L',
@@ -336,7 +340,7 @@ export const initialCategories = [
     title: 'Select Missing Word',
     description:
       "You're about to hear a recording about fiction writing. The last word or group of words has been replaced by a beep. Please select the correct option to complete the sentence from the recording.",
-    icon: 'https://sgp1.digitaloceanspaces.com/liilab/quizbit/media/icons/l_select_missing_word_production.png',
+    icon: `${ICON_BASE_URL}/l_select_missing_word_production.png`,
     code: 'l_select_missing_word',
     scoring_type: 'auto',
     short_name: 'SMW',
@@ -352,7 +356,7 @@ export const initialCategories = [
     title: 'Highlight Incorrect Words',
     description:
       "You're about to hear a recording. Below it, you'll find a transcription of the recording. Please note, some words in the transcription may differ from what the speaker said. Your task is to identify and click on the words that are different.",
-    icon: 'https://sgp1.digitaloceanspaces.com/liilab/quizbit/media/icons/l_highlight_incorrect_words_production.png',
+    icon: `${ICON_BASE_URL}/l_highlight_incorrect_words_production.png`,
     code: 'l_highlight_incorrect_words',
     scoring_type: 'auto',
     short_name: 'HIW',
@@ -368,7 +372,7 @@ export const initialCategories = [
     title: 'Write from Dictation',
     description:
       'You will hear a sentence. Listen carefully and write down exactly what you hear. The sentence will be played only once. Accuracy is key in this task. Ensure proper spelling, grammar, and punctuation in your transcription.',
-    icon: 'https://sgp1.digitaloceanspaces.com/liilab/quizbit/media/icons/l_write_from_dictation_production.png',
+    icon: `${ICON_BASE_URL}/l_write_from_dictation_production.png`,
     code: 'l_write_from_dictation',
     scoring_type: 'auto',
     short_name: 'WFD',
@@ -384,7 +388,7 @@ export const initialCategories = [
     title: '[New] Respond to a Situation',
     description:
       'Listen to and read a description of a situation. You will have 10 seconds to think about your answer. Then you will hear a beep. You will have 40 seconds to answer the question. Please answer as completely as you can.',
-    icon: 'https://sgp1.digitaloceanspaces.com/liilab/quizbit/media/icons/respond_to_a_situation_academic.png',
+    icon: `${ICON_BASE_URL}/respond_to_a_situation_academic.png`,
     code: 's_respond_situation_academic',
     scoring_type: 'ai',
     short_name: 'RTS-A',
@@ -400,7 +404,7 @@ export const initialCategories = [
     title: '[New] Summarize Group Discussion',
     description:
       'You will hear three people having a discussion. When you hear the beep, summarize the whole discussion. You will have 10 seconds to prepare and 2 minutes to give your response.',
-    icon: 'https://sgp1.digitaloceanspaces.com/liilab/quizbit/media/icons/summarize_group_discussion.png',
+    icon: `${ICON_BASE_URL}/summarize_group_discussion.png`,
     code: 's_summarize_group_discussion',
     scoring_type: 'ai',
     short_name: 'SGD',

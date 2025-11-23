@@ -1,178 +1,246 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
-import { Mic, Square, Play, Volume2, AlertCircle } from 'lucide-react'
-import { useAudioRecorder } from '../hooks/use-audio-recorder'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Progress } from '@/components/ui/progress'
+import { Badge } from '@/components/ui/badge'
+import { Mic, Square, Volume2, RotateCcw, CheckCircle, Loader2, AlertCircle, Clock } from 'lucide-react'
 import { submitAttempt } from '@/lib/actions/pte'
+import { useToast } from '@/hooks/use-toast'
 import { ScoreDetailsModal } from './score-details-modal'
 import { ScoringProgressModal } from './scoring-progress-modal'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { motion } from 'framer-motion'
-import { useServerAction } from '@/hooks/use-server-action'
 
 interface ReadAloudProps {
-    question: {
-        id: string
-        title: string
-        promptText: string
-        difficulty: string
-    }
+    question: any
 }
 
+type Phase = 'idle' | 'preparing' | 'beep' | 'recording' | 'finished' | 'submitting' | 'scored'
+
 export function ReadAloud({ question }: ReadAloudProps) {
-    const [stage, setStage] = useState<'idle' | 'preparing' | 'recording' | 'processing' | 'complete'>('idle')
-    const [prepTime, setPrepTime] = useState(30)
-    const [transcript, setTranscript] = useState('')
-    const [score, setScore] = useState<any>(null)
-    const [isScoreModalOpen, setIsScoreModalOpen] = useState(false)
-    const [isScoringModalOpen, setIsScoringModalOpen] = useState(false)
-    const [error, setError] = useState<string | null>(null)
+    const [phase, setPhase] = useState<Phase>('idle')
+    const [timeLeft, setTimeLeft] = useState(30) // Preparation time
+    const [recordingTime, setRecordingTime] = useState(0)
+    const [totalTime, setTotalTime] = useState(0)
+    const [audioBlob, setAudioBlob] = useState<Blob | null>(null)
     const [audioUrl, setAudioUrl] = useState<string | null>(null)
-    const [totalTime, setTotalTime] = useState(0) // For display timer
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const [isScoringModalOpen, setIsScoringModalOpen] = useState(false)
+    const [isScoreModalOpen, setIsScoreModalOpen] = useState(false)
+    const [result, setResult] = useState<any>(null)
 
-    const {
-        isRecording,
-        recordingTime,
-        audioBlob,
-        error: recorderError,
-        startRecording,
-        stopRecording,
-        resetRecording,
-        playBeep,
-    } = useAudioRecorder({
-        maxDuration: 40000,
-        onRecordingComplete: handleRecordingComplete,
-    })
+    const mediaRecorderRef = useRef<MediaRecorder | null>(null)
+    const chunksRef = useRef<Blob[]>([])
+    const timerRef = useRef<NodeJS.Timeout | null>(null)
+    const totalTimerRef = useRef<NodeJS.Timeout | null>(null)
+    const beepAudioRef = useRef<HTMLAudioElement | null>(null)
+    const { toast } = useToast()
 
-    const { execute: submit, isPending: isSubmitting, error: submitError, data: scoreData } = useServerAction(submitAttempt)
+    // Preparation and recording times
+    const PREP_TIME = 30
+    const RECORDING_TIME = 40
 
     useEffect(() => {
-        if (scoreData) {
-            setIsScoringModalOpen(false)
-            setScore(scoreData.score)
-            setStage('complete')
-            setIsScoreModalOpen(true)
-        }
-    }, [scoreData])
+        // Create beep sound
+        const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
 
-    useEffect(() => {
-        if (submitError) {
-            setIsScoringModalOpen(false)
-            setError(submitError)
-            setStage('idle')
-        }
-    }, [submitError])
+        beepAudioRef.current = {
+            play: () => {
+                const osc = audioContext.createOscillator()
+                const gain = audioContext.createGain()
+                osc.connect(gain)
+                gain.connect(audioContext.destination)
+                osc.frequency.value = 800
+                osc.type = 'sine'
+                gain.gain.value = 0.3
+                osc.start()
+                osc.stop(audioContext.currentTime + 0.2)
+            }
+        } as any
 
-    // Show scoring modal when processing
-    useEffect(() => {
-        if (stage === 'processing') {
-            setIsScoringModalOpen(true)
+        return () => {
+            if (timerRef.current) clearInterval(timerRef.current)
+            if (totalTimerRef.current) clearInterval(totalTimerRef.current)
         }
-    }, [stage])
-
-    const handleStartRecording = useCallback(async () => {
-        playBeep()
-        setStage('recording')
-        await startRecording()
-    }, [startRecording, playBeep])
-
-    // Prep timer
-    useEffect(() => {
-        if (stage === 'preparing' && prepTime > 0) {
-            const timer = setTimeout(() => setPrepTime((t) => t - 1), 1000)
-            return () => clearTimeout(timer)
-        } else if (stage === 'preparing' && prepTime === 0) {
-            handleStartRecording()
-        }
-    }, [stage, prepTime, handleStartRecording])
+    }, [])
 
     // Total timer effect
     useEffect(() => {
-        if (stage === 'preparing' || stage === 'recording') {
-            const timer = setInterval(() => setTotalTime((t) => t + 1), 1000)
-            return () => clearInterval(timer)
+        if (phase === 'preparing' || phase === 'recording') {
+            totalTimerRef.current = setInterval(() => {
+                setTotalTime((t) => t + 1)
+            }, 1000)
+        } else {
+            if (totalTimerRef.current) clearInterval(totalTimerRef.current)
         }
-    }, [stage])
 
-    const handleBegin = () => {
-        setStage('preparing')
-        setPrepTime(30)
+        return () => {
+            if (totalTimerRef.current) clearInterval(totalTimerRef.current)
+        }
+    }, [phase])
+
+    const startPractice = () => {
+        setPhase('preparing')
+        setTimeLeft(PREP_TIME)
         setTotalTime(0)
-        setError(null)
-        resetRecording()
+
+        // Start preparation countdown
+        timerRef.current = setInterval(() => {
+            setTimeLeft((prev) => {
+                if (prev <= 1) {
+                    if (timerRef.current) clearInterval(timerRef.current)
+                    playBeepAndStartRecording()
+                    return 0
+                }
+                return prev - 1
+            })
+        }, 1000)
     }
 
-    const handleStopRecording = useCallback(() => {
-        playBeep(660, 200)
-        stopRecording()
-    }, [stopRecording, playBeep])
+    const playBeepAndStartRecording = () => {
+        setPhase('beep')
 
-    async function handleRecordingComplete(blob: Blob, duration: number) {
-        setStage('processing')
-        console.log('[ReadAloud] Recording complete. Duration:', duration)
+        // Play beep sound
+        if (beepAudioRef.current) {
+            beepAudioRef.current.play()
+        }
+
+        // Wait for beep to finish, then start recording
+        setTimeout(() => {
+            startRecording()
+        }, 500)
+    }
+
+    const startRecording = async () => {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+            const mediaRecorder = new MediaRecorder(stream)
+            mediaRecorderRef.current = mediaRecorder
+            chunksRef.current = []
+
+            mediaRecorder.ondataavailable = (e) => {
+                if (e.data.size > 0) {
+                    chunksRef.current.push(e.data)
+                }
+            }
+
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(chunksRef.current, { type: 'audio/webm' })
+                setAudioBlob(blob)
+                setAudioUrl(URL.createObjectURL(blob))
+                setPhase('finished')
+            }
+
+            mediaRecorder.start()
+            setPhase('recording')
+            setRecordingTime(0)
+
+            // Auto-stop after 40 seconds
+            timerRef.current = setInterval(() => {
+                setRecordingTime((prev) => {
+                    if (prev >= RECORDING_TIME - 1) {
+                        stopRecording()
+                        return RECORDING_TIME
+                    }
+                    return prev + 1
+                })
+            }, 1000)
+        } catch (err) {
+            console.error('Error accessing microphone:', err)
+            toast({
+                title: 'Microphone Error',
+                description: 'Could not access microphone. Please check permissions.',
+                variant: 'destructive',
+            })
+            setPhase('idle')
+        }
+    }
+
+    const stopRecording = () => {
+        if (timerRef.current) clearInterval(timerRef.current)
+
+        if (mediaRecorderRef.current && phase === 'recording') {
+            // Play ending beep
+            if (beepAudioRef.current) {
+                beepAudioRef.current.play()
+            }
+
+            mediaRecorderRef.current.stop()
+            mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop())
+        }
+    }
+
+    const handleSubmit = async () => {
+        if (!audioBlob) return
+
+        setPhase('submitting')
+        setIsScoringModalOpen(true)
+        setIsSubmitting(true)
 
         try {
-            // Create FormData for upload
+            // Upload to Vercel Blob storage
             const formData = new FormData()
-            const audioFile = new File([blob], 'recording.webm', { type: 'audio/webm' })
-            formData.append('file', audioFile)
+            formData.append('file', audioBlob, `recording-${Date.now()}.webm`)
             formData.append('type', 'read_aloud')
             formData.append('questionId', question.id)
             formData.append('ext', 'webm')
 
-            console.log('[ReadAloud] Uploading audio to Vercel Blob...')
-
-            // Upload to Vercel Blob using the upload action
-            const uploadResponse = await fetch('/api/uploads/audio', {
+            const uploadRes = await fetch('/api/uploads/audio', {
                 method: 'POST',
                 body: formData,
             })
 
-            if (!uploadResponse.ok) {
-                throw new Error('Failed to upload audio')
-            }
+            if (!uploadRes.ok) throw new Error('Upload failed')
 
-            const uploadData = await uploadResponse.json()
-            const audioUrl = uploadData.url
+            const { url } = await uploadRes.json()
 
-            console.log('[ReadAloud] Audio uploaded successfully:', audioUrl)
-
-            // Create local URL for playback
-            const localUrl = URL.createObjectURL(blob)
-            setAudioUrl(localUrl)
-
-            // Transcribe audio (using browser's SpeechRecognition or external API)
-            console.log('[ReadAloud] Starting transcription...')
-            const transcribedText = await transcribeAudio(blob)
-            setTranscript(transcribedText)
-            console.log('[ReadAloud] Transcription complete:', transcribedText)
-
-            // Submit to server for AI scoring with the uploaded URL
-            console.log('[ReadAloud] Submitting attempt...')
-            await submit({
+            // Submit attempt with AI scoring
+            const res = await submitAttempt({
                 questionId: question.id,
                 questionType: 'read_aloud',
-                audioUrl: audioUrl, // Use the Vercel Blob URL
-                transcript: transcribedText,
-                durationMs: duration,
+                audioUrl: url,
+                transcript: question.promptText, // Mock transcript
+                durationMs: recordingTime * 1000,
             })
-        } catch (err: any) {
-            console.error('[ReadAloud] Error processing recording:', err)
-            setError(err.message || 'Failed to process recording')
-            setStage('idle')
+
+            setResult(res)
+            setPhase('scored')
+            setIsScoringModalOpen(false)
+            setIsScoreModalOpen(true)
+
+            toast({
+                title: 'Success',
+                description: 'Your response has been submitted and scored!',
+            })
+        } catch (error: any) {
+            console.error('Submit error:', error)
+            setIsScoringModalOpen(false)
+            toast({
+                title: 'Error',
+                description: error.message || 'Failed to submit. Please try again.',
+                variant: 'destructive',
+            })
+            setPhase('finished')
+        } finally {
+            setIsSubmitting(false)
         }
     }
 
-    // Mock transcription - replace with actual API call
-    async function transcribeAudio(blob: Blob): Promise<string> {
-        // TODO: Implement actual transcription using Web Speech API or external service
-        // For now, return a mock transcript for testing
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve(question.promptText) // Mock: return the original text
-            }, 1000)
-        })
+    const handleReset = () => {
+        if (timerRef.current) clearInterval(timerRef.current)
+        if (totalTimerRef.current) clearInterval(totalTimerRef.current)
+        if (mediaRecorderRef.current) {
+            mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop())
+        }
+
+        setPhase('idle')
+        setTimeLeft(PREP_TIME)
+        setRecordingTime(0)
+        setTotalTime(0)
+        setAudioBlob(null)
+        setAudioUrl(null)
+        setResult(null)
     }
 
     const formatTime = (seconds: number) => {
@@ -181,18 +249,40 @@ export function ReadAloud({ question }: ReadAloudProps) {
         return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
     }
 
+    const getPhaseText = () => {
+        switch (phase) {
+            case 'idle':
+                return 'Ready to start'
+            case 'preparing':
+                return `Prepare: ${timeLeft}s`
+            case 'beep':
+                return 'Starting...'
+            case 'recording':
+                return `Recording: ${recordingTime}s / ${RECORDING_TIME}s`
+            case 'finished':
+                return 'Recording complete'
+            case 'submitting':
+                return 'Submitting...'
+            case 'scored':
+                return 'Scored!'
+            default:
+                return ''
+        }
+    }
+
     return (
         <div className="space-y-6">
             {/* Timer */}
             <div className="flex items-center justify-between">
-                <div className="text-sm font-medium text-red-500">
+                <div className={`text-sm font-medium ${(phase === 'preparing' || phase === 'recording') ? 'text-red-500' : 'text-muted-foreground'}`}>
+                    <Clock className="inline h-4 w-4 mr-1" />
                     Time: {formatTime(totalTime)}
                 </div>
-            </div>
-
-            {/* Question ID Badge */}
-            <div className="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded text-sm">
-                #{question.id.slice(0, 8)} {question.difficulty}
+                {question.difficulty && (
+                    <Badge variant="outline" className="capitalize">
+                        {question.difficulty}
+                    </Badge>
+                )}
             </div>
 
             {/* Instructions */}
@@ -204,141 +294,101 @@ export function ReadAloud({ question }: ReadAloudProps) {
             </Alert>
 
             {/* Text to read */}
-            <div className="p-6 bg-white border border-gray-300 rounded-lg">
-                <p className="text-base leading-relaxed text-gray-900">
-                    {question.promptText}
+            <div className="p-6 bg-white dark:bg-muted/30 rounded-lg border border-border/50">
+                <p className="text-base leading-relaxed text-gray-900 dark:text-foreground">
+                    {question.promptText || question.title}
                 </p>
             </div>
 
-            {/* Microphone Area */}
-            <div className="flex flex-col items-center justify-center space-y-4 py-8">
-                {stage === 'idle' && (
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="flex flex-col items-center space-y-4"
-                    >
-                        <button
-                            onClick={handleBegin}
-                            className="flex items-center justify-center w-16 h-16 bg-gray-200 hover:bg-gray-300 rounded-full transition-colors"
-                        >
-                            <Mic className="h-8 w-8 text-gray-600" />
-                        </button>
-                        <p className="text-sm text-gray-500 text-center max-w-md">
-                            💡 Use a headset with inline microphone to get accurate AI scores
-                        </p>
-                    </motion.div>
-                )}
-
-                {stage === 'preparing' && (
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="flex flex-col items-center space-y-4"
-                    >
-                        <div className="text-6xl font-bold text-primary">
-                            {prepTime}
-                        </div>
-                        <p className="text-muted-foreground">Prepare to read aloud...</p>
-                    </motion.div>
-                )}
-
-                {stage === 'recording' && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="flex flex-col items-center space-y-4"
-                    >
-                        <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse" />
-                            <span className="text-sm font-medium">Recording... {Math.floor(recordingTime / 1000)}s</span>
-                        </div>
-                        <Button
-                            onClick={handleStopRecording}
-                            variant="destructive"
-                            size="lg"
-                        >
-                            <Square className="mr-2 h-5 w-5" />
-                            Stop Recording
-                        </Button>
-                    </motion.div>
-                )}
-
-                {stage === 'processing' && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="flex flex-col items-center space-y-4"
-                    >
-                        <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-                        <p className="text-muted-foreground">Processing your response...</p>
-                    </motion.div>
-                )}
-
-                {stage === 'complete' && audioUrl && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="w-full max-w-md"
-                    >
-                        <div className="flex items-center gap-2 p-4 bg-muted/30 rounded-lg border border-border/50">
-                            <Volume2 className="h-5 w-5 text-muted-foreground" />
-                            <audio src={audioUrl} controls className="flex-1" />
-                        </div>
-                        {score && (
-                            <div className="mt-4 text-center">
-                                <div className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                                    {score.overall_score}
+            {/* Recording Area */}
+            <Card>
+                <CardHeader>
+                    <CardTitle className="text-center">{getPhaseText()}</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                    {!result || phase !== 'scored' ? (
+                        <div className="flex flex-col items-center justify-center gap-6 py-8">
+                            {/* Progress Bars */}
+                            {phase === 'preparing' && (
+                                <div className="w-full max-w-md space-y-2">
+                                    <Progress value={((PREP_TIME - timeLeft) / PREP_TIME) * 100} className="h-2" />
+                                    <p className="text-sm text-center text-muted-foreground">
+                                        Prepare to read aloud...
+                                    </p>
                                 </div>
-                                <p className="text-sm text-muted-foreground mt-1">Overall Score</p>
+                            )}
+
+                            {phase === 'recording' && (
+                                <div className="w-full max-w-md space-y-2">
+                                    <Progress value={(recordingTime / RECORDING_TIME) * 100} className="h-2" />
+                                    <p className="text-sm text-center text-muted-foreground">
+                                        Recording...
+                                    </p>
+                                </div>
+                            )}
+
+                            {/* Control Buttons */}
+                            {phase === 'idle' && (
+                                <Button size="lg" onClick={startPractice} className="h-24 w-24 rounded-full">
+                                    <Volume2 className="h-10 w-10" />
+                                </Button>
+                            )}
+
+                            {phase === 'recording' && (
+                                <Button
+                                    size="lg"
+                                    variant="destructive"
+                                    onClick={stopRecording}
+                                    className="h-24 w-24 rounded-full animate-pulse"
+                                >
+                                    <Square className="h-10 w-10" />
+                                </Button>
+                            )}
+
+                            {phase === 'finished' && audioUrl && (
+                                <div className="flex flex-col items-center gap-4 w-full">
+                                    <audio controls src={audioUrl} className="w-full max-w-md" />
+                                    <div className="flex gap-2">
+                                        <Button variant="outline" onClick={handleReset}>
+                                            <RotateCcw className="mr-2 h-4 w-4" />
+                                            Retry
+                                        </Button>
+                                        <Button onClick={handleSubmit} disabled={isSubmitting}>
+                                            {isSubmitting ? (
+                                                <>
+                                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                    Submitting...
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <CheckCircle className="mr-2 h-4 w-4" />
+                                                    Submit
+                                                </>
+                                            )}
+                                        </Button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    ) : (
+                        <div className="space-y-6">
+                            <div className="flex flex-col items-center justify-center py-8 text-center">
+                                <div className="h-24 w-24 rounded-full bg-green-100 dark:bg-green-900/20 flex items-center justify-center mb-4">
+                                    <span className="text-4xl font-bold text-green-600 dark:text-green-400">
+                                        {result.score?.overall_score || 0}
+                                    </span>
+                                </div>
+                                <h3 className="text-xl font-bold">Overall Score</h3>
+                                <p className="text-muted-foreground">AI Assessment Complete</p>
                             </div>
-                        )}
-                    </motion.div>
-                )}
-            </div>
 
-            {/* Error display */}
-            {(error || recorderError) && (
-                <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>{error || recorderError}</AlertDescription>
-                </Alert>
-            )}
-
-            {/* Action Buttons */}
-            <div className="flex items-center justify-center gap-4 pt-4 border-t">
-                <Button
-                    onClick={() => {
-                        if (stage === 'complete' || stage === 'idle') {
-                            window.location.reload()
-                        }
-                    }}
-                    variant="outline"
-                    size="lg"
-                    className="min-w-[120px]"
-                >
-                    Redo
-                </Button>
-                <Button
-                    onClick={() => setIsScoreModalOpen(true)}
-                    disabled={!score || stage !== 'complete'}
-                    size="lg"
-                    className="min-w-[120px] bg-blue-600 hover:bg-blue-700 text-white"
-                >
-                    Submit
-                </Button>
-                <Button
-                    onClick={() => {
-                        // Demo functionality
-                        alert('Demo mode: This would play a sample recording')
-                    }}
-                    variant="outline"
-                    size="lg"
-                    className="min-w-[120px]"
-                >
-                    Demo
-                </Button>
-            </div>
+                            <Button className="w-full" variant="outline" onClick={handleReset}>
+                                Practice Again
+                            </Button>
+                        </div>
+                    )}
+                </CardContent>
+            </Card>
 
             {/* Scoring Progress Modal */}
             <ScoringProgressModal
@@ -347,12 +397,12 @@ export function ReadAloud({ question }: ReadAloudProps) {
             />
 
             {/* Score Details Modal */}
-            {score && (
+            {result?.score && (
                 <ScoreDetailsModal
                     open={isScoreModalOpen}
                     onOpenChange={setIsScoreModalOpen}
-                    score={score}
-                    transcript={transcript}
+                    score={result.score}
+                    transcript={question.promptText}
                     originalText={question.promptText}
                 />
             )}
