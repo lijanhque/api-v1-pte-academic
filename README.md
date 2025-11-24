@@ -397,3 +397,31 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 Made with ❤️ using Next.js 16 and Better Auth
+
+## Running Tests
+
+This project includes comprehensive unit tests for core business logic.
+
+```bash
+# Run all tests
+pnpm test
+
+# Run tests in watch mode
+pnpm test:watch
+
+# Generate coverage report
+pnpm test:coverage
+
+# Run E2E tests
+pnpm test:e2e
+```
+
+### Test Coverage
+
+Unit tests are provided for:
+- **Scoring normalization** (`lib/pte/scoring-normalize.ts`) - Pure functions for score calculations
+- **Timing utilities** (`lib/pte/timing.ts`) - PTE test timing logic
+- **PTE utilities** (`lib/pte/utils.ts`) - Word counting and media type detection
+- **General utilities** (`lib/utils.ts`) - className merging
+
+Tests follow Jest conventions and are located in the `__tests__` directory.
