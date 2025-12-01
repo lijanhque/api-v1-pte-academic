@@ -3,6 +3,11 @@ import { getQuestionCounts } from '@/lib/pte/direct-queries'
 import { FileText, CheckSquare, ListOrdered, TextCursor, Circle } from 'lucide-react'
 import Link from 'next/link'
 
+/**
+ * Fetches question counts for the "reading" category.
+ *
+ * @returns An object mapping reading-related question types to their counts, or an empty object if the fetch fails.
+ */
 async function getReadingCounts() {
   try {
     const counts = await getQuestionCounts('reading')
@@ -13,6 +18,14 @@ async function getReadingCounts() {
   }
 }
 
+/**
+ * Render the Reading Practice hub page displaying available reading practice categories.
+ *
+ * Shows a responsive grid of category cards; each card includes an icon, title, short name badge,
+ * description, and the number of questions available, and links to the corresponding practice route.
+ *
+ * @returns The React element for the Reading Practice page containing the category cards grid.
+ */
 export default async function ReadingPracticePage() {
   const counts = await getReadingCounts()
 

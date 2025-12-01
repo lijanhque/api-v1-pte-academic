@@ -4,6 +4,14 @@ import { Button } from '@/components/ui/button'
 import { usePTE } from './pte-context'
 import { Badge } from '@/components/ui/badge'
 
+/**
+ * Render a mode switcher allowing selection between "academic" and "core" PTE contexts.
+ *
+ * Highlights the active mode by button variant, updates the PTE context when a button is clicked,
+ * and displays the current context in a badge.
+ *
+ * @returns A JSX element containing two buttons to switch modes and a badge showing the current context.
+ */
 export function PTEContextSwitcher() {
   const { context, setContext } = usePTE()
 

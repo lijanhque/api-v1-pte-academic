@@ -5,6 +5,12 @@ import { eq } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 
+/**
+ * Fetches a single writing question by its id from the database.
+ *
+ * @param id - The writing question's identifier
+ * @returns The writing question record that matches `id`, or `null` if none is found or an error occurs
+ */
 async function getQuestion(id: string) {
   try {
     const questions = await db
@@ -20,6 +26,16 @@ async function getQuestion(id: string) {
   }
 }
 
+/**
+ * Render the write-essay question page for a given question id.
+ *
+ * Fetches the question by id, renders a back link, the question title with a brief instruction,
+ * and the WritingQuestionClient configured for the retrieved question.
+ *
+ * @param props - Component props containing `params`.
+ * @param props.params - A promise that resolves to an object with an `id` string identifying the question.
+ * @returns A React element that displays the question header, instructions, navigation link, and the writing question client for the specified id. If the question is missing or its type is not `write_essay`, triggers a 404 page.
+ */
 export default async function WriteEssayQuestionPage(props: {
   params: Promise<{ id: string }>
 }) {

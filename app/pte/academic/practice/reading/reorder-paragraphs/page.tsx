@@ -3,6 +3,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { getQuestionsDirectly } from '@/lib/pte/direct-queries'
 import { ListOrdered } from 'lucide-react'
 
+/**
+ * Fetches Re-order Paragraphs items and formats them for display in the question list.
+ *
+ * @returns An array of question objects with shape `{ id, title, difficulty, bookmarked, practiceCount }`.
+ *          `difficulty` defaults to `"Medium"` when absent, `bookmarked` defaults to `false`, and
+ *          `practiceCount` is set to `0`. Returns an empty array if the fetch fails.
+ */
 async function getQuestions() {
   try {
     const result = await getQuestionsDirectly('reading', 'reorder_paragraphs', {
@@ -24,6 +31,14 @@ async function getQuestions() {
   }
 }
 
+/**
+ * Render the "Re-order Paragraphs" practice page showing available questions and controls.
+ *
+ * Fetches the list of Reorder Paragraphs questions and renders a header with description and
+ * a card containing the question count and a QuestionListTable for selecting practice items.
+ *
+ * @returns A React element containing the Re-order Paragraphs UI and populated question list.
+ */
 export default async function ReorderParagraphsPage() {
   const questions = await getQuestions()
 

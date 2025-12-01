@@ -17,7 +17,14 @@ import { authClient } from '@/lib/auth/auth-client'
 import { cn } from '@/lib/utils'
 import { Loader2 } from 'lucide-react'
 
-// Submit button component using useFormStatus (React 19.2)
+/**
+ * Render the form submit button with a loading indicator when the form is pending.
+ *
+ * The button is type="submit" and spans full width. While the form status is pending it is disabled,
+ * shows a spinner, and displays "Signing in..."; otherwise it displays "Login".
+ *
+ * @returns The submit Button element for the login form.
+ */
 function SubmitButton() {
   const { pending } = useFormStatus()
   return (
@@ -28,6 +35,13 @@ function SubmitButton() {
   )
 }
 
+/**
+ * Render the login form with email/password fields, a submit button, and Apple/Google social sign-in options.
+ *
+ * Displays an inline error banner when the sign-in action returns an error, preserves an email value from action state, includes a hidden redirect input to `/pte/dashboard`, and shows loading indicators while the form or a social provider is in progress.
+ *
+ * @returns The rendered login form element.
+ */
 export function LoginForm({
   className,
   ...props
@@ -179,4 +193,3 @@ export function LoginForm({
     </div>
   )
 }
-

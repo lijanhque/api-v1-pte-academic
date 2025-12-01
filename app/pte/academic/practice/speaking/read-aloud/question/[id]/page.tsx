@@ -4,6 +4,12 @@ import { speakingQuestions } from '@/lib/db/schema'
 import { eq } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
 
+/**
+ * Fetches a speaking question by its identifier from the database.
+ *
+ * @param id - The speaking question's unique identifier
+ * @returns The speaking question record if found, or `null` if no matching record exists or an error occurs
+ */
 async function getQuestion(id: string) {
   try {
     const questions = await db
@@ -19,6 +25,16 @@ async function getQuestion(id: string) {
   }
 }
 
+/**
+ * Render the read-aloud question page for a given question ID.
+ *
+ * Fetches the question by ID from the database and renders navigation controls, a question card
+ * with title and timing instructions, and the ReadAloud interactive component.
+ *
+ * @param props - Component props containing route parameters.
+ * @param props.params - A promise that resolves to an object with the `id` of the question to load.
+ * @returns The page's React element that displays navigation, the question details, and the ReadAloud component.
+ */
 export default async function ReadAloudQuestionPage(props: {
   params: Promise<{ id: string }>
 }) {

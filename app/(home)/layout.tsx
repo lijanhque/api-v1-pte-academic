@@ -224,6 +224,12 @@ const Header = memo(function Header() {
  )
 })
 
+/**
+ * Page layout that renders the site header, the provided page content, and a cookie consent banner.
+ *
+ * @param children - Page-specific content to be placed between the header and the cookie consent banner
+ * @returns The layout element containing the header, `children`, and the cookie consent banner
+ */
 export default function HomeLayout({
  children,
 }: {

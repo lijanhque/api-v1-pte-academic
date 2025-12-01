@@ -5,6 +5,12 @@ import { eq } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 
+/**
+ * Retrieve a writing question by its ID from the database.
+ *
+ * @param id - The ID of the writing question to fetch
+ * @returns The question record if found, `null` otherwise
+ */
 async function getQuestion(id: string) {
   try {
     const questions = await db
@@ -20,6 +26,16 @@ async function getQuestion(id: string) {
   }
 }
 
+/**
+ * Render the page for a "Summarize Written Text" writing question identified by route params.
+ *
+ * Fetches the question by `id` and renders the question title, instructions, and a client component to attempt the question.
+ * If the question does not exist or its `type` is not `"summarize_written_text"`, a 404 page is rendered via `notFound()`.
+ *
+ * @param props - Component props.
+ * @param props.params - A promise that resolves to route parameters; must include `id` (the question ID).
+ * @returns The JSX for the "Summarize Written Text" question page.
+ */
 export default async function SummarizeWrittenTextQuestionPage(props: {
   params: Promise<{ id: string }>
 }) {

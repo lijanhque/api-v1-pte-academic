@@ -3,6 +3,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { getQuestionsDirectly } from '@/lib/pte/direct-queries'
 import { FileText } from 'lucide-react'
 
+/**
+ * Fetches simplified question records for the Reading & Writing: Fill in the Blanks section.
+ *
+ * @returns An array of question objects with `id`, `title`, `difficulty` (defaults to `"Medium"`), `bookmarked` (defaults to `false`), and `practiceCount` (`0`); returns an empty array if the fetch fails.
+ */
 async function getQuestions() {
   try {
     const result = await getQuestionsDirectly('reading', 'reading_writing_fill_blanks', {
@@ -24,6 +29,11 @@ async function getQuestions() {
   }
 }
 
+/**
+ * Render the Reading & Writing: Fill in the Blanks practice page.
+ *
+ * @returns The page's JSX element showing a header with title and subtitle, the count of available questions, and a QuestionListTable configured for the "reading-writing-fill-blanks" section populated with available questions.
+ */
 export default async function ReadingWritingFillBlanksPage() {
   const questions = await getQuestions()
 

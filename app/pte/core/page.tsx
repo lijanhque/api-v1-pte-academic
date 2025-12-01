@@ -6,6 +6,13 @@ import { headers } from 'next/headers'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
+/**
+ * Render the PTE Core Dashboard server component.
+ *
+ * Redirects to '/sign-in' when no authenticated session is found.
+ *
+ * @returns The dashboard React element containing overview statistics, quick practice module links, and mock test actions.
+ */
 export default async function PTECoreDashboard() {
   const session = await auth.api.getSession({
     headers: await headers()

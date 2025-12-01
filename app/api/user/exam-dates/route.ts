@@ -27,6 +27,24 @@ export async function GET(request: NextRequest) {
   }
 }
 
+/**
+ * Create a new scheduled exam date for the authenticated user.
+ *
+ * Validates the request body and stores a new record for the current user. If `isPrimary` is true,
+ * any existing primary flag for that user is cleared before inserting the new date. Default values:
+ * `examName` → `"PTE Academic"`, `isPrimary` → `true`.
+ *
+ * Expected request body fields:
+ * - `examDate` (required): ISO date string for the scheduled exam; must be a future date.
+ * - `examName` (optional): Display name for the exam.
+ * - `isPrimary` (optional): Whether this date is the user's primary exam date.
+ *
+ * @returns On success, a JSON object `{ success: true, examDate: <createdRecord> }`.
+ * On error, a JSON error object and corresponding HTTP status:
+ * - `401` when the user is not authenticated.
+ * - `400` when `examDate` is missing or is in the past.
+ * - `500` when creation or an internal operation fails.
+ */
 export async function POST(request: NextRequest) {
   try {
     const user = await getCurrentUser();

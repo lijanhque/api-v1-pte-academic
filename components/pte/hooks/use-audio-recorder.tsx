@@ -7,6 +7,26 @@ interface UseAudioRecorderOptions {
     onRecordingComplete?: (blob: Blob, duration: number) => void
 }
 
+/**
+ * React hook that provides microphone recording controls and state.
+ *
+ * Starts, pauses, resumes, stops, and resets audio recording, tracks elapsed recording time, exposes the recorded audio blob, and can play a short beep.
+ *
+ * @param maxDuration - Maximum recording duration in milliseconds before recording is automatically stopped. Defaults to 40000.
+ * @param onRecordingComplete - Optional callback invoked after recording stops with the recorded `Blob` and the recording duration in milliseconds.
+ * @returns An object containing recording state and control functions:
+ *  - `isRecording`: `true` when recording is active.
+ *  - `isPaused`: `true` when an active recording is paused.
+ *  - `recordingTime`: elapsed recording time in milliseconds.
+ *  - `audioBlob`: the recorded audio `Blob` or `null` if none.
+ *  - `error`: error message string or `null`.
+ *  - `startRecording(deviceId?)`: begins recording, optionally selecting a specific audio device by its deviceId.
+ *  - `stopRecording()`: stops an active recording.
+ *  - `pauseRecording()`: pauses an active recording.
+ *  - `resumeRecording()`: resumes a paused recording.
+ *  - `resetRecording()`: clears the recorded blob and resets elapsed time.
+ *  - `playBeep(freq?, durationMs?)`: plays a short beep; `freq` defaults to 880 Hz, `durationMs` defaults to 250 ms.
+ */
 export function useAudioRecorder({
     maxDuration = 40000,
     onRecordingComplete,

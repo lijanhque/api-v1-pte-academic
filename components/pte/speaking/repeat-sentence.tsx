@@ -33,6 +33,20 @@ interface RepeatSentenceProps {
     }
 }
 
+/**
+ * Render the Repeat Sentence practice UI that guides the user to listen to a prompt, record a response, review the recording, and submit it for scoring.
+ *
+ * This component implements the full client-side workflow: prompt playback (one-time play), automatic recording start after playback, live waveform and timer during recording (max 15s), local processing/transcription of the recording, playback of the recorded response, retrying, and submission to the scoring endpoint with toast and modal feedback.
+ *
+ * @param question - The practice item to render. Expected shape:
+ *   - id: unique identifier for the question
+ *   - title: display title
+ *   - promptText: optional original sentence text
+ *   - promptMediaUrl: optional URL to the prompt audio
+ *   - difficulty: difficulty label (e.g., "Easy", "Medium", "Hard")
+ *
+ * @returns The React element for the repeat-sentence practice workflow UI.
+ */
 export function RepeatSentence({ question }: RepeatSentenceProps) {
     const router = useRouter()
     const { toast } = useToast()

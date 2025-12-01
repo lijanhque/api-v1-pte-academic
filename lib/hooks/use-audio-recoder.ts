@@ -7,6 +7,21 @@ interface UseAudioRecorderOptions {
   onError?: (error: Error) => void;
 }
 
+/**
+ * Manages microphone recording and provides state, the resulting audio, and control functions.
+ *
+ * @param options - Optional hooks for recording events.
+ * @param options.onRecordingComplete - Invoked with the final audio Blob when recording stops.
+ * @param options.onError - Invoked with an Error if starting the recording fails.
+ * @returns An object with:
+ *  - `isRecording`: `true` when a recording is active, `false` otherwise.
+ *  - `audioBlob`: the recorded audio `Blob` after stopping, or `null` if none.
+ *  - `audioUrl`: an object URL for `audioBlob`, or `null` if none.
+ *  - `error`: the last `Error` encountered while starting a recording, or `null`.
+ *  - `startRecording()`: starts capturing audio from the microphone.
+ *  - `stopRecording()`: stops an active recording.
+ *  - `reset()`: clears captured audio and revokes any created object URL.
+ */
 export function useAudioRecorder(options: UseAudioRecorderOptions = {}) {
   const [isRecording, setIsRecording] = useState(false);
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);

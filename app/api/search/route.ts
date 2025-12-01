@@ -1,5 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+/**
+ * Search the configured MXBAI store for results matching the given query.
+ *
+ * If the MXBAI API key or store ID is not configured, or if the request fails,
+ * an empty array is returned.
+ *
+ * @param query - The search query string to send to the MXBAI store.
+ * @returns An array of result objects with the shape `{ title: string, url: string, source: 'mxbai' }`.
+ *          `title` falls back to `'Result'` when the response doesn't provide a title or text.
+ */
 async function searchMXBAI(query: string) {
   const key = process.env.MXBAI_API_KEY
   const store = process.env.MXBAI_STORE_ID
@@ -25,6 +35,13 @@ async function searchMXBAI(query: string) {
   }
 }
 
+/**
+ * Handle GET requests for search and return matching results.
+ *
+ * Reads the `query` search parameter from the incoming request, performs a search using MXBAI, and responds with a JSON object containing the search results. If the `query` is missing or empty after trimming, responds with `{ results: [] }`.
+ *
+ * @param request - The incoming request whose URL `query` parameter is used as the search term.
+ * @returns A JSON HTTP response with shape `{ results: Array<{ title: string; url: string; source: string }> }`.
 export async function GET(request: NextRequest) {
   const q = request.nextUrl.searchParams.get('query') || ''
   if (!q.trim()) return NextResponse.json({ results: [] })

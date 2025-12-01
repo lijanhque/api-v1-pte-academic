@@ -34,6 +34,15 @@ interface DescribeImageProps {
     }
 }
 
+/**
+ * Render the Describe Image practice UI allowing a user to prepare, record, preview, and submit an audio description of an image.
+ *
+ * The component manages a multi-stage flow (idle, preparing, recording, processing, complete), microphone device selection,
+ * live waveform visualization during recording, client-side transcription (mocked), and submission for AI scoring with toast feedback.
+ *
+ * @param question - The question object for the task. Expected properties: `id`, `title`, `promptText`, `promptMediaUrl`, and `difficulty`.
+ * @returns A React element containing the full practice interface for the Describe Image task.
+ */
 export function DescribeImage({ question }: DescribeImageProps) {
     const router = useRouter()
     const { toast } = useToast()

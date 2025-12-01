@@ -10,10 +10,21 @@ import { Clock, PlayCircle } from 'lucide-react'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 
+/**
+ * Fetches all PTE tests that are marked as mock tests.
+ *
+ * @returns An array of records from `pteTests` where `testType` is `'mock'`
+ */
 async function getMockTests() {
   return await db.select().from(pteTests).where(eq(pteTests.testType, 'mock'))
 }
 
+/**
+ * Fetches a user's PTE test attempt history with associated test metadata.
+ *
+ * @param userId - The ID of the user whose test history to retrieve
+ * @returns An array of history records (ordered by `startedAt` descending) containing `id`, `testTitle`, `status`, `score`, `startedAt`, and `completedAt`
+ */
 async function getTestHistory(userId: string) {
   return await db
     .select({
@@ -30,6 +41,13 @@ async function getTestHistory(userId: string) {
     .orderBy(desc(testAttempts.startedAt))
 }
 
+/**
+ * Render the PTE Core mock tests page with tabs for full mock tests, sectional tests, and the user's test history.
+ *
+ * Redirects unauthenticated requests to the sign-in page.
+ *
+ * @returns The page element rendering tabs for full mock tests, sectional tests, and the authenticated user's test history.
+ */
 export default async function CoreMockTestPage() {
   const session = await auth.api.getSession({
     headers: await headers()

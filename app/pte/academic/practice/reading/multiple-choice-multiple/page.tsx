@@ -3,6 +3,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { getQuestionsDirectly } from '@/lib/pte/direct-queries'
 import { CheckSquare } from 'lucide-react'
 
+/**
+ * Fetches reading multiple-choice-multiple questions and normalizes them for display.
+ *
+ * @returns An array of questions with shape `{ id, title, difficulty, bookmarked, practiceCount }`.
+ * `difficulty` defaults to `'Medium'` when missing and `bookmarked` defaults to `false`. Returns an
+ * empty array if fetching fails.
+ */
 async function getQuestions() {
   try {
     const result = await getQuestionsDirectly('reading', 'multiple_choice_multiple', {
@@ -24,6 +31,11 @@ async function getQuestions() {
   }
 }
 
+/**
+ * Renders the "Multiple Choice (Multiple Answers)" practice page and displays available reading questions.
+ *
+ * @returns The page's React element containing the header and a card with a table of fetched questions.
+ */
 export default async function MultipleChoiceMultiplePage() {
   const questions = await getQuestions()
 

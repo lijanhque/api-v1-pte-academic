@@ -81,7 +81,13 @@ function computeTotalScore(
   return total
 }
 
-// POST /api/writing/attempts
+/**
+ * Creates and stores a writing attempt for the authenticated user, validates input, computes basic metrics, and returns the created attempt with scores.
+ *
+ * Performs authentication, Content-Type and timing validation, rate limiting, and question verification. Computes word count, sentence count, character count, unique-word ratio, and basic length checks, persists a writingAttempts record with derived score columns and the scores JSON, and returns the inserted attempt and computed scores.
+ *
+ * @returns A JSON response with `attempt` (the persisted record) and `scores` (the computed metrics); responds with status 201 on success. May return error responses: 401 (Unauthorized), 415 (Unsupported Media Type), 400 (Bad Request or type mismatch), 429 (Rate limit exceeded), 404 (Question not found), or 500 (Internal Server Error).
+ */
 export async function POST(request: Request) {
   const requestId = request.headers.get('x-request-id') || crypto.randomUUID()
 

@@ -5,6 +5,12 @@ import { eq } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 
+/**
+ * Fetches a reading question by its ID from the database.
+ *
+ * @param id - The reading question's unique identifier.
+ * @returns The question record if found; `null` if no matching question exists or an error occurs.
+ */
 async function getQuestion(id: string) {
   try {
     const questions = await db
@@ -20,6 +26,12 @@ async function getQuestion(id: string) {
   }
 }
 
+/**
+ * Render the fill-in-blanks reading question page for a given question ID.
+ *
+ * @param props - An object with `params`, a Promise that resolves to route parameters containing `id`.
+ * @returns A React element displaying the question title, instructions, navigation, and the client-side reading question UI; renders a 404 page if the question is missing or not of type `fill_in_blanks`.
+ */
 export default async function FillInBlanksQuestionPage(props: {
   params: Promise<{ id: string }>
 }) {

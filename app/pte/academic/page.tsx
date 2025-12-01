@@ -6,6 +6,11 @@ import { headers } from 'next/headers'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
+/**
+ * Render the PTE Academic dashboard and redirect unauthenticated users to the sign-in page.
+ *
+ * @returns A JSX element containing the dashboard UI (overview stats, quick practice modules, and mock test actions).
+ */
 export default async function PteAcademicDashboard() {
   const session = await auth.api.getSession({
     headers: await headers()

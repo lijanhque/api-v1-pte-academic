@@ -200,7 +200,12 @@ function scoreSummarizeSpokenText(textAnswer: string): {
   }
 }
 
-// POST /api/listening/attempts
+/**
+ * Create and score a listening attempt, persist the attempt, and return the created record with computed scores.
+ *
+ * @param request - Incoming HTTP request whose JSON body must conform to ListeningAttemptBodySchema
+ * @returns On success, an HTTP 201 response containing the persisted attempt and its computed `scores`. On failure, an HTTP error response with an error object (possible statuses include 401, 400, 404, 415, 429, 500).
+ */
 export async function POST(request: Request) {
   const requestId = request.headers.get('x-request-id') || crypto.randomUUID()
 

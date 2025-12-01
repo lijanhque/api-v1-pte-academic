@@ -5,6 +5,12 @@ import { eq } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 
+/**
+ * Fetches a reading question by its ID.
+ *
+ * @param id - The reading question's ID
+ * @returns The matching reading question record if found, otherwise `null`
+ */
 async function getQuestion(id: string) {
   try {
     const questions = await db
@@ -20,6 +26,15 @@ async function getQuestion(id: string) {
   }
 }
 
+/**
+ * Renders the question page for a "multiple_choice_multiple" reading question.
+ *
+ * Fetches the question using the provided `id`, returns a 404 if the question is missing or not of type "multiple_choice_multiple", and renders the page header, instructions, and the ReadingQuestionClient for answering.
+ *
+ * @param props - Component props containing route params.
+ * @param props.params - A promise that resolves to an object with an `id` string identifying the question to display.
+ * @returns The rendered page content for the specified reading question.
+ */
 export default async function MultipleChoiceMultipleQuestionPage(props: {
   params: Promise<{ id: string }>
 }) {

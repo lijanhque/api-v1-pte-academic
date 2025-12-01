@@ -24,6 +24,14 @@ interface ReadAloudPracticeProps {
 
 type Phase = 'idle' | 'preparing' | 'beep' | 'recording' | 'finished'
 
+/**
+ * UI component that guides a user through a read‑aloud practice flow: prepare, cue, record, review, and submit.
+ *
+ * Renders the prompt, microphone device selector, preparation countdown, recording UI with live waveform and timer, playback controls for the recorded audio, and submission/result feedback.
+ *
+ * @param question - The question object (expects at least `id`, `promptText` or `title`, and optional `difficulty`) used to render the text and populate the submission payload.
+ * @returns The rendered Read Aloud practice React element.
+ */
 export function ReadAloudPractice({ question }: ReadAloudPracticeProps) {
     const [phase, setPhase] = useState<Phase>('idle')
     const [timeLeft, setTimeLeft] = useState(30) // Preparation time

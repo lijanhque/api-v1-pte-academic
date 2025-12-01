@@ -14,6 +14,21 @@ const updateProfileSchema = z.object({
   examDate: z.string().optional(), // Will be converted to Date later
 })
 
+/**
+ * Validate incoming profile form data and persist updates to the user's record and profile settings.
+ *
+ * Validates `formData` against the update schema, updates the users table (name, email) and upserts
+ * profile fields (targetScore defaulting to 65, examDate or null). Returns a structured result
+ * indicating validation or persistence errors, or the updated profile fields on success.
+ *
+ * @param prevState - Previous client state (kept for compatibility; not used by this function)
+ * @param formData - FormData containing `name`, `email`, `targetScore`, and `examDate` values
+ * @returns An object with either:
+ * - `{ error: string }` on validation failure or if a database update/insert did not succeed, or
+ * - `{ success: string, name: string, email: string, targetScore: number, examDate: string | null }`
+ *   on successful update
+ * @throws Error when there is no authenticated user
+ */
 export async function updateProfile(prevState: unknown, formData: FormData) {
   const user = await getUserProfile()
   if (!user) {

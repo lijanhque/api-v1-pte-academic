@@ -10,10 +10,22 @@ import { Clock, PlayCircle } from 'lucide-react'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 
+/**
+ * Fetches all test records whose `testType` is "mock" from the `pteTests` table.
+ *
+ * @returns An array of mock test records from the `pteTests` table.
+ */
 async function getMockTests() {
   return await db.select().from(pteTests).where(eq(pteTests.testType, 'mock'))
 }
 
+/**
+ * Fetches tests intended to represent sectional mock tests.
+ *
+ * Currently returns all records from `pteTests` where `testType` equals `'mock'`; no additional sectional filtering is applied.
+ *
+ * @returns All test records from `pteTests` where `testType` equals `'mock'`.
+ */
 async function getSectionalTests() {
   // Assuming sectional tests have a section defined or a specific type
   // For now, let's assume testType='practice' and section is not null, or maybe a new type 'sectional'
@@ -26,6 +38,12 @@ async function getSectionalTests() {
   return await db.select().from(pteTests).where(eq(pteTests.testType, 'mock'))
 }
 
+/**
+ * Retrieve a user's test attempt history, ordered by most recent start time.
+ *
+ * @param userId - The ID of the user whose test history to fetch
+ * @returns An array of test attempt records containing `id`, `testTitle`, `status`, `score`, `startedAt`, and `completedAt`
+ */
 async function getTestHistory(userId: string) {
   return await db
     .select({
@@ -42,6 +60,13 @@ async function getTestHistory(userId: string) {
     .orderBy(desc(testAttempts.startedAt))
 }
 
+/**
+ * Render the Mock Tests dashboard for the authenticated user.
+ *
+ * Redirects unauthenticated requests to /sign-in. When authenticated, fetches mock tests and the user's test history and renders a tabbed UI with full mock tests, sectional tests, and test history.
+ *
+ * @returns The Mock Tests page as a React element.
+ */
 export default async function MockTestPage() {
   const session = await auth.api.getSession({
     headers: await headers()

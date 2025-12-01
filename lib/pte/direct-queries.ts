@@ -35,7 +35,10 @@ export interface DirectQuestionsResult {
 }
 
 /**
- * Normalize difficulty string to enum value
+ * Convert an optional difficulty string into a Difficulty value.
+ *
+ * @param input - Difficulty label (case-insensitive). If omitted or not recognized, treated as unspecified.
+ * @returns `"Easy"`, `"Medium"`, `"Hard"`, or `"All"`; returns `"All"` when `input` is missing or not matched.
  */
 function normalizeDifficulty(input?: string): Difficulty {
   if (!input) return "All";
@@ -48,14 +51,19 @@ function normalizeDifficulty(input?: string): Difficulty {
 }
 
 /**
- * Get questions directly from database (bypasses HTTP layer)
+ * Fetches paginated questions for a given section and question type directly from the database.
  *
- * This replaces fetchQuestionsServer() and eliminates HTTP overhead.
+ * Supports filtering by difficulty, free-text search (matches title or promptText), and active status.
  *
- * @param section - speaking, reading, writing, or listening
- * @param questionType - specific question type for the section
- * @param params - pagination and filter parameters
- * @returns Paginated questions result
+ * @param section - One of "speaking", "reading", "writing", or "listening"
+ * @param questionType - Identifier for the specific question type within the section
+ * @param params - Optional pagination and filter parameters:
+ *   - page: Page number (defaults to 1)
+ *   - pageSize: Items per page (defaults to 100)
+ *   - difficulty: "Easy", "Medium", "Hard", or "All" (defaults to "All")
+ *   - search: Substring to match against title or promptText (defaults to empty string)
+ *   - isActive: When true, only include active questions (defaults to true)
+ * @returns An object containing `page`, `pageSize`, `total` (matching item count), and `items` (the question rows)
  */
 export async function getQuestionsDirectly(
   section: Section,
@@ -150,8 +158,10 @@ export async function getQuestionsDirectly(
 }
 
 /**
- * Batch get questions for multiple types in parallel
- * Useful for dashboard or listing pages that show multiple question types
+ * Fetch multiple paginated question result sets in parallel for the provided requests.
+ *
+ * @param requests - Array of request descriptors specifying `section`, `questionType`, and optional `params`; results are returned in the same order as these requests
+ * @returns An array of DirectQuestionsResult objects corresponding to each request
  */
 export async function batchGetQuestions(
   requests: Array<{
@@ -168,8 +178,16 @@ export async function batchGetQuestions(
 }
 
 /**
- * Get random questions for practice (no pagination, just limit)
- * Optimized for practice session generation
+ * Selects a random set of questions for a practice session.
+ *
+ * Returns up to `limit` questions that match the given section and question type,
+ * optionally filtered by difficulty. Difficulty input is normalized to `Easy`, `Medium`, `Hard`, or `All`.
+ *
+ * @param section - The section to query (`"speaking" | "reading" | "writing" | "listening"`)
+ * @param questionType - The question type to filter by
+ * @param limit - Maximum number of questions to return
+ * @param difficulty - Optional difficulty filter (will be normalized)
+ * @returns An array of question records in random order; returns an empty array if no questions are found or on error
  */
 export async function getRandomQuestions(
   section: Section,
@@ -228,8 +246,12 @@ export async function getRandomQuestions(
 }
 
 /**
- * Get total question counts by section and type
- * Useful for stats and progress tracking
+ * Return counts of active questions grouped by question type for the given section.
+ *
+ * Counts include only questions where `isActive` is `true`.
+ *
+ * @param section - The section to retrieve counts for ("speaking" | "reading" | "writing" | "listening")
+ * @returns A record mapping question type to its count (e.g., `{ "multipleChoice": 42 }`). Returns an empty object on error.
  */
 export async function getQuestionCounts(
   section: Section

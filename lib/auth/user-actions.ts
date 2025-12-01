@@ -14,6 +14,16 @@ const updateAccountSchema = z.object({
   email: z.string().email('Invalid email address'),
 })
 
+/**
+ * Validate input and update the authenticated user's name and email in the database.
+ *
+ * Validates `formData` against the update schema, returns the first validation error if invalid,
+ * updates the users table for the current authenticated user, and returns a success message
+ * with the updated `name` on success or an `error` message on failure.
+ *
+ * @param formData - FormData containing `name` and `email` fields to apply to the user's account
+ * @returns An object with `name` and `success` on successful update, or `{ error: string }` on failure
+ */
 export async function updateAccount(prevState: unknown, formData: FormData) {
   const user = await getUserProfile()
   if (!user) {
@@ -102,6 +112,15 @@ const deleteAccountSchema = z.object({
   password: z.string().min(8).max(100),
 })
 
+/**
+ * Deletes the currently authenticated user's account, signs them out, and redirects to the sign-in page.
+ *
+ * Validates the provided form data (expects a `password` field per the deletion schema), deletes the user record if found, signs the user out, and redirects to '/sign-in'. If validation or deletion fails, returns an object containing an `error` message.
+ *
+ * @param formData - FormData from the account deletion form; must include the `password` field.
+ * @returns An object with an `error` property containing a user-facing message when validation or deletion fails; on successful deletion the function redirects to '/sign-in' and does not return a value.
+ * @throws If there is no authenticated user.
+ */
 export async function deleteAccount(prevState: unknown, formData: FormData) {
   const user = await getUserProfile()
   if (!user) {

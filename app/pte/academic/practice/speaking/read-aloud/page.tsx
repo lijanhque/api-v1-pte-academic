@@ -5,6 +5,20 @@ import { speakingQuestions } from '@/lib/db/schema'
 import { eq } from 'drizzle-orm'
 import { Mic } from 'lucide-react'
 
+/**
+ * Fetches read-aloud speaking questions from the database and returns them in a UI-friendly shape.
+ *
+ * Each returned object contains the question's id, title, difficulty, bookmarked state, and practiceCount.
+ *
+ * @returns An array of question objects with the following properties:
+ * - `id` — Question identifier
+ * - `title` — Question title or prompt
+ * - `difficulty` — Difficulty level; defaults to `'Medium'` when not set
+ * - `bookmarked` — `true` if bookmarked, `false` otherwise (defaults to `false`)
+ * - `practiceCount` — Number of times practiced; defaults to `0`
+ *
+ * Returns an empty array if fetching fails.
+ */
 async function getReadAloudQuestions() {
   try {
     const questions = await db
@@ -26,6 +40,13 @@ async function getReadAloudQuestions() {
   }
 }
 
+/**
+ * Renders the Read Aloud practice page and displays available read-aloud questions.
+ *
+ * Fetches read-aloud questions and renders a header with a microphone icon, a brief description, and a card containing a QuestionListTable for selecting and practicing questions.
+ *
+ * @returns The page's JSX element containing the header, descriptive text, and a QuestionListTable populated with the fetched questions.
+ */
 export default async function ReadAloudQuestionsPage() {
   const questions = await getReadAloudQuestions()
 

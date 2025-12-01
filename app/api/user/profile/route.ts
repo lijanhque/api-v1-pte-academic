@@ -29,6 +29,14 @@ export async function GET(request: NextRequest) {
   }
 }
 
+/**
+ * Update or create the authenticated user's profile using data from the request body.
+ *
+ * @param request - NextRequest whose JSON body may include:
+ *   - `examDate`: an ISO date string or null/omitted to clear the field
+ *   - `targetScore`: a numeric target score or null/omitted to clear the field
+ * @returns The updated or created user profile object on success; an error object with an `error` message on failure (`401` when unauthenticated, `500` for server errors).
+ */
 export async function PATCH(request: NextRequest) {
   try {
     const session = await auth.api.getSession({

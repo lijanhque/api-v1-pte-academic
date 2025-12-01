@@ -7,6 +7,11 @@ import { initialCategories } from '@/lib/pte/data'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
+/**
+ * Fetch category records, falling back to `initialCategories` when none are available or an error occurs.
+ *
+ * @returns An array of category records from the `pteCategories` table, or `initialCategories` if the table is empty or a retrieval error occurs.
+ */
 async function getCategories() {
   try {
     const categories = await db.select().from(pteCategories)
@@ -29,6 +34,18 @@ const SECTION_META: Record<SectionKey, { id: number; label: string }> = {
   listening: { id: 16, label: 'Listening' },
 }
 
+/**
+ * Render the landing page for a PTE academic section, showing category cards for that section.
+ *
+ * This component resolves the incoming route params to determine the section, validates it,
+ * loads categories, and renders a grid of cards linking to each category's practice page.
+ *
+ * @param props - Component props containing route parameters.
+ * @param props.params - A promise that resolves to an object with a `section` string.
+ *   The `section` value is normalized and must be one of "speaking", "writing", "reading", or "listening".
+ *   If the section is invalid, `notFound()` is invoked.
+ * @returns The React element for the section landing page containing header and category cards.
+ */
 export default async function SectionLandingPage(props: {
   params: Promise<{ section: string }>
 }) {

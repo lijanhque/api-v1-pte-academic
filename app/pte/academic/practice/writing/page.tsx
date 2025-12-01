@@ -3,6 +3,11 @@ import { getQuestionCounts } from '@/lib/pte/direct-queries'
 import { PenTool, FileText } from 'lucide-react'
 import Link from 'next/link'
 
+/**
+ * Fetches question counts for the "writing" category.
+ *
+ * @returns An object mapping count keys to numbers for writing questions; returns an empty object if fetching fails.
+ */
 async function getWritingCounts() {
   try {
     const counts = await getQuestionCounts('writing')
@@ -13,6 +18,13 @@ async function getWritingCounts() {
   }
 }
 
+/**
+ * Render the Writing Practice page showing clickable cards for writing practice categories with their available question counts.
+ *
+ * The page displays two categories ("Summarize Written Text" and "Write Essay"), each showing an icon, brief description, and the number of available questions fetched from the backend.
+ *
+ * @returns The React element tree for the Writing Practice page.
+ */
 export default async function WritingPracticePage() {
   const counts = await getWritingCounts()
 

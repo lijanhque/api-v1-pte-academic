@@ -5,6 +5,12 @@ import { eq } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 
+/**
+ * Fetches a reading question by its ID from the database.
+ *
+ * @param id - The ID of the reading question to retrieve.
+ * @returns The reading question record matching `id`, or `null` if no record is found or an error occurs.
+ */
 async function getQuestion(id: string) {
   try {
     const questions = await db
@@ -20,6 +26,19 @@ async function getQuestion(id: string) {
   }
 }
 
+/**
+ * Server page that renders the Reorder Paragraphs reading question identified by route params.
+ *
+ * Fetches the question by `id` from `props.params`, displays the question title and instructions,
+ * provides a back link to the question list, and mounts the client component that handles
+ * the reorder-paragraphs interaction.
+ *
+ * If the question is missing or its `type` is not `"reorder_paragraphs"`, this page invokes
+ * `notFound()` to render a 404.
+ *
+ * @param props - An object whose `params` property is a promise resolving to `{ id: string }`
+ * @returns The page UI for the specified Reorder Paragraphs question
+ */
 export default async function ReorderParagraphsQuestionPage(props: {
   params: Promise<{ id: string }>
 }) {

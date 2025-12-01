@@ -45,6 +45,17 @@ const speakingCodeToPath: Record<string, string> = {
     s_summarize_group_discussion: 'summarize-group-discussion',
 }
 
+/**
+ * Render the PTE practice dashboard UI for the provided category data.
+ *
+ * Displays section tabs (Speaking, Writing, Reading, Listening), a searchable list of practice
+ * question types filtered by the active section and search term, score breakdown badges,
+ * and contextual feature callouts. Search input updates are applied using React transition/deferred value
+ * to keep UI responsive.
+ *
+ * @param categories - Array of category objects used to populate section items and links; each category is expected to include fields such as `id`, `parent`, `code`, `title`, `description`, `icon`, `short_name`, `question_count`, and `scoring_type`.
+ * @returns The dashboard UI as a React element.
+ */
 export function PracticeDashboard({ categories }: { categories: any[] }) {
     const [activeSection, setActiveSection] = useState<SectionKey>('speaking')
     const [searchTerm, setSearchTerm] = useState('')

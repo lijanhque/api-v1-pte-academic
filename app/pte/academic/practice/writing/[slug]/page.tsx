@@ -20,6 +20,19 @@ const SLUG_TO_TYPE_MAP: Record<string, { type: string; title: string; descriptio
   },
 }
 
+/**
+ * Fetches and normalizes writing questions for a given question type.
+ *
+ * @param questionType - The question type identifier to fetch (e.g., "summarize_written_text")
+ * @returns An array of questions where each item contains:
+ * - `id`: question identifier
+ * - `title`: question title
+ * - `difficulty`: difficulty level (defaults to "Medium" if missing)
+ * - `bookmarked`: bookmark state (defaults to `false` if missing)
+ * - `practiceCount`: number of practice attempts (currently always `0`)
+ *
+ * Returns an empty array if fetching fails.
+ */
 async function getWritingQuestions(questionType: string) {
   try {
     const result = await getQuestionsDirectly('writing', questionType, {
@@ -41,6 +54,13 @@ async function getWritingQuestions(questionType: string) {
   }
 }
 
+/**
+ * Render the writing category page for a given slug by fetching and displaying its questions.
+ *
+ * @param props - Component props containing route parameters.
+ * @param props.params - A promise that resolves to an object with a `slug` route parameter identifying the writing category.
+ * @returns A React element that displays the category header (icon, title, description) and a table of available questions for that category.
+ */
 export default async function WritingCategoryPage(props: {
   params: Promise<{ slug: string }>
 }) {

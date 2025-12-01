@@ -18,7 +18,11 @@ import { cn } from '@/lib/utils'
 import { Loader2 } from 'lucide-react'
 import Image from 'next/image'
 
-// Submit button component using useFormStatus (React 19)
+/**
+ * Renders a form submit button that displays a spinner, changes its label, and becomes disabled while the parent form is pending.
+ *
+ * @returns The submit button element.
+ */
 function SubmitButton() {
   const { pending } = useFormStatus()
   return (
@@ -29,6 +33,13 @@ function SubmitButton() {
   )
 }
 
+/**
+ * Render the sign-up form UI with client-side password confirmation, social sign-in, and action-based submission.
+ *
+ * Manages local state for confirm password, client-side validation errors, and per-provider social loading. Displays local or server action errors, validates that the password matches the confirmation and meets the minimum length before submitting form data via the signUpAction, and exposes Apple and Google social sign-in flows that redirect to /pte/dashboard. Accepts and applies standard div props to the root container.
+ *
+ * @returns A React element containing the rendered sign-up form UI.
+ */
 export function SignupForm({
   className,
   ...props

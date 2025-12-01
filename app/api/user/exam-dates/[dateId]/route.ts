@@ -4,6 +4,19 @@ import { getSession } from '@/lib/auth/session'
 import { db } from '@/lib/db/drizzle'
 import { userScheduledExamDates } from '@/lib/db/schema'
 
+/**
+ * Deletes a scheduled exam date belonging to the authenticated user.
+ *
+ * Attempts to remove the exam date identified by `dateId` for the current session user and returns an HTTP JSON response indicating the outcome.
+ *
+ * @param request - The incoming Next.js request (unused for body parsing in this handler).
+ * @param params - A promise resolving to an object with `dateId`, the ID of the exam date to delete.
+ * @returns A NextResponse JSON:
+ * - `{ success: true }` with status 200 when deletion succeeds.
+ * - `{ error: 'Unauthorized' }` with status 401 when there is no authenticated session.
+ * - `{ error: 'Exam date not found' }` with status 404 when the specified date does not exist or does not belong to the user.
+ * - `{ error: 'Failed to delete exam date' }` with status 500 for deletion failures or unexpected errors.
+ */
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ dateId: string }> }

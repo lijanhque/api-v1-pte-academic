@@ -124,7 +124,12 @@ function scoreFillInBlanks(
   }
 }
 
-// POST /api/reading/attempts
+/**
+ * Handle POST /api/reading/attempts: validate the request, score the reading question, optionally generate an AI rationale for non-perfect scores, persist the attempt, and return the created record with scores.
+ *
+ * @param request - The incoming HTTP request containing a JSON body that matches ReadingAttemptBodySchema
+ * @returns The HTTP JSON response containing the created `attempt` record and `scores` object; on success the response has status 201
+ */
 export async function POST(request: Request) {
   const requestId = request.headers.get('x-request-id') || crypto.randomUUID()
 

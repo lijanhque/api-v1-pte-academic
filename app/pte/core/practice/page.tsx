@@ -4,6 +4,13 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Mic, PenTool, BookOpen, Headphones } from 'lucide-react'
 
+/**
+ * Renders the PTE Core Practice page with cards for Speaking, Writing, Reading, and Listening.
+ *
+ * Each card displays an icon, title, short description, and a "Start Practice" button that links to the section.
+ *
+ * @returns The React element for the page containing a header and a responsive grid of practice section cards.
+ */
 export default function CorePracticePage() {
   const sections = [
     { name: 'Speaking', icon: Mic, href: '/pte/core/practice/speaking', color: 'text-blue-600' },

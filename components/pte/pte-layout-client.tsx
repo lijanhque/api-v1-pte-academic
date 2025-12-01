@@ -15,6 +15,12 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
 
+/**
+ * Layout component that wraps its content with PTE, Academic, and Sidebar providers and renders the application sidebar, header (breadcrumb and context switcher), and main content area.
+ *
+ * @param children - The content to render inside the layout's main content area.
+ * @returns The layout element containing the sidebar, header, and main content area that includes `children`.
+ */
 export function PTELayoutClient({ children }: { children: React.ReactNode }) {
   return (
     <PTEProvider>

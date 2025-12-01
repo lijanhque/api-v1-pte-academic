@@ -33,6 +33,19 @@ interface RetellLectureProps {
     }
 }
 
+/**
+ * Render the Retell Lecture practice UI and manage the full exercise flow:
+ * listening to the lecture, preparation countdown, recording, transcription,
+ * scoring, and submission.
+ *
+ * @param question - The practice question object containing:
+ *   - id: unique identifier
+ *   - title: display title
+ *   - promptText: optional lecture transcript/reference text
+ *   - promptMediaUrl: optional lecture audio URL
+ *   - difficulty: difficulty label (e.g., "Easy", "Medium", "Hard")
+ * @returns The React element for the Retell Lecture practice interface.
+ */
 export function RetellLecture({ question }: RetellLectureProps) {
     const router = useRouter()
     const { toast } = useToast()

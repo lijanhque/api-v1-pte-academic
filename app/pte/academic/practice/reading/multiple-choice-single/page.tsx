@@ -3,6 +3,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { getQuestionsDirectly } from '@/lib/pte/direct-queries'
 import { Circle } from 'lucide-react'
 
+/**
+ * Fetches reading multiple-choice (single-answer) questions and returns simplified summaries.
+ *
+ * Each summary includes `id`, `title`, `difficulty` (defaults to "Medium" if missing),
+ * `bookmarked` (defaults to `false` if missing), and `practiceCount` (set to `0`).
+ *
+ * @returns An array of question summary objects with the fields described above; returns an empty array if fetching fails.
+ */
 async function getQuestions() {
   try {
     const result = await getQuestionsDirectly('reading', 'multiple_choice_single', {
@@ -24,6 +32,14 @@ async function getQuestions() {
   }
 }
 
+/**
+ * Renders the Multiple Choice (Single Answer) practice page and loads available questions.
+ *
+ * Displays a header with title and description, then a card showing the number of available questions
+ * and a QuestionListTable populated with the fetched question summaries.
+ *
+ * @returns The React element for the Multiple Choice (Single Answer) practice interface, including header, question count, and question list.
+ */
 export default async function MultipleChoiceSinglePage() {
   const questions = await getQuestions()
 

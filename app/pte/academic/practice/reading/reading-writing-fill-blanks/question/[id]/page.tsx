@@ -5,6 +5,12 @@ import { eq } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 
+/**
+ * Retrieve a single reading question by its identifier.
+ *
+ * @param id - The reading question's unique identifier
+ * @returns The matching question record, or `null` if no matching record is found or an error occurs
+ */
 async function getQuestion(id: string) {
   try {
     const questions = await db
@@ -20,6 +26,17 @@ async function getQuestion(id: string) {
   }
 }
 
+/**
+ * Render the Reading & Writing: Fill in the Blanks question page for a given question id.
+ *
+ * Fetches the question by id and displays the question title, description, and the ReadingQuestionClient
+ * configured for the "reading_writing_fill_blanks" question type. If the question is not found or its
+ * type does not match, the route responds with a 404.
+ *
+ * @param props - An object whose `params` property is a promise that resolves to the route parameters.
+ *                 `params.id` is the question id to load.
+ * @returns A JSX element representing the question page.
+ */
 export default async function ReadingWritingFillBlanksQuestionPage(props: {
   params: Promise<{ id: string }>
 }) {
