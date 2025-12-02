@@ -43,9 +43,15 @@ export function useAudioRecorder(options: UseAudioRecorderOptions = {}) {
         },
       });
 
+      const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
+        ? 'audio/webm;codecs=opus'
+        : MediaRecorder.isTypeSupported('audio/webm')
+        ? 'audio/webm'
+        : 'audio/mp4';
+
       streamRef.current = stream;
       mediaRecorderRef.current = new MediaRecorder(stream, {
-        mimeType: "audio/webm;codecs=opus",
+        mimeType,
       });
       audioChunksRef.current = [];
 
