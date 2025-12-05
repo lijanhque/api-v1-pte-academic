@@ -13,14 +13,12 @@ type PTEState = {
 const PTEContext = createContext<PTEState | undefined>(undefined)
 
 /**
- * Provides PTE context to descendant components and keeps it synchronized with the URL path.
+ * Provides PTE context to descendant components and synchronizes that context with the current URL path.
  *
- * The provider maintains an internal context state (initially "academic"), updates that state when the pathname includes
- * "/pte/core" or "/pte/academic", and exposes `setContext` which updates the state and navigates by replacing the
- * first "/academic" or "/core" segment in the current pathname.
+ * The provider supplies `{ context, setContext }` to its descendants so they can read and change the active PTE context.
  *
- * @param children - React children that will receive the PTE context
- * @returns The provider element supplying `{ context, setContext }` to its descendants
+ * @param children - React children to render inside the provider
+ * @returns A provider element that supplies `{ context, setContext }` to its descendants
  */
 export function PTEProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname()
@@ -56,10 +54,10 @@ export function PTEProvider({ children }: { children: ReactNode }) {
 }
 
 /**
- * Access the PTE context provided by a surrounding PTEProvider.
+ * Retrieve the current PTE context and its updater from the nearest PTEProvider.
  *
- * @returns The context object `{ context: 'academic' | 'core'; setContext: (context) => void }`.
- * @throws Error if the hook is used outside of a PTEProvider.
+ * @returns The context object with `context` set to `'academic'` or `'core'` and `setContext` to update it.
+ * @throws Error if there is no enclosing PTEProvider.
  */
 export function usePTE() {
   const context = useContext(PTEContext)

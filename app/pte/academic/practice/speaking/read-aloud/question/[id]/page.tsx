@@ -26,14 +26,14 @@ async function getQuestion(id: string) {
 }
 
 /**
- * Render the read-aloud question page for a given question ID.
+ * Renders the read-aloud question page for a given question ID.
  *
- * Fetches the question by ID from the database and renders navigation controls, a question card
- * with title and timing instructions, and the ReadAloud interactive component.
+ * Fetches the question by ID and displays navigation controls, the question title with timing
+ * instructions, and the ReadAloud interactive component.
  *
  * @param props - Component props containing route parameters.
- * @param props.params - A promise that resolves to an object with the `id` of the question to load.
- * @returns The page's React element that displays navigation, the question details, and the ReadAloud component.
+ * @param props.params - Route parameters object with the `id` of the question to load.
+ * @returns The page element displaying navigation, question details, and the ReadAloud component.
  */
 export default async function ReadAloudQuestionPage(props: {
   params: Promise<{ id: string }>

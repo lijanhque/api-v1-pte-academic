@@ -4,6 +4,11 @@ import { getCurrentUser } from '@/lib/auth/server'
 import { db } from '@/lib/db/drizzle'
 import { userProfiles } from '@/lib/db/schema'
 
+/**
+ * Retrieve the authenticated user's targetScore from the userProfiles table.
+ *
+ * @returns An HTTP JSON response: on success `{ targetScore: number | null }` where `null` indicates no profile found; on failure or unauthenticated access `{ error: string }`.
+ */
 export async function GET(request: NextRequest) {
   try {
     const user = await getCurrentUser()
@@ -32,13 +37,15 @@ export async function GET(request: NextRequest) {
 }
 
 /**
- * Upserts the authenticated user's target score and returns the operation result.
+ * Upserts the authenticated user's target score and returns the operation outcome.
  *
- * @returns A NextResponse containing JSON:
- * - `{ error: 'Unauthorized' }` with status 401 if the user is not authenticated.
- * - `{ error: 'Target score must be between 30 and 90' }` with status 400 if validation fails.
- * - `{ success: true, targetScore }` with status 200 after a successful insert or update.
- * - `{ error: 'Failed to update target score' }` or `{ error: 'Failed to create profile with target score' }` with status 500 on failure.
+ * Validates that `targetScore` is a number between 30 and 90 inclusive before inserting or updating the user's profile.
+ *
+ * @returns A NextResponse whose JSON is one of:
+ * - `{ error: 'Unauthorized' }` with status 401 when the request is unauthenticated.
+ * - `{ error: 'Target score must be between 30 and 90' }` with status 400 when validation fails.
+ * - `{ success: true, targetScore }` with status 200 on successful insert or update.
+ * - `{ error: 'Failed to update target score' }` or `{ error: 'Failed to create profile with target score' }` with status 500 on database failure.
  */
 export async function POST(request: NextRequest) {
   try {

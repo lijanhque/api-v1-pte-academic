@@ -15,14 +15,12 @@ const updateAccountSchema = z.object({
 })
 
 /**
- * Validate input and update the authenticated user's name and email in the database.
+ * Update the authenticated user's name and email using provided form data.
  *
- * Validates `formData` against the update schema, returns the first validation error if invalid,
- * updates the users table for the current authenticated user, and returns a success message
- * with the updated `name` on success or an `error` message on failure.
+ * Validates the input and applies changes to the user's record; returns details about the outcome.
  *
- * @param formData - FormData containing `name` and `email` fields to apply to the user's account
- * @returns An object with `name` and `success` on successful update, or `{ error: string }` on failure
+ * @param formData - FormData containing `name` and `email` fields to update
+ * @returns On success, an object with `name` and `success` message; on failure, an object with `error` message
  */
 export async function updateAccount(prevState: unknown, formData: FormData) {
   const user = await getUserProfile()
@@ -113,9 +111,9 @@ const deleteAccountSchema = z.object({
 })
 
 /**
- * Deletes the currently authenticated user's account, signs them out, and redirects to the sign-in page.
+ * Deletes the authenticated user's account, signs them out, and redirects to the sign-in page.
  *
- * Validates the provided form data (expects a `password` field per the deletion schema), deletes the user record if found, signs the user out, and redirects to '/sign-in'. If validation or deletion fails, returns an object containing an `error` message.
+ * Validates the provided form data against the account deletion schema, deletes the user record if found, signs the user out, and redirects to '/sign-in'. On validation failure or if the user is not found, returns an object with an `error` message.
  *
  * @param formData - FormData from the account deletion form; must include the `password` field.
  * @returns An object with an `error` property containing a user-facing message when validation or deletion fails; on successful deletion the function redirects to '/sign-in' and does not return a value.

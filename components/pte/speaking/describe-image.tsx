@@ -98,6 +98,12 @@ export function DescribeImage({ question }: DescribeImageProps) {
         stopRecording()
     }, [stopRecording, playBeep])
 
+    /**
+     * Process a completed recording by preparing it for playback, generating a transcript, and updating UI stage.
+     *
+     * @param blob - The recorded audio data as a Blob
+     * @param duration - Recording duration in milliseconds
+     */
     async function handleRecordingComplete(blob: Blob, duration: number) {
         setStage('processing')
 

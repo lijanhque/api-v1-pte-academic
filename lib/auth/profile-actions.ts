@@ -15,18 +15,15 @@ const updateProfileSchema = z.object({
 })
 
 /**
- * Validate incoming profile form data and persist updates to the user's record and profile settings.
+ * Validate profile form data and update the user's account and profile settings.
  *
- * Validates `formData` against the update schema, updates the users table (name, email) and upserts
- * profile fields (targetScore defaulting to 65, examDate or null). Returns a structured result
- * indicating validation or persistence errors, or the updated profile fields on success.
+ * Missing `targetScore` defaults to 65; `examDate` is persisted as a Date or null.
  *
- * @param prevState - Previous client state (kept for compatibility; not used by this function)
- * @param formData - FormData containing `name`, `email`, `targetScore`, and `examDate` values
+ * @param prevState - Previous client state (kept for compatibility; not used)
+ * @param formData - FormData with keys `name`, `email`, optional `targetScore`, and optional `examDate`
  * @returns An object with either:
- * - `{ error: string }` on validation failure or if a database update/insert did not succeed, or
- * - `{ success: string, name: string, email: string, targetScore: number, examDate: string | null }`
- *   on successful update
+ * - `{ error: string }` on validation or persistence failure, or
+ * - `{ success: string, name: string, email: string, targetScore: number, examDate: string | null }` on success
  * @throws Error when there is no authenticated user
  */
 export async function updateProfile(prevState: unknown, formData: FormData) {
@@ -132,7 +129,13 @@ export async function updateTargetScore(targetScore: number) {
   }
 }
 
-// Specific function for updating just the exam date
+/**
+ * Update the authenticated user's exam date in their profile.
+ *
+ * @returns The user profile record with the updated `examDate`.
+ * @throws Error('User not authenticated') If no authenticated user is found.
+ * @throws Error('Failed to update exam date') If the database update/insert fails.
+ */
 export async function updateExamDate(examDate: Date) {
   const user = await getUserProfile()
   if (!user) {

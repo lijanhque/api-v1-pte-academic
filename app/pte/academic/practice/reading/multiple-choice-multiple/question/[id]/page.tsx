@@ -6,10 +6,12 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 
 /**
- * Fetches a reading question by its ID.
+ * Retrieve a reading question by its ID.
+ *
+ * Returns the matching reading question record, or `null` if no record is found or an error occurs.
  *
  * @param id - The reading question's ID
- * @returns The matching reading question record if found, otherwise `null`
+ * @returns The matching reading question record, or `null` if not found or on error
  */
 async function getQuestion(id: string) {
   try {

@@ -8,9 +8,11 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 /**
- * Fetch category records, falling back to `initialCategories` when none are available or an error occurs.
+ * Retrieve category records from the database with a fallback to `initialCategories`.
  *
- * @returns An array of category records from the `pteCategories` table, or `initialCategories` if the table is empty or a retrieval error occurs.
+ * If the `pteCategories` table contains any records, those records are returned; otherwise `initialCategories` is returned.
+ *
+ * @returns An array of category records from the `pteCategories` table when available, otherwise `initialCategories`.
  */
 async function getCategories() {
   try {
@@ -35,16 +37,17 @@ const SECTION_META: Record<SectionKey, { id: number; label: string }> = {
 }
 
 /**
- * Render the landing page for a PTE academic section, showing category cards for that section.
+ * Render the PTE section landing page with a header and a grid of category cards.
  *
- * This component resolves the incoming route params to determine the section, validates it,
- * loads categories, and renders a grid of cards linking to each category's practice page.
+ * The component resolves the incoming route `section` parameter, validates it (must be
+ * "speaking", "writing", "reading", or "listening"), loads categories, and renders cards
+ * that link to each category's practice page.
  *
  * @param props - Component props containing route parameters.
- * @param props.params - A promise that resolves to an object with a `section` string.
- *   The `section` value is normalized and must be one of "speaking", "writing", "reading", or "listening".
- *   If the section is invalid, `notFound()` is invoked.
- * @returns The React element for the section landing page containing header and category cards.
+ * @param props.params - A promise resolving to an object with a `section` string; the value is normalized to lowercase and validated.
+ * @returns A React element containing the section header and a responsive grid of category cards linking to practice pages.
+ *
+ * Note: Invokes `notFound()` when the `section` parameter is invalid.
  */
 export default async function SectionLandingPage(props: {
   params: Promise<{ section: string }>

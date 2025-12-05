@@ -34,11 +34,11 @@ function SubmitButton() {
 }
 
 /**
- * Render the sign-up form UI with client-side password confirmation, social sign-in, and action-based submission.
+ * Render the sign-up form with client-side password confirmation, social sign-in, and action-backed submission.
  *
- * Manages local state for confirm password, client-side validation errors, and per-provider social loading. Displays local or server action errors, validates that the password matches the confirmation and meets the minimum length before submitting form data via the signUpAction, and exposes Apple and Google social sign-in flows that redirect to /pte/dashboard. Accepts and applies standard div props to the root container.
+ * Performs client-side validation for matching passwords and a minimum length, displays local or server-provided errors, and submits form data via the configured signUpAction. Also exposes Apple and Google social sign-in flows that redirect to /pte/dashboard and shows per-provider loading state while a social sign-in is in progress.
  *
- * @returns A React element containing the rendered sign-up form UI.
+ * @returns A React element containing the sign-up form UI
  */
 export function SignupForm({
   className,

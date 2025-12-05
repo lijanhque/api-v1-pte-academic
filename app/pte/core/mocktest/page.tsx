@@ -20,10 +20,10 @@ async function getMockTests() {
 }
 
 /**
- * Fetches a user's PTE test attempt history with associated test metadata.
+ * Retrieve a user's PTE test attempt history with associated test metadata.
  *
  * @param userId - The ID of the user whose test history to retrieve
- * @returns An array of history records (ordered by `startedAt` descending) containing `id`, `testTitle`, `status`, `score`, `startedAt`, and `completedAt`
+ * @returns An array of records ordered by `startedAt` descending, each containing `id`, `testTitle`, `status`, `score`, `startedAt`, and `completedAt`
  */
 async function getTestHistory(userId: string) {
   return await db
@@ -44,9 +44,9 @@ async function getTestHistory(userId: string) {
 /**
  * Render the PTE Core mock tests page with tabs for full mock tests, sectional tests, and the user's test history.
  *
- * Redirects unauthenticated requests to the sign-in page.
+ * Redirects to "/sign-in" when there is no authenticated session.
  *
- * @returns The page element rendering tabs for full mock tests, sectional tests, and the authenticated user's test history.
+ * @returns The React element for the PTE Core mock tests page.
  */
 export default async function CoreMockTestPage() {
   const session = await auth.api.getSession({

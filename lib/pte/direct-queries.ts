@@ -246,12 +246,12 @@ export async function getRandomQuestions(
 }
 
 /**
- * Return counts of active questions grouped by question type for the given section.
+ * Retrieve counts of active questions grouped by question type for the given section.
  *
- * Counts include only questions where `isActive` is `true`.
+ * Only questions with isActive set to true are included in the counts.
  *
  * @param section - The section to retrieve counts for ("speaking" | "reading" | "writing" | "listening")
- * @returns A record mapping question type to its count (e.g., `{ "multipleChoice": 42 }`). Returns an empty object on error.
+ * @returns A record mapping question type to its count (for example, `{ "multipleChoice": 42 }`). Returns an empty object on error.
  */
 export async function getQuestionCounts(
   section: Section

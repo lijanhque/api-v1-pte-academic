@@ -174,6 +174,16 @@ function scoreWriteFromDictation(
   }
 }
 
+/**
+ * Scores a user's spoken-text summary by evaluating its word count against expected bounds.
+ *
+ * The returned object contains the measured `wordCount`, a `withinRange` flag indicating whether
+ * the count falls within the configured acceptable range, and a `score` (0–90) that reflects
+ * length-based quality with penalties applied for excessively short or long responses.
+ *
+ * @param textAnswer - The user's summary text to evaluate
+ * @returns An object with `wordCount`, `withinRange`, and `score` (integer between 0 and 90)
+ */
 function scoreSummarizeSpokenText(textAnswer: string): {
   wordCount: number
   withinRange: boolean
@@ -362,7 +372,22 @@ export async function POST(request: Request) {
   }
 }
 
-// GET /api/listening/attempts?questionId=<id>&page=1&pageSize=25
+/**
+ * Retrieve paginated listening attempts for the authenticated user, optionally filtered by question.
+ *
+ * Supports the following query parameters:
+ * - `questionId` (optional): filter attempts to a specific question ID.
+ * - `page` (optional): 1-based page number (defaults to 1, clamped to >= 1).
+ * - `pageSize` (optional): number of items per page (defaults to 25, clamped to 1..100).
+ *
+ * Requires an authenticated session; returns 401 when no user is authenticated.
+ *
+ * @returns An object containing:
+ * - `items`: an array of attempts, each including `id`, `userResponse`, `scores`, `timeTaken`, `createdAt`, and a nested `question` object with `id`, `title`, `type`, and `difficulty`.
+ * - `count`: total number of matching attempts.
+ * - `page`: the current page number.
+ * - `pageSize`: the page size in effect.
+ */
 export async function GET(request: Request) {
   const requestId = request.headers.get('x-request-id') || crypto.randomUUID()
 

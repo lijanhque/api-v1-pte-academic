@@ -55,11 +55,11 @@ async function getWritingQuestions(questionType: string) {
 }
 
 /**
- * Render the writing category page for a given slug by fetching and displaying its questions.
+ * Renders the writing category page for the given route slug.
  *
  * @param props - Component props containing route parameters.
  * @param props.params - A promise that resolves to an object with a `slug` route parameter identifying the writing category.
- * @returns A React element that displays the category header (icon, title, description) and a table of available questions for that category.
+ * @returns The page element that displays the category header (icon, title, description) and a table of available questions for that category.
  */
 export default async function WritingCategoryPage(props: {
   params: Promise<{ slug: string }>

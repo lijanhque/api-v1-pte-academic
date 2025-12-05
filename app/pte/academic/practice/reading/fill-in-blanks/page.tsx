@@ -4,14 +4,12 @@ import { getQuestionsDirectly } from '@/lib/pte/direct-queries'
 import { TextCursor } from 'lucide-react'
 
 /**
- * Fetches and normalizes "Fill in the Blanks" reading questions.
+ * Fetch and normalize "Fill in the Blanks" reading questions.
  *
- * Returns an array of question objects containing `id`, `title`, `difficulty`,
- * `bookmarked`, and `practiceCount`. If `difficulty` or `bookmarked` are missing
- * they default to `"Medium"` and `false` respectively. Returns an empty array
- * if fetching fails.
+ * Each returned question object contains `id`, `title`, `difficulty` (defaults to `"Medium"` if missing),
+ * `bookmarked` (defaults to `false` if missing), and `practiceCount` (set to `0`).
  *
- * @returns An array of normalized question objects or an empty array on error.
+ * @returns An array of normalized question objects; an empty array if fetching fails.
  */
 async function getQuestions() {
   try {
@@ -35,12 +33,11 @@ async function getQuestions() {
 }
 
 /**
- * Render the "Reading: Fill in the Blanks" practice page and its available questions list.
+ * Display the Reading: Fill in the Blanks practice page with its available questions.
  *
- * Fetches the set of Fill in the Blanks questions and renders a header, summary, and a
- * question table showing the total available questions and allowing selection to practice.
+ * Fetches and renders a header, descriptive subtitle, question count, and a table of selectable questions.
  *
- * @returns A React element representing the Fill in the Blanks practice page.
+ * @returns A React element for the Fill in the Blanks practice page.
  */
 export default async function FillInBlanksPage() {
   const questions = await getQuestions()

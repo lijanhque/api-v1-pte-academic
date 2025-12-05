@@ -58,6 +58,14 @@ function uniqueWordRatio(text: string): number {
   return uniq.size / tokens.length
 }
 
+/**
+ * Produces a heuristic overall score for a writing attempt based on task type, word count, and whether length is within the expected range.
+ *
+ * @param type - The writing task type: `'summarize_written_text'` or `'write_essay'`
+ * @param wordCount - The number of words in the response
+ * @param withinRange - Whether the response length meets the expected length range
+ * @returns An integer score between 0 and 90 inclusive reflecting a basic assessment of length adherence and word-count extremes
+ */
 function computeTotalScore(
   type: 'summarize_written_text' | 'write_essay',
   wordCount: number,
@@ -212,7 +220,12 @@ export async function POST(request: Request) {
   }
 }
 
-// GET /api/writing/attempts?questionId=<id>&page=1&pageSize=25
+/**
+ * Retrieves a paginated list of the current user's writing attempts, optionally filtered by question.
+ *
+ * @param request - Incoming HTTP request. Query parameters: `questionId` (optional), `page` (default 1, minimum 1), and `pageSize` (default 25, range 1–100). The `x-request-id` header may be provided or will be generated.
+ * @returns JSON response with `items` (attempt records with question metadata), `count` (total matching attempts), `page`, and `pageSize`. Returns a 200 on success, 401 if the user is not authenticated, or 500 on unexpected errors.
+ */
 export async function GET(request: Request) {
   const requestId = request.headers.get('x-request-id') || crypto.randomUUID()
 

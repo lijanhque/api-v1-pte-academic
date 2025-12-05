@@ -28,14 +28,14 @@ type QuestionListTableProps = {
 }
 
 /**
- * Render a table of questions with difficulty and practice status, and a "Practice" action for each row.
+ * Render a table of questions with per-row difficulty and status badges and a "Practice" action.
  *
- * Displays a centered "No questions available at the moment." message when `questions` is empty.
+ * Renders a centered "No questions available at the moment." message when `questions` is empty.
  *
- * @param questions - The list of questions to display. Each question must include `id` and `title`; may include `difficulty`, `bookmarked`, and `practiceCount`.
- * @param basePath - Base URL path used when building the practice link for each question.
- * @param sectionType - Section segment appended to `basePath` when building the practice link for each question.
- * @returns A table listing the provided questions with badges for difficulty and status and a right-aligned "Practice" button for each entry; if no questions are provided, a centered empty-state message is rendered.
+ * @param questions - Array of question objects; each must include `id` and `title` and may include `difficulty`, `bookmarked`, and `practiceCount`.
+ * @param basePath - Base URL segment used to build each question's practice link.
+ * @param sectionType - Section segment appended to `basePath` when building each question's practice link.
+ * @returns A table listing each question with index, title (with optional bookmark icon), difficulty badge, practice count, status badge, and a right-aligned "Practice" button linking to the question's practice page; if `questions` is empty, the centered empty-state message is returned.
  */
 export function QuestionListTable({ questions, basePath, sectionType }: QuestionListTableProps) {
   if (questions.length === 0) {

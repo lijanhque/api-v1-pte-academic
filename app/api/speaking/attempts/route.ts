@@ -27,6 +27,13 @@ function error(status: number, message: string, code?: string) {
   return NextResponse.json(body, { status })
 }
 
+/**
+ * Check if a user is within the hourly speaking-attempts limit.
+ *
+ * @param userId - The user ID whose attempts will be counted
+ * @param maxPerHour - Maximum allowed attempts in the past hour (default: 60)
+ * @returns An object with `count` — the number of attempts in the last hour — and `allowed` — `true` if `count` is less than `maxPerHour`, `false` otherwise
+ */
 async function checkRateLimit(userId: string, maxPerHour = 60) {
   // DB-only soft rate limit: count attempts in the last hour
   const rows = await db
@@ -48,7 +55,15 @@ async function checkRateLimit(userId: string, maxPerHour = 60) {
  *
  * @param request - HTTP request whose JSON body must include `questionId`, `type`, `audioUrl`, `durationMs`, and optional `timings`
  * @returns A NextResponse with a JSON body `{ attempt: SpeakingAttempt, feedback?: any }` and HTTP 201 on success; on failure returns a JSON error response with an appropriate status code and error code.
-export async function POST(request: Request) {
+export /**
+ * Create a new speaking attempt for the authenticated user.
+ *
+ * Validates the request body, enforces per-user rate limits and question constraints, attempts transcription,
+ * scores the attempt, persists the attempt record (including derived score columns), and returns the saved record with feedback.
+ *
+ * @returns An object containing the persisted `attempt` record and generated `feedback` for the attempt
+ */
+async function POST(request: Request) {
   const requestId = request.headers.get('x-request-id') || crypto.randomUUID()
 
   try {
@@ -188,7 +203,16 @@ export async function POST(request: Request) {
 }
 
 // GET /api/speaking/attempts?questionId=<id>&page=1&pageSize=25
-// Lists attempts for current user, optionally filtered by questionId
+/**
+ * List speaking attempts for the authenticated user, optionally filtered by question and paginated.
+ *
+ * Supports query parameters:
+ * - `questionId` — optional filter for a specific question
+ * - `page` — page number, minimum 1 (defaults to 1)
+ * - `pageSize` — items per page, clamped between 1 and 100 (defaults to 25)
+ *
+ * @returns An object with `items` (array of SpeakingAttempt), `count` (total matching attempts), `page`, and `pageSize`.
+ */
 export async function GET(request: Request) {
   const requestId = request.headers.get('x-request-id') || crypto.randomUUID()
 
