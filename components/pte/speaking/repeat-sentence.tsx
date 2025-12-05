@@ -34,17 +34,11 @@ interface RepeatSentenceProps {
 }
 
 /**
- * Render the Repeat Sentence practice UI that guides the user to listen to a prompt, record a response, review the recording, and submit it for scoring.
+ * Render the Repeat Sentence practice UI for a single practice item.
  *
- * This component implements the full client-side workflow: prompt playback (one-time play), automatic recording start after playback, live waveform and timer during recording (max 15s), local processing/transcription of the recording, playback of the recorded response, retrying, and submission to the scoring endpoint with toast and modal feedback.
+ * Guides a user through: playing a one-time prompt audio, automatically starting a timed recording (max 15s) after playback, showing a live waveform and timer during recording, processing/transcribing the recording, allowing playback and retry of the recorded response, and submitting the response for scoring with toast and modal feedback.
  *
- * @param question - The practice item to render. Expected shape:
- *   - id: unique identifier for the question
- *   - title: display title
- *   - promptText: optional original sentence text
- *   - promptMediaUrl: optional URL to the prompt audio
- *   - difficulty: difficulty label (e.g., "Easy", "Medium", "Hard")
- *
+ * @param question - The practice item to render. Expected fields: `id`, `title`, optional `promptText`, optional `promptMediaUrl`, and `difficulty`.
  * @returns The React element for the repeat-sentence practice workflow UI.
  */
 export function RepeatSentence({ question }: RepeatSentenceProps) {
@@ -111,6 +105,15 @@ export function RepeatSentence({ question }: RepeatSentenceProps) {
         stopRecording()
     }, [stopRecording, playBeep])
 
+    /**
+     * Processes a finished recording: creates a blob URL for playback, transcribes the audio, and advances the UI to the completion stage.
+     *
+     * @param blob - The recorded audio blob
+     * @param duration - The recording duration in milliseconds
+     *
+     * On success, sets the audio playback URL, stores the transcription, and sets the stage to `complete`.
+     * On failure, stores an error message and resets the stage to `idle`.
+     */
     async function handleRecordingComplete(blob: Blob, duration: number) {
         setStage('processing')
 

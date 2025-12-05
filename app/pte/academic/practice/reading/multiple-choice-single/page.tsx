@@ -4,12 +4,12 @@ import { getQuestionsDirectly } from '@/lib/pte/direct-queries'
 import { Circle } from 'lucide-react'
 
 /**
- * Fetches reading multiple-choice (single-answer) questions and returns simplified summaries.
+ * Retrieve summaries of reading multiple-choice (single-answer) questions.
  *
- * Each summary includes `id`, `title`, `difficulty` (defaults to "Medium" if missing),
- * `bookmarked` (defaults to `false` if missing), and `practiceCount` (set to `0`).
+ * Each summary contains `id`, `title`, `difficulty` (defaults to `"Medium"` if missing),
+ * `bookmarked` (defaults to `false` if missing), and `practiceCount` (always `0`).
  *
- * @returns An array of question summary objects with the fields described above; returns an empty array if fetching fails.
+ * @returns An array of question summary objects as described above; returns an empty array if fetching fails.
  */
 async function getQuestions() {
   try {

@@ -20,11 +20,11 @@ async function getMockTests() {
 }
 
 /**
- * Fetches tests intended to represent sectional mock tests.
+ * Retrieve mock tests from the `pteTests` table; does not perform sectional filtering.
  *
- * Currently returns all records from `pteTests` where `testType` equals `'mock'`; no additional sectional filtering is applied.
+ * Selects records whose `testType` equals `'mock'`. Sectional vs full grouping is determined elsewhere (for example by the presence of a section field).
  *
- * @returns All test records from `pteTests` where `testType` equals `'mock'`.
+ * @returns All records from `pteTests` with `testType` equal to `'mock'`.
  */
 async function getSectionalTests() {
   // Assuming sectional tests have a section defined or a specific type
@@ -63,9 +63,9 @@ async function getTestHistory(userId: string) {
 /**
  * Render the Mock Tests dashboard for the authenticated user.
  *
- * Redirects unauthenticated requests to /sign-in. When authenticated, fetches mock tests and the user's test history and renders a tabbed UI with full mock tests, sectional tests, and test history.
+ * Redirects unauthenticated requests to `/sign-in`, fetches mock tests and the user's test history, and renders a tabbed UI for full mock tests, sectional tests, and test history.
  *
- * @returns The Mock Tests page as a React element.
+ * @returns A React element representing the Mock Tests page
  */
 export default async function MockTestPage() {
   const session = await auth.api.getSession({

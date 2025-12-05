@@ -6,10 +6,10 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 
 /**
- * Retrieve a writing question by its ID from the database.
+ * Fetch a writing question by its ID.
  *
- * @param id - The ID of the writing question to fetch
- * @returns The question record if found, `null` otherwise
+ * @param id - The writing question's ID
+ * @returns The question record when found, `null` otherwise
  */
 async function getQuestion(id: string) {
   try {

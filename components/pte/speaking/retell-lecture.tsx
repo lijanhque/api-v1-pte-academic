@@ -34,17 +34,14 @@ interface RetellLectureProps {
 }
 
 /**
- * Render the Retell Lecture practice UI and manage the full exercise flow:
- * listening to the lecture, preparation countdown, recording, transcription,
- * scoring, and submission.
+ * Render the Retell Lecture practice interface and manage the end-to-end exercise flow.
  *
- * @param question - The practice question object containing:
- *   - id: unique identifier
- *   - title: display title
- *   - promptText: optional lecture transcript/reference text
- *   - promptMediaUrl: optional lecture audio URL
- *   - difficulty: difficulty label (e.g., "Easy", "Medium", "Hard")
- * @returns The React element for the Retell Lecture practice interface.
+ * Manages listening to the lecture, a 10-second preparation countdown, audio recording (max 40s),
+ * transcription, scoring, submission, and related UI stages and error handling.
+ *
+ * @param question - Practice question object with properties: `id`, `title`, optional `promptText`,
+ *   optional `promptMediaUrl`, and `difficulty` (e.g., "Easy", "Medium", "Hard")
+ * @returns The React element for the Retell Lecture practice interface
  */
 export function RetellLecture({ question }: RetellLectureProps) {
     const router = useRouter()
@@ -115,6 +112,15 @@ export function RetellLecture({ question }: RetellLectureProps) {
         stopRecording()
     }, [stopRecording, playBeep])
 
+    /**
+     * Process a finished recording: prepare the audio for playback, transcribe it, and advance the UI to the completion state.
+     *
+     * Processes the provided audio Blob, makes the recording available for playback, obtains a transcription, and updates component state
+     * so the UI transitions to the "complete" stage. If processing fails, stores an error message and returns the UI to the "idle" stage.
+     *
+     * @param blob - The recorded audio blob
+     * @param duration - The recording duration in milliseconds
+     */
     async function handleRecordingComplete(blob: Blob, duration: number) {
         setStage('processing')
 

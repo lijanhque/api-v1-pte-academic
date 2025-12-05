@@ -101,6 +101,15 @@ function scoreReorderParagraphs(
   }
 }
 
+/**
+ * Scores a fill-in-the-blanks response by comparing each submitted blank to the corresponding correct answer.
+ *
+ * @param userResponse - The user's response object; expected shape: `{ answers: Record<number, string> }` where keys are blank indexes.
+ * @param correctAnswers - The correct answers object; expected shape: `{ blanks: Array<{ index: number; answer: string }> }`.
+ * @returns An object with `accuracy` (percentage 0–100), `correctAnswers` (count of matched blanks), and `totalAnswers` (number of blanks).
+ *
+ * Matching is performed case-insensitively and with surrounding whitespace trimmed.
+ */
 function scoreFillInBlanks(
   userResponse: any,
   correctAnswers: any
@@ -285,7 +294,22 @@ export async function POST(request: Request) {
   }
 }
 
-// GET /api/reading/attempts?questionId=<id>&page=1&pageSize=25
+/**
+ * Fetches paginated reading attempts for the authenticated user.
+ *
+ * Supports optional filtering by `questionId` and pagination via `page` and `pageSize`.
+ * Requires a valid authenticated session; returns `401` if unauthenticated.
+ *
+ * Query parameters:
+ * - `questionId` (optional): filter attempts to a specific question ID.
+ * - `page` (optional): 1-based page number (default `1`, minimum `1`).
+ * - `pageSize` (optional): items per page (default `25`, clamped to the range `1`–`100`).
+ *
+ * The returned `items` include attempt fields (`id`, `userResponse`, `scores`, `timeTaken`, `createdAt`)
+ * and a nested `question` object (`id`, `title`, `type`, `difficulty`).
+ *
+ * @returns An object with `items` (array of attempts), `count` (total matching attempts), `page`, and `pageSize`.
+ */
 export async function GET(request: Request) {
   const requestId = request.headers.get('x-request-id') || crypto.randomUUID()
 

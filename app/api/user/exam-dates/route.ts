@@ -4,6 +4,11 @@ import { db } from "@/lib/db/drizzle";
 import { userScheduledExamDates } from "@/lib/db/schema";
 import { getCurrentUser } from "@/lib/auth/server";
 
+/**
+ * Retrieve scheduled exam dates for the authenticated user.
+ *
+ * @returns A JSON response containing `examDates` (an array of the user's scheduled exam date records, ordered by `examDate`) on success, or an error object with an appropriate HTTP status (`401` when unauthenticated, `500` on server error).
+ */
 export async function GET(request: NextRequest) {
   try {
     const user = await getCurrentUser();

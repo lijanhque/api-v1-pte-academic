@@ -27,14 +27,13 @@ async function getQuestion(id: string) {
 }
 
 /**
- * Render the write-essay question page for a given question id.
+ * Renders the write-essay question page for the specified question id.
  *
- * Fetches the question by id, renders a back link, the question title with a brief instruction,
- * and the WritingQuestionClient configured for the retrieved question.
+ * Renders a back link, the question title with instructions, and the WritingQuestionClient for the question.
  *
  * @param props - Component props containing `params`.
  * @param props.params - A promise that resolves to an object with an `id` string identifying the question.
- * @returns A React element that displays the question header, instructions, navigation link, and the writing question client for the specified id. If the question is missing or its type is not `write_essay`, triggers a 404 page.
+ * @returns A React element that displays the question header, instructions, navigation link, and the writing question client for the specified id. Triggers a 404 page if the question is missing or its type is not `write_essay`.
  */
 export default async function WriteEssayQuestionPage(props: {
   params: Promise<{ id: string }>

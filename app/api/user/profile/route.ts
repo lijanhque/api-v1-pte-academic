@@ -4,6 +4,11 @@ import { auth } from '@/lib/auth/server'
 import { db } from '@/lib/db/drizzle'
 import { userProfiles, users } from '@/lib/db/schema'
 
+/**
+ * Retrieve the authenticated user's profile.
+ *
+ * @returns A NextResponse containing the user's profile object if found, an empty object if no profile exists, or an error payload with status 401 (unauthorized) or 500 (failed to fetch profile).
+ */
 export async function GET(request: NextRequest) {
   try {
     const session = await auth.api.getSession({

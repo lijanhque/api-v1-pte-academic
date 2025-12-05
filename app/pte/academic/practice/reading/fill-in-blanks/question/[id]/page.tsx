@@ -27,10 +27,14 @@ async function getQuestion(id: string) {
 }
 
 /**
- * Render the fill-in-blanks reading question page for a given question ID.
+ * Server component that displays the fill-in-blanks reading question page for a given question ID.
+ *
+ * Fetches the question by ID, shows the question title, instructions, a back link, and embeds the client-side
+ * ReadingQuestionClient configured for `fill_in_blanks`. If the question does not exist or its type is not
+ * `fill_in_blanks`, the function invokes `notFound()` to render a 404 page.
  *
  * @param props - An object with `params`, a Promise that resolves to route parameters containing `id`.
- * @returns A React element displaying the question title, instructions, navigation, and the client-side reading question UI; renders a 404 page if the question is missing or not of type `fill_in_blanks`.
+ * @returns A React element rendering the question page (title, instructions, navigation, and client-side UI); triggers a 404 page when the question is missing or not of type `fill_in_blanks`.
  */
 export default async function FillInBlanksQuestionPage(props: {
   params: Promise<{ id: string }>

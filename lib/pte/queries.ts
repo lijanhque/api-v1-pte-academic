@@ -43,6 +43,11 @@ export async function getUser() {
   return session?.user;
 }
 
+/**
+ * Returns usage counts for the Speaking and Writing features.
+ *
+ * @returns An array with two objects: `{ name: 'Speaking', value: <number> }` and `{ name: 'Writing', value: <number> }` where `value` is the total count of attempts for that feature.
+ */
 export async function getFeatureStats() {
   const speakingCount = await db.select({ value: count() }).from(speakingAttempts);
   const writingCount = await db.select({ value: count() }).from(writingAttempts);
