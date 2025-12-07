@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build & Audit (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [18.x, 20.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: "npm"
+
+      - name: Restore cache (node_modules)
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ matrix.node }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ matrix.node }}-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run npm audit fix (non-forcing)
+        # try automatic safe fixes first
+        run: |
+          echo "Attempting safe automatic fixes..."
+          npm audit fix || true
+
+      - name: Run npm audit (fail on high)
+        # fail the job if there are HIGH or CRITICAL vulnerabilities left
+        run: |
+          echo "Auditing for vulnerabilities..."
+          npm audit --audit
