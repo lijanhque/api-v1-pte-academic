@@ -1,4 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+// Force dynamic rendering to avoid DB queries during build
+export const dynamic = 'force-dynamic'
 import { getQuestionCounts } from '@/lib/pte/direct-queries'
 import { PenTool, FileText } from 'lucide-react'
 import Link from 'next/link'

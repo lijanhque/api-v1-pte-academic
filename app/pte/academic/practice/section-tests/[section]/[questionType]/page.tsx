@@ -1,4 +1,6 @@
 import { notFound } from 'next/navigation'
+// Force dynamic rendering to avoid DB queries during build
+export const dynamic = 'force-dynamic'
 import { and, eq } from 'drizzle-orm'
 import { AcademicPracticeHeader } from '@/components/pte/practice-header'
 import QuestionsTable from '@/components/pte/questions-table'

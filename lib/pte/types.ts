@@ -179,3 +179,18 @@ export const SPEAKING_TIMER_MAP: Record<
   summarize_group_discussion: { prepMs: 20_000, recordMs: 60_000 },
   respond_to_a_situation: { prepMs: 20_000, recordMs: 40_000 },
 }
+
+// Speaking Question interface
+export interface SpeakingQuestion {
+  id: string
+  type: SpeakingType
+  title: string
+  promptText?: string | null
+  imageUrl?: string | null
+  audioUrl?: string | null
+  difficulty?: Difficulty | null
+  isActive?: boolean | null
+  questionData?: QuestionData | null
+  createdAt?: Date | null
+  updatedAt?: Date | null
+}
