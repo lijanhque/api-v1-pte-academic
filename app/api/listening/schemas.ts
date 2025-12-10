@@ -88,7 +88,7 @@ export const ListeningAttemptBodySchema = z.object({
   type: ListeningQuestionTypeSchema,
   userResponse: ListeningAttemptResponseSchema,
   timeTaken: z.coerce.number().int().positive().max(3600).optional(), // max 1 hour
-  timings: z.record(z.any()).optional(),
+  timings: z.record(z.string(), z.any()).optional(),
 })
 
 export type ListeningAttemptBody = z.infer<typeof ListeningAttemptBodySchema>

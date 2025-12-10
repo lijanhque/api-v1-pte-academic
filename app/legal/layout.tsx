@@ -86,7 +86,7 @@ export default function LegalLayout({
       <footer className="border-t py-6">
         <div className="container text-center text-sm text-muted-foreground">
           <p>
-            &copy; {new Date().getFullYear()} Pedagogist's PTE. All rights reserved.
+            &copy; 2024-2025 Pedagogist's PTE. All rights reserved.
           </p>
           <p className="mt-2">
             Questions? <Link href="/contact" className="underline">Contact us</Link>

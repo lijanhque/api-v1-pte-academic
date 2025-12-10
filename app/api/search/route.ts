@@ -42,6 +42,7 @@ async function searchMXBAI(query: string) {
  *
  * @param request - The incoming request whose URL `query` parameter is used as the search term.
  * @returns A JSON HTTP response with shape `{ results: Array<{ title: string; url: string; source: string }> }`.
+ */
 export async function GET(request: NextRequest) {
   const q = request.nextUrl.searchParams.get('query') || ''
   if (!q.trim()) return NextResponse.json({ results: [] })

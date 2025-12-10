@@ -2,11 +2,15 @@
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
     "builder": "NIXPACKS",
-    "buildCommand": "pnpm install && pnpm build"
+    "buildCommand": "pnpm install --frozen-lockfile && pnpm build",
+    "nixpacksVersion": "1.29.1"
   },
   "deploy": {
     "startCommand": "pnpm start",
     "restartPolicyType": "ON_FAILURE",
-    "restartPolicyMaxRetries": 10
+    "restartPolicyMaxRetries": 10,
+    "healthcheckPath": "/api/health",
+    "healthcheckTimeout": 30,
+    "numReplicas": 1
   }
 }

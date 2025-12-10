@@ -34,7 +34,7 @@ export const WritingAttemptBodySchema = z.object({
   type: WritingQuestionTypeSchema,
   textAnswer: z.string().min(1).max(10000), // allow long essays, still bounded
   timeTaken: z.coerce.number().int().positive().max(7200).optional(), // up to 2h
-  timings: z.record(z.any()).optional(),
+  timings: z.record(z.string(), z.any()).optional(),
 })
 
 export type WritingAttemptBody = z.infer<typeof WritingAttemptBodySchema>

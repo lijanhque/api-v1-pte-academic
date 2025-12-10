@@ -19,13 +19,13 @@ import { SummarizeGroupDiscussion } from '@/components/pte/speaking/summarize-gr
 import { RespondToSituation } from '@/components/pte/speaking/respond-to-situation'
 
 // Reading components
-import { ReadingQuestionClient } from '@/components/pte/reading/ReadingQuestionClient'
+import ReadingQuestionClient from '@/components/pte/reading/ReadingQuestionClient'
 
 // Listening components
-import { ListeningQuestionClient } from '@/components/pte/listening/ListeningQuestionClient'
+import ListeningQuestionClient from '@/components/pte/listening/ListeningQuestionClient'
 
 // Writing components
-import { WritingQuestionClient } from '@/components/pte/writing/WritingQuestionClient'
+import WritingQuestionClient from '@/components/pte/writing/WritingQuestionClient'
 
 type Params = {
     params: Promise<{ section: string; questionType: string; questionId: string }>
