@@ -1,4 +1,6 @@
 'use client'
+// Force dynamic rendering to avoid DB queries during build
+export const dynamic = 'force-dynamic'
 
 import { useEffect, useState, useOptimistic, useActionState, useCallback, useEffectEvent } from 'react'
 import {

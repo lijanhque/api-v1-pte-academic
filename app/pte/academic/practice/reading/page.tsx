@@ -3,6 +3,9 @@ import { getQuestionCounts } from '@/lib/pte/direct-queries'
 import { FileText, CheckSquare, ListOrdered, TextCursor, Circle } from 'lucide-react'
 import Link from 'next/link'
 
+// Force dynamic rendering to avoid DB queries during build
+export const dynamic = 'force-dynamic'
+
 /**
  * Fetches question counts for the "reading" category.
  *

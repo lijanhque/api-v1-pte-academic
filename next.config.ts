@@ -7,8 +7,8 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
 
-  // Enable Next.js 16 Cache Components (opt-in caching model)
-  cacheComponents: true,
+  // Disable Cache Components to allow force-dynamic pages
+  // cacheComponents: true,
 
   // Enable React Compiler for automatic memoization
   reactCompiler: true,

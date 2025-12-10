@@ -1,4 +1,6 @@
 import ReadingQuestionClient from '@/components/pte/reading/ReadingQuestionClient'
+// Force dynamic rendering to avoid DB queries during build
+export const dynamic = 'force-dynamic'
 import { db } from '@/lib/db'
 import { readingQuestions } from '@/lib/db/schema'
 import { eq } from 'drizzle-orm'

@@ -1,4 +1,6 @@
 import { AcademicPracticeHeader } from '@/components/pte/practice-header'
+// Force dynamic rendering to avoid DB queries during build
+export const dynamic = 'force-dynamic'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { db } from '@/lib/db'

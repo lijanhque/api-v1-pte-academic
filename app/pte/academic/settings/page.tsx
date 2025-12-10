@@ -1,4 +1,6 @@
 import { AcademicProfile } from '@/components/pte/academic-profile'
+// Force dynamic rendering to avoid DB queries during build
+export const dynamic = 'force-dynamic'
 import { getUserProfile } from '@/lib/db/queries'
 
 export default async function AcademicSettingsPage() {

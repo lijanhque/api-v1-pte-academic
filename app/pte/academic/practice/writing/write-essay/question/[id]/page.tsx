@@ -1,4 +1,6 @@
 import WritingQuestionClient from '@/components/pte/writing/WritingQuestionClient'
+// Force dynamic rendering to avoid DB queries during build
+export const dynamic = 'force-dynamic'
 import { db } from '@/lib/db'
 import { writingQuestions } from '@/lib/db/schema'
 import { eq } from 'drizzle-orm'

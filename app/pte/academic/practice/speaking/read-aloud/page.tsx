@@ -1,4 +1,6 @@
 import { QuestionListTable } from '@/components/pte/question-list-table'
+// Force dynamic rendering to avoid DB queries during build
+export const dynamic = 'force-dynamic'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { db } from '@/lib/db'
 import { speakingQuestions } from '@/lib/db/schema'
