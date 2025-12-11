@@ -1,0 +1,32 @@
+# Claude Code workflow - minimal configuration for AI-assisted development
+# This workflow doesn't run any CI/CD - Vercel handles deployments directly
+
+name: Claude Code
+
+on:
+  push:
+    branches:
+      - main
+      - 'claude/*'
+      - 'preview/*'
+  pull_request:
+    branches:
+      - main
+
+# Prevent concurrent runs on the same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Placeholder job - actual builds happen on Vercel
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository info
+        run: |
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Deployment handled by Vercel"
