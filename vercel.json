@@ -4,14 +4,32 @@
   "devCommand": "pnpm dev",
   "installCommand": "pnpm install",
   "framework": "nextjs",
-  "regions": ["pdx1"],
+  "regions": ["iad1"],
   "functions": {
     "app/api/**/*.ts": {
       "memory": 1024,
       "maxDuration": 30
     },
-    "app/api/speaking/attempts/**/*.ts": { "maxDuration": 60, "memory": 1024 },
-    "app/api/uploads/audio/**/*.ts": { "maxDuration": 60, "memory": 1024 }
+    "app/api/speaking/attempts/**/*.ts": {
+      "maxDuration": 60,
+      "memory": 1024
+    },
+    "app/api/uploads/audio/**/*.ts": {
+      "maxDuration": 60,
+      "memory": 1024
+    },
+    "app/api/ai/**/*.ts": {
+      "maxDuration": 60,
+      "memory": 1024
+    },
+    "app/api/writing/score/**/*.ts": {
+      "maxDuration": 60,
+      "memory": 1024
+    },
+    "app/api/webhooks/**/*.ts": {
+      "maxDuration": 60,
+      "memory": 512
+    }
   },
   "headers": [
     {
@@ -28,8 +46,50 @@
         {
           "key": "X-XSS-Protection",
           "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(self), geolocation=()"
+        }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/_next/static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/images/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
         }
       ]
     }
-  ]
+  ],
+  "rewrites": [
+    {
+      "source": "/api/health",
+      "destination": "/api/health"
+    }
+  ],
+  "crons": []
 }
