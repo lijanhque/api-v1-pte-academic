@@ -1,6 +1,5 @@
 import React from 'react'
 import Link from 'next/link'
-import CurrentYear from '@/components/current-year'
 
 export default function Footer() {
   return (
@@ -116,7 +115,7 @@ export default function Footer() {
 
         <div className="text-muted-foreground mt-10 flex flex-col items-center justify-between gap-4 border-t pt-6 sm:flex-row">
           <p className="text-xs sm:text-sm">
-            © <CurrentYear /> Pedagogist's PTE. All rights reserved.
+            © 2025 Pedagogist's PTE. All rights reserved.
           </p>
           <div className="flex gap-4">
             <Link href="#" aria-label="Twitter" className="hover:text-foreground text-xs sm:text-sm">

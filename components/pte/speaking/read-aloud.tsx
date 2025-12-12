@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { Mic, Square, Volume2, RotateCcw, CheckCircle, Loader2, AlertCircle, Clock } from 'lucide-react'
 import { submitAttempt } from '@/lib/actions/pte'
 import { useToast } from '@/hooks/use-toast'
-import { ScoreDetailsModal } from './score-details-modal'
+import { ScoreDetailsModal } from '../attempt/ScoreDetailsModal'
 import { ScoringProgressModal } from './scoring-progress-modal'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 
