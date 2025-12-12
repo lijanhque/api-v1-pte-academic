@@ -10,7 +10,7 @@ export default function RefundPolicyPage() {
     <article>
       <h1>Refund & Cancellation Policy</h1>
       <p className="text-muted-foreground">
-        <strong>Last Updated:</strong> {new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+        <strong>Last Updated:</strong> December 11, 2025
       </p>
 
       <h2>1. 14-Day Money-Back Guarantee</h2>

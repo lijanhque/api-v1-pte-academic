@@ -10,7 +10,7 @@ export default function CookiePolicyPage() {
     <article>
       <h1>Cookie Policy</h1>
       <p className="text-muted-foreground">
-        <strong>Last Updated:</strong> {new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+        <strong>Last Updated:</strong> December 11, 2025
       </p>
 
       <h2>1. What Are Cookies?</h2>

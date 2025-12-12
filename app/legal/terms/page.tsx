@@ -10,7 +10,7 @@ export default function TermsOfServicePage() {
     <article>
       <h1>Terms of Service</h1>
       <p className="text-muted-foreground">
-        <strong>Last Updated:</strong> {new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+        <strong>Last Updated:</strong> December 11, 2025
       </p>
 
       <h2>1. Acceptance of Terms</h2>
