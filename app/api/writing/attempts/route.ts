@@ -2,6 +2,8 @@ import { validateTimingFromRequest } from '@/app/api/attempts/session/utils'
 import { getSession } from '@/lib/auth/session'
 import { db } from '@/lib/db/drizzle'
 import { writingAttempts, writingQuestions } from '@/lib/db/schema'
+import { scoreWriting } from '@/lib/ai/scoring'
+import { syncProgressAfterAttempt } from '@/lib/progress/sync'
 import { and, desc, eq, sql } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
 
@@ -56,37 +58,6 @@ function uniqueWordRatio(text: string): number {
   if (!tokens.length) return 0
   const uniq = new Set(tokens)
   return uniq.size / tokens.length
-}
-
-/**
- * Produces a heuristic overall score for a writing attempt based on task type, word count, and whether length is within the expected range.
- *
- * @param type - The writing task type: `'summarize_written_text'` or `'write_essay'`
- * @param wordCount - The number of words in the response
- * @param withinRange - Whether the response length meets the expected length range
- * @returns An integer score between 0 and 90 inclusive reflecting a basic assessment of length adherence and word-count extremes
- */
-function computeTotalScore(
-  type: 'summarize_written_text' | 'write_essay',
-  wordCount: number,
-  withinRange: boolean
-): number {
-  // Basic scoring: mostly word count and length adherence
-  // Start baseline, then adjust
-  let total = withinRange ? 75 : 55
-
-  // Gentle adjustments for extremes
-  if (type === 'summarize_written_text') {
-    if (wordCount < 10) total -= 5
-    if (wordCount > 100) total -= 5
-  } else {
-    if (wordCount < 120) total -= 8
-    if (wordCount > 520) total -= 8
-  }
-
-  // Clamp 0..90 (consistent with speaking score scale)
-  total = Math.max(0, Math.min(90, Math.round(total)))
-  return total
 }
 
 /**
@@ -171,8 +142,11 @@ export async function POST(request: Request) {
     const uwr = uniqueWordRatio(textAnswer)
     const charCount = String(textAnswer || '').length
 
-    // Use AI orchestrator for scoring
-    let scoresJson: Record<string, unknown> = {
+    // Use AI scoring for detailed assessment
+    const writingScore = await scoreWriting(textAnswer, type, q.passage || undefined)
+
+    // Build scores JSON with both basic metrics and AI scores
+    const scoresJson: Record<string, unknown> = {
       wordCount: wc,
       sentenceCount: sc,
       length: {
@@ -183,12 +157,18 @@ export async function POST(request: Request) {
       metrics: {
         uniqueWordRatio: Number(uwr.toFixed(3)),
         charCount,
+        avgSentenceLength: writingScore.meta?.avgSentenceLength,
       },
+      // AI-generated scores
+      content: writingScore.content,
+      grammar: writingScore.grammar,
+      vocabulary: writingScore.vocabulary,
+      coherence: writingScore.coherence,
+      total: writingScore.total,
+      feedback: writingScore.feedback,
     }
 
-    let total = 0
-
-    // Persist attempt
+    // Persist attempt with extracted score columns for efficient querying
     const [attempt] = await db
       .insert(writingAttempts)
       .values({
@@ -197,15 +177,23 @@ export async function POST(request: Request) {
         userResponse: textAnswer,
         scores: scoresJson as any,
         // Extracted score columns for efficient querying
-        overallScore: total || null,
-        grammarScore: (scoresJson.grammar as number) || null,
-        vocabularyScore: (scoresJson.vocabulary as number) || null,
-        coherenceScore: (scoresJson.coherence as number) || null,
-        contentScore: (scoresJson.content as number) || null,
+        overallScore: writingScore.total,
+        grammarScore: writingScore.grammar,
+        vocabularyScore: writingScore.vocabulary,
+        coherenceScore: writingScore.coherence,
+        contentScore: writingScore.content,
         wordCount: wc,
         timeTaken: timeTaken ?? null,
       })
       .returning()
+
+    // Sync user progress (non-blocking)
+    syncProgressAfterAttempt({
+      userId,
+      skill: 'writing',
+      score: writingScore.total,
+      timeTaken: timeTaken ?? undefined,
+    }).catch(err => console.error('[POST /api/writing/attempts] Progress sync error:', err))
 
     return NextResponse.json(
       {

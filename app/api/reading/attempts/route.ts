@@ -5,6 +5,7 @@ import { getSession } from '@/lib/auth/session'
 import { db } from '@/lib/db/drizzle'
 import { readingAttempts, readingQuestions } from '@/lib/db/schema'
 import { scoreWithOrchestrator } from '@/lib/ai/orchestrator'
+import { syncProgressAfterAttempt } from '@/lib/progress/sync'
 import { TestSection } from '@/lib/pte/types'
 import { ReadingAttemptBodySchema } from '../schemas'
 
@@ -280,6 +281,14 @@ export async function POST(request: Request) {
         timeTaken,
       })
       .returning()
+
+    // Sync user progress (non-blocking) - convert accuracy (0-100) to score (0-90)
+    syncProgressAfterAttempt({
+      userId,
+      skill: 'reading',
+      score: Math.round(scores.accuracy * 0.9),
+      timeTaken: timeTaken ?? undefined,
+    }).catch(err => console.error('[POST /api/reading/attempts] Progress sync error:', err))
 
     return NextResponse.json(
       {

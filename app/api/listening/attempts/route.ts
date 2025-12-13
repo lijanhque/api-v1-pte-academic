@@ -4,6 +4,7 @@ import { and, desc, eq, sql } from 'drizzle-orm'
 import { getSession } from '@/lib/auth/session'
 import { db } from '@/lib/db/drizzle'
 import { listeningAttempts, listeningQuestions } from '@/lib/db/schema'
+import { syncProgressAfterAttempt } from '@/lib/progress/sync'
 import {
   countWords,
   ListeningAttemptBodySchema,
@@ -358,6 +359,15 @@ export async function POST(request: Request) {
         timeTaken: timeTaken ?? null,
       })
       .returning()
+
+    // Sync user progress (non-blocking) - use accuracy or score depending on type
+    const progressScore = scores.score ?? Math.round((scores.accuracy ?? 0) * 0.9)
+    syncProgressAfterAttempt({
+      userId,
+      skill: 'listening',
+      score: progressScore,
+      timeTaken: timeTaken ?? undefined,
+    }).catch(err => console.error('[POST /api/listening/attempts] Progress sync error:', err))
 
     return NextResponse.json(
       {

@@ -14,6 +14,7 @@ import {
   listSpeakingAttemptsByUser,
 } from '@/lib/pte/queries'
 import { scoreAttempt } from '@/lib/pte/speaking-score'
+import { syncProgressAfterAttempt } from '@/lib/progress/sync'
 import { getTranscriber } from '@/lib/pte/transcribe'
 import { SpeakingAttemptBodySchema } from '../schemas'
 
@@ -188,6 +189,14 @@ async function POST(request: Request) {
         timings: (timings as any) || {},
       })
       .returning()
+
+    // Sync user progress (non-blocking)
+    syncProgressAfterAttempt({
+      userId,
+      skill: 'speaking',
+      score: scored.total || 0,
+      timeTaken: Math.round(durationMs / 1000),
+    }).catch(err => console.error('[POST /api/speaking/attempts] Progress sync error:', err))
 
     return NextResponse.json(
       {
